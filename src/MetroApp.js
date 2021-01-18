@@ -1,9 +1,10 @@
 import React from 'react'
+import { AppRouter } from './routers/AppRouter'
 
 export const MetroApp = () => {
     return (
         <div>
-            <h1>Hello world </h1>
+            <AppRouter/>
         </div>
     )
 }
