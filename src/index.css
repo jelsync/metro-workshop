@@ -1,0 +1,26 @@
+.login-area{
+    background-color: rgba(0, 0, 0, 0.5); 
+    border:1px; 
+    border-color:#ffffff;
+    border-style: solid;
+    padding:50px;
+    margin:50px;
+    border-radius: 5%;
+}
+.box{
+    color:#ffffff; 
+}
+
+.home-area{
+    background-color: rgba(0, 0, 0, 0.5); 
+    border:1px; 
+    border-color:#ffffff;
+    border-style: solid;
+    border-radius: 2%;
+    padding: 1rem;
+    /* margin: 1rem; */
+}
+.box-area{
+    color:#ffffff; 
+    width: max-content;
+}

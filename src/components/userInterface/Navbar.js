@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 
 export const Navbar = () => {
     return (
-
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar ">
-            <div className="container-fluid">
+        <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
+            <div className="container">
                 <Link to="/" className="navbar-brand" >Metro WorkShop</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -17,6 +16,11 @@ export const Navbar = () => {
                         <Link to="/KitchenScreen" className="nav-link" >Kitchen</Link>
                         <Link to="/RoomScreen" className="nav-link" >Room</Link>
                         <Link to="OthersScreen" className="nav-link" >Others</Link>
+                    </div>
+                    <div className="d-flex justify-content-end w-100">
+                        <ul className="navbar-nav">
+                            <Link to="/login" className="nav-item nav-link"  > Logout</Link>
+                        </ul>
                     </div>
                 </div>
             </div>
