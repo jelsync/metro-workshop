@@ -8,6 +8,7 @@ import {
 import { LoginScreen } from "../components/login/LoginScreen";
 import { CreateUserScreen } from "../components/login/CreateUserScreen";
 import { DashboardRouter } from "./DashboardRouter";
+import { NavbarAdmin } from "../components/userInterface/NavbarAdmin";
 
 
 export const AppRouter = () => {
@@ -18,6 +19,8 @@ export const AppRouter = () => {
                 <Route exact path="/login" component={LoginScreen} />
                 <Route exact path="/CreateUserScreen" component={CreateUserScreen} />
 
+                <Route exact path="/admin" component={NavbarAdmin} />
+                
                 <Route path="/" component={DashboardRouter} />
 
             </Switch>

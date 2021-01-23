@@ -8,6 +8,7 @@ import { BuyScreen } from "../components/buy/BuyScreen";
 import { KitchenScreen } from "../components/kitchen/KitchenScreen";
 import { OthersScreen } from "../components/others/OthersScreen";
 import { RoomScreen } from "../components/room/RoomScreen";
+import { AdminBedroomScreen } from '../components/adminBedroom/AdminBedroomScreen';
 
 export const DashboardRouter = () => {
     return (
@@ -21,6 +22,9 @@ export const DashboardRouter = () => {
                 <Route exact path="/KitchenScreen" component={KitchenScreen} />
                 <Route exact path="/RoomScreen" component={RoomScreen} />
                 <Route exact path="/OthersScreen" component={OthersScreen} />
+
+                <Route exact path="/AdminBedroom" component={AdminBedroomScreen} />
+
 
                 <Redirect to="/HomeArticlesScreen" />
             </Switch>
