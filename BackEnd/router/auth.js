@@ -1,8 +1,8 @@
 //Router User/Auth
 // host + /api/auth
 
-const {Router} = require('express');
-const { createUser, loginUser, tokenRenew  } = require('../controllers/auth');
+const { Router } = require('express');
+const { createUser, loginUser, tokenRenew } = require('../controllers/auth');
 const router = Router();
 
 router.post('/new', createUser);
