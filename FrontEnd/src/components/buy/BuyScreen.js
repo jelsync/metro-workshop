@@ -1,6 +1,10 @@
 import React from 'react'
+import { useCounter } from '../hooks/useCounter'
 
 export const BuyScreen = () => {
+
+    const { counter, increment, decrement } = useCounter();
+
     return (
         <>
             <div className="container">
@@ -14,11 +18,18 @@ export const BuyScreen = () => {
                                 <h5 className="card-title">Card title</h5>
                                 <h6><strong> Description </strong></h6>
                                 <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <h6>Quantity: </h6>
+                                <hr />
+                                <h6>Quantity:  {counter}</h6>
+                                <button className='btn btn-secondary btn-others' onClick={() => decrement(1)}> - </button>
+                                <button className='btn btn-secondary btn-others' onClick={() => increment(1)}> + </button>
                             </div>
+                            <button type="button" className="btn btn-link" >Buy</button>
                         </div>
                     </div>
                 </div>
+            <div className="alert alert-primary" role="alert">
+            Successful purchase!
+            </div>
             </div>
         </>
     )
