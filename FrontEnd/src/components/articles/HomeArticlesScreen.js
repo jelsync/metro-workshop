@@ -1,7 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const HomeArticlesScreen = () => {
+export const HomeArticlesScreen = ({history}) => {
+
+    const handleBuy = () =>{
+        history.push('/BuyScreen');
+    }
+
+
     return (
         <>
             <div className="carousel slide" data-bs-ride="carousel">
@@ -29,8 +35,8 @@ export const HomeArticlesScreen = () => {
                                 <hr />
                                 <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
                                 <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <Link to="/" className="card-link">More info</Link>
-                                <Link to="/" className="card-link">Buy</Link>
+                                <button type="button" className="btn btn-link" onClick={handleBuy}>More info</button>
+                                <button type="button" className="btn btn-link" onClick={handleBuy}>Buy</button>
                             </div>
                         </div>
                     </div>
