@@ -10,6 +10,6 @@ const schema = new Schema({
     agotado: Boolean,
 });
 
-module.exports = model('Producto', schema);
+module.exports = model('Product', schema);
 
 

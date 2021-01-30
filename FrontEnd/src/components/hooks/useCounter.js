@@ -9,8 +9,9 @@ export const useCounter = (initialState = 0) => {
     }
 
     const decrement = () =>{
-        setCounter(counter - 1);
+            setCounter(counter - 1);
     }
+    
     const reset = () =>{
         setCounter(initialState);
     }

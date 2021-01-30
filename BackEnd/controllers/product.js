@@ -32,7 +32,7 @@ const getProduct = (req, res = response) => {
 
 const deleteProduct = (req, res = response) => {
 
-    ProductModel.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(product => {
+    c.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(product => {
 
         if( product.deletedCount == 1 )
             res.send({ok: true});

@@ -1,12 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const HomeArticlesScreen = ({history}) => {
+export const HomeArticlesScreen = ({ history }) => {
 
-    const handleBuy = () =>{
+    const handleBuy = () => {
         history.push('/BuyScreen');
     }
-
 
     return (
         <>
