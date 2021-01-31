@@ -10,11 +10,9 @@ import { CreateUserScreen } from "../components/login/CreateUserScreen";
 import { DashboardRouter } from "./DashboardRouter";
 import { NavbarAdmin } from "../components/userInterface/NavbarAdmin";
 
-
 export const AppRouter = () => {
     return (
         <Router>
-
             <Switch>
                 <Route exact path="/login" component={LoginScreen} />
                 <Route exact path="/CreateUserScreen" component={CreateUserScreen} />
