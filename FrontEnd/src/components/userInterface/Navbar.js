@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
+import JSONPretty  from 'react-json-pretty';
 
 export const Navbar = () => {
 
     const { logout } = useAuth0();
+    const data = useAuth0();
+    console.log(data);
 
    
         return (
@@ -46,7 +49,11 @@ export const Navbar = () => {
                         </div>
                         <div className="d-flex justify-content-end w-100">
                             <ul className="navbar-nav">
-                                <button type="button" className="btn nav-item nav-link" onClick={() => logout({ returnTo: window.location.origin })}>LogOut</button>
+                                <div>
+                                    {/* <JSONPretty data = {user}/> */}
+                                </div>
+                                {/* <button type="button" className="btn nav-item nav-link" onClick={() => logout({ returnTo: window.location.origin })}>LogOut</button> */}
+                                <button type="button" className="btn nav-item nav-link" onClick={() => logout({ returnTo: "http://localhost:3000" })}>LogOut</button>
 
                             </ul>
                         </div>

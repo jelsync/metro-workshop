@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export const HomeArticlesScreen = ({ history }) => {
-    
+
     const handleBuy = () => {
         history.push('/BuyScreen');
     }

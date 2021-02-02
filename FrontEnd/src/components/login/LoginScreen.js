@@ -1,13 +1,6 @@
-import React, { useEffect } from 'react'
-import { useAuth0 } from "@auth0/auth0-react";
+import React from 'react'
 
 export const LoginScreen = () => {
-    const { loginWithRedirect } = useAuth0();
-
-    useEffect(() => {
-        loginWithRedirect();
-    }, []) 
-
     return (
         <>
         </>

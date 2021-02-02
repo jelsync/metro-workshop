@@ -25,6 +25,7 @@ app.use('/api/client', require('./router/client-route'));
 
 
 //lisen request
-app.listen(process.env.PORT, ()=>{
-    console.log(`Server running to http://localhost:4000`);
-});
+const port = process.env.PORT || 4000;
+app.listen(port, ()=>{
+        console.log(`Server running to ${port}`);
+    });
