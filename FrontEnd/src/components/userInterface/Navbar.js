@@ -1,15 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-import JSONPretty  from 'react-json-pretty';
 
-export const Navbar = () => {
-
-    const { logout } = useAuth0();
-    const data = useAuth0();
-    console.log(data);
-
-   
+export const Navbar = () => { 
         return (
             <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
                 <div className="container">
@@ -53,7 +45,7 @@ export const Navbar = () => {
                                     {/* <JSONPretty data = {user}/> */}
                                 </div>
                                 {/* <button type="button" className="btn nav-item nav-link" onClick={() => logout({ returnTo: window.location.origin })}>LogOut</button> */}
-                                <button type="button" className="btn nav-item nav-link" onClick={() => logout({ returnTo: "http://localhost:3000" })}>LogOut</button>
+                                <button type="button" className="btn nav-item nav-link" onClick={""}>LogOut</button>
 
                             </ul>
                         </div>
