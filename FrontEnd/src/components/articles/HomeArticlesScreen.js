@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { userRegister } from '../../auth/userAuth'
+
+const {iud} = userRegister;
+
 
 export const HomeArticlesScreen = ({ history }) => {
+    useEffect(() => {
+        JSON.parse(localStorage.getItem(iud));
+
+    }, [])
 
     const handleBuy = () => {
-        history.push('/BuyScreen');
-    }
+        history.push('/HomeArticlesScreen');
+        // JSON.parse(localStorage.getItem('user', JSON.stringify ({email, name})));
 
+    }
     return (
         <>
             <div className="carousel slide" data-bs-ride="carousel">

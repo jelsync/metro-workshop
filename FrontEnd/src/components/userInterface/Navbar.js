@@ -45,7 +45,7 @@ export const Navbar = () => {
                                     {/* <JSONPretty data = {user}/> */}
                                 </div>
                                 {/* <button type="button" className="btn nav-item nav-link" onClick={() => logout({ returnTo: window.location.origin })}>LogOut</button> */}
-                                <button type="button" className="btn nav-item nav-link" onClick={""}>LogOut</button>
+                                <button type="submite" className="btn nav-item nav-link">LogOut</button>
 
                             </ul>
                         </div>

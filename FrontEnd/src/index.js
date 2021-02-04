@@ -5,7 +5,7 @@ import { MetroApp } from './MetroApp';
 import './index.css';
 
 ReactDOM.render(
-    <MetroApp />,
+    <MetroApp/>,
   document.getElementById('root')
 );
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { userLogin } from '../../auth/userAuth';
 import { useForm } from '../hooks/useForm';
 
-export const LoginScreen = () => {
+export const LoginScreen = ({history}) => {
 
     const [values, handleInputChange] = useForm({
         email: '',
@@ -14,7 +14,6 @@ export const LoginScreen = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(values);
         userLogin(email, password);
     }
 

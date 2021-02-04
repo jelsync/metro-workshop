@@ -1,22 +1,10 @@
 import React from 'react'
-
-// import { todoReducer } from '../../auth/todoReducer';
 import { userRegister } from '../../auth/userAuth';
 import { useForm } from '../hooks/useForm';
 
-// const initialState = [{
-//     name: 'jelsy',
-//     lastName: 'ceron',
-//     email: 'jelsync@gmail.com',
-//     password: 'holaquehace.10'
-// }];
+export const CreateUserScreen = ({history}) => {
 
-// return JSON.parse(localStorage.getItem('todos')) || [];
-
-
-export const CreateUserScreen = () => {
-
-    // const [state, dispatch] = useReducer(todoReducer, initialState);
+    // const user = userRegister;
 
     const [values, handleInputChange] = useForm({
         name: '',
@@ -26,30 +14,44 @@ export const CreateUserScreen = () => {
     });
 
     const { email, password, name, lastName } = values;
-
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(values);
         userRegister(email, password, name, lastName);
+        addUser();
+        history.push('/HomeArticlesScreen');
+    }
+    
+    
+    const addUser = async () => {
+        const resp = await fetch(`http://localhost:4000/api/user-admin`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                lastName,
+                password,
+                email
+            }),
+        });
+        
+        const body = await resp.json();
+        console.log(body);
     }
 
-    // const handleCreate = () => {
-    //     const action = {
-    //         type: 'createUser',
-    //         payload: state
-    //     }
-    //     // console.log(state);
-    //     dispatch(action)
-    // }
-
+    // useEffect(() => {
+    //     localStorage.setItem('user', JSON.stringify (email, name));  
+    // }, [values]);
+    
 
     return (
         <div className="container">
             <div className="row justify-content-md-center">
                 <div className="login-area col col-lg-6 col-md-8 col-sm-11">
                     <div className="box">
-                        <form onClick={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <fieldset>
                                 <legend>Creater a User</legend>
                                 <div className="form-group row">
@@ -100,6 +102,7 @@ export const CreateUserScreen = () => {
                     </div>
                 </div>
             </div>
+            {/* {(history.push('/HomeArticlesScreen')) && handleSubmit()} */}
         </div>
     )
 }
