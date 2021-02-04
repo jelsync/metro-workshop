@@ -1,22 +1,22 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 
-import { todoReducer } from '../../auth/todoReducer';
-import { userRegister } from '../../auth/userRegister';
+// import { todoReducer } from '../../auth/todoReducer';
+import { userRegister } from '../../auth/userAuth';
 import { useForm } from '../hooks/useForm';
 
-const initialState = [{
-    name: 'jelsy',
-    lastName: 'ceron',
-    email: 'jelsync@gmail.com',
-    password: 'holaquehace.10'
-}];
+// const initialState = [{
+//     name: 'jelsy',
+//     lastName: 'ceron',
+//     email: 'jelsync@gmail.com',
+//     password: 'holaquehace.10'
+// }];
 
 // return JSON.parse(localStorage.getItem('todos')) || [];
 
 
 export const CreateUserScreen = () => {
 
-    const [state, dispatch] = useReducer(todoReducer, initialState);
+    // const [state, dispatch] = useReducer(todoReducer, initialState);
 
     const [values, handleInputChange] = useForm({
         name: '',
@@ -30,18 +30,18 @@ export const CreateUserScreen = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(values);
+        // console.log(values);
         userRegister(email, password, name, lastName);
     }
 
-    const handleCreate = () => {
-        const action = {
-            type: 'createUser',
-            payload: state
-        }
-        // console.log(state);
-        dispatch(action)
-    }
+    // const handleCreate = () => {
+    //     const action = {
+    //         type: 'createUser',
+    //         payload: state
+    //     }
+    //     // console.log(state);
+    //     dispatch(action)
+    // }
 
 
     return (
