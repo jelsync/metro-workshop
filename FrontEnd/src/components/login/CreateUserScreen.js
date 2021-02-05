@@ -2,9 +2,7 @@ import React from 'react'
 import { userRegister } from '../../auth/userAuth';
 import { useForm } from '../hooks/useForm';
 
-export const CreateUserScreen = ({history}) => {
-
-    // const user = userRegister;
+export const CreateUserScreen = ({ history }) => {
 
     const [values, handleInputChange] = useForm({
         name: '',
@@ -14,15 +12,15 @@ export const CreateUserScreen = ({history}) => {
     });
 
     const { email, password, name, lastName } = values;
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         userRegister(email, password, name, lastName);
         addUser();
         history.push('/HomeArticlesScreen');
     }
-    
-    
+
+
     const addUser = async () => {
         const resp = await fetch(`http://localhost:4000/api/user-admin`, {
             method: 'POST',
@@ -36,15 +34,10 @@ export const CreateUserScreen = ({history}) => {
                 email
             }),
         });
-        
+
         const body = await resp.json();
         console.log(body);
     }
-
-    // useEffect(() => {
-    //     localStorage.setItem('user', JSON.stringify (email, name));  
-    // }, [values]);
-    
 
     return (
         <div className="container">

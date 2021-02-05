@@ -5,7 +5,7 @@ export const userRegister = (email, password, name) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then( async ({ user }) => {
                 await user.updateProfile({displayName:name});
-                localStorage.setItem('user', JSON.stringify (user.uid));
+                // localStorage.setItem('user', JSON.stringify (user.uid));
             })
             .catch(e=>{
                 console.log(e);
@@ -18,7 +18,7 @@ export const userLogin = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(({ user }) => {
                 console.log(user.uid, user.email);
-                localStorage.setItem('user', JSON.stringify (user.uid));
+                // localStorage.setItem('user', JSON.stringify (user.uid));
                
             })
             .catch(e=>{
@@ -26,3 +26,11 @@ export const userLogin = (email, password) => {
             })
     )
 }
+
+// export const LogOutUser =() =>{
+//     return async() =>{
+//         await firebase.auth().signOut();
+//         LogOut();
+                
+//     }
+// }

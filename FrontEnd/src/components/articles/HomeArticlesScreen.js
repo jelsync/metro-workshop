@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { userRegister } from '../../auth/userAuth'
+// import { userRegister } from '../../auth/userAuth'
 
-const {iud} = userRegister;
+// const {iud} = userRegister;
 
 
 export const HomeArticlesScreen = ({ history }) => {
-    useEffect(() => {
-        JSON.parse(localStorage.getItem(iud));
+    // useEffect(() => {
+    //     // JSON.parse(localStorage.getItem(iud));
+    // }, [])
 
-    }, [])
 
     const handleBuy = () => {
         history.push('/HomeArticlesScreen');

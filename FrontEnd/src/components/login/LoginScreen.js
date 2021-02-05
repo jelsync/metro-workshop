@@ -1,20 +1,23 @@
 import React from 'react'
-import { userLogin } from '../../auth/userAuth';
+import { userLogin, userRegister } from '../../auth/userAuth';
 import { useForm } from '../hooks/useForm';
 
-export const LoginScreen = ({history}) => {
+
+
+export const LoginScreen = () => {
 
     const [values, handleInputChange] = useForm({
-        email: '',
-        password: '',
+        email: 'jelsync@gmail.com',
+        password: '123456',
     });
 
     const { email, password} = values;
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         userLogin(email, password);
+        // localStorage.setItem('user', JSON.stringify (user.uid));
+        
     }
 
     return (
@@ -22,7 +25,7 @@ export const LoginScreen = ({history}) => {
             <div className="row justify-content-md-center">
                 <div className="login-area col col-lg-6 col-md-8 col-sm-11">
                     <div className="box">
-                        <form onClick={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <fieldset>
                                 <legend>Login User</legend>
                                 <div className="form-group row">
