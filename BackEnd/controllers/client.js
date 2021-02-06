@@ -3,21 +3,40 @@ const ClientModel = require('../models/client');
 const mongoose = require('mongoose');
 
 
-const createClient = (req, res = response) => {
+const createClient = async (req, res = response) => {
 
-    let client = new ClientModel({
-        name: req.body.name,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: req.body.password,
-        buy: []
-    });
+    const { email } = req.body;
+    try {
+        let client = await ClientModel.findOne({ email });
 
-    client.save().then(client => {
-        res.send(client);
-        res.end();
-    })
+        if (client) {
+            return res.json({
+                ok: true,
+                // msg: 'correo existe',
+                uid: client.uid,
+            })
+        }
 
+        client = new ClientModel({
+            uid: req.body.uid,
+            name: req.body.name,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: req.body.password,
+            buy: []
+        });
+
+        await client.save().then(client => {
+            res.send(client);
+            res.end();
+        })
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            msg: 'fall',
+        })
+    }
 }
 
 const getClients = (req, res = response) => {
@@ -30,7 +49,7 @@ const getClients = (req, res = response) => {
 
 const getClient = (req, res = response) => {
 
-    ClientModel.findOne({ _id: req.params.id }).then(client => {
+    ClientModel.findOne({ uid: req.params.uid }).then(client => {
         res.send(client);
         res.end();
     })
@@ -38,7 +57,7 @@ const getClient = (req, res = response) => {
 
 const getProducts = (req, res = response) => {
 
-    ClientModel.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
+    ClientModel.findOne({ uid: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
         res.send(products);
         res.end();
     })
@@ -46,11 +65,11 @@ const getProducts = (req, res = response) => {
 
 const addProduct = (req, res = response) => {
 
-    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
+    ClientModel.updateOne({ uid: mongoose.Types.ObjectId(req.params.id) }, {
 
         $push: {
             buy: {
-                _id: mongoose.Types.ObjectId(),
+                uid: mongoose.Types.ObjectId(),
                 name: req.body.name,
                 price: req.body.price
             }
@@ -68,11 +87,11 @@ const addProduct = (req, res = response) => {
 
 const deleteProduct = (req, res = response) => {
 
-    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
+    ClientModel.updateOne({ uid: mongoose.Types.ObjectId(req.params.id) }, {
 
         $pull: {
             buy: {
-                _id: mongoose.Types.ObjectId(req.body.idProducto)
+                uid: mongoose.Types.ObjectId(req.body.idProducto)
             }
         }
     }).then(result => {
@@ -81,6 +100,19 @@ const deleteProduct = (req, res = response) => {
     })
 }
 
+const updateClient = (req, res = response) => {
+
+    let body = req.body;
+
+    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
+        {
+            name: body._id,
+            
+        }).then(user => {
+            res.send(user);
+            res.end();
+        })
+}
 
 module.exports = {
     createClient,
@@ -89,4 +121,5 @@ module.exports = {
     addProduct,
     getProducts,
     deleteProduct,
+    updateClient
 }

@@ -1,29 +1,59 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../auth/AuthContext';
 import { clientLogin } from '../../auth/clientAuth';
+import { types } from '../../types/types';
 import { useForm } from '../hooks/useForm';
 
 export const LoginScreen = () => {
+    const {dispatch} = useContext(AuthContext);
 
     const [values, handleInputChange] = useForm({
-        email: 'jelsync@gmail.com',
-        password: '123456',
+        email: '',
+        password: '',
     });
 
     const { email, password} = values;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        clientLogin(email, password);
+    const addClient = async () => {
+        const resp = await fetch(`http://localhost:4000/api/client`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                password,
+                email
+            }),
+        });
+
+        const body = await resp.json();
+        localStorage.setItem('body', JSON.stringify (body._id));
+        
     }
-
     
+    // const [body, setBody] = useState(addClient)
+    // const {name} = body;
+    
+    const handleSubmit = (e) => {
+        // clientLogin(email, password);
+        e.preventDefault();
+        // console.log(body);
+        dispatch({
+            type: types.login,
+            // payload: localStorage.setItem('user', JSON.stringify (user.uid))
+        });
+    }
+        
 
+    useEffect(() => {
+    }, [])
     return (
         <div className="container">
             <div className="row justify-content-md-center">
                 <div className="login-area col col-lg-6 col-md-8 col-sm-11">
                     <div className="box">
-                        <form onSubmit={handleSubmit}>
+                        <form>
+                        {/* <form onSubmit={handleSubmit}> */}
                             <fieldset>
                                 <legend>Login User</legend>
                                 <div className="form-group row">

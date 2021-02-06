@@ -1,47 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { clientRegister } from '../../auth/clientAuth';
 import { useForm } from '../hooks/useForm';
 
 export const CreateUserScreen = ({ history }) => {
-
+    
     const [values, handleInputChange] = useForm({
         name: '',
         lastName: '',
         email: '',
         password: '',
+        uid:'',
     });
 
-    const { email, password, name, lastName } = values;
-
+    const { email, password, name, lastName, uid } = values;
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         clientRegister(email, password, name, lastName);
-        addClient();
+        // addClient();
         history.push('/HomeArticlesScreen');
+        // const _id = localStorage.setItem('body', JSON.stringify(body._id));
     }
-
-
+    
     const addClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                uid,
                 name,
                 lastName,
                 password,
                 email
             }),
         });
-
-        const body = await resp.json();
-        localStorage.setItem('body', JSON.stringify (body._id));
+        setBody(body);
+        // const body = await resp.json();
         // console.log(body._id);
         // getClient(body._id);
-        
     }
- 
+    const [body, setBody] = useState(addClient)
+    
     return (
         <div className="container">
             <div className="row justify-content-md-center">

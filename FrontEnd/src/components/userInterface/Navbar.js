@@ -20,7 +20,11 @@ export const Navbar = () => {
     const [body, setBody] = useState(getClient)
 
     const {name} = body;
-    // console.log(name, email);
+
+    const handleLogout = () =>{
+        
+    }
+
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
             <div className="container">
