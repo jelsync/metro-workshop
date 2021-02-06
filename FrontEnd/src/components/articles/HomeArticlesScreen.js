@@ -12,7 +12,7 @@ export const HomeArticlesScreen = ({ history }) => {
 
 
     const handleBuy = () => {
-        history.push('/HomeArticlesScreen');
+        history.push('/BuyScreen');
         // JSON.parse(localStorage.getItem('user', JSON.stringify ({email, name})));
 
     }

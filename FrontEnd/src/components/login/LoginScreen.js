@@ -1,8 +1,6 @@
 import React from 'react'
-import { userLogin, userRegister } from '../../auth/userAuth';
+import { clientLogin } from '../../auth/clientAuth';
 import { useForm } from '../hooks/useForm';
-
-
 
 export const LoginScreen = () => {
 
@@ -15,10 +13,10 @@ export const LoginScreen = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        userLogin(email, password);
-        // localStorage.setItem('user', JSON.stringify (user.uid));
-        
+        clientLogin(email, password);
     }
+
+    
 
     return (
         <div className="container">

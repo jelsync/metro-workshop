@@ -10,7 +10,7 @@ import { CreateUserScreen } from "../components/login/CreateUserScreen";
 import { DashboardRouter } from "./DashboardRouter";
 import { NavbarAdmin } from "../components/userInterface/NavbarAdmin";
 import { firebase } from '../firebase/firebase-config';
-import { userLogin } from "../auth/userAuth";
+import { clientLogin } from "../auth/clientAuth";
 
 export const AppRouter = () => {
     const [loggInd, setLoggInd] = useState(false)
@@ -18,7 +18,7 @@ export const AppRouter = () => {
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user?.uid) {
-                userLogin(user.email, user.uid);
+                clientLogin(user.email, user.uid);
                 setLoggInd(true);
             } else {
                 setLoggInd(false);

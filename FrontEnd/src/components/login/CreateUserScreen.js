@@ -1,5 +1,5 @@
 import React from 'react'
-import { userRegister } from '../../auth/userAuth';
+import { clientRegister } from '../../auth/clientAuth';
 import { useForm } from '../hooks/useForm';
 
 export const CreateUserScreen = ({ history }) => {
@@ -15,14 +15,14 @@ export const CreateUserScreen = ({ history }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        userRegister(email, password, name, lastName);
-        addUser();
+        clientRegister(email, password, name, lastName);
+        addClient();
         history.push('/HomeArticlesScreen');
     }
 
 
-    const addUser = async () => {
-        const resp = await fetch(`http://localhost:4000/api/user-admin`, {
+    const addClient = async () => {
+        const resp = await fetch(`http://localhost:4000/api/client`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,9 +36,12 @@ export const CreateUserScreen = ({ history }) => {
         });
 
         const body = await resp.json();
-        console.log(body);
+        localStorage.setItem('body', JSON.stringify (body._id));
+        // console.log(body._id);
+        // getClient(body._id);
+        
     }
-
+ 
     return (
         <div className="container">
             <div className="row justify-content-md-center">

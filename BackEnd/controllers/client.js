@@ -28,6 +28,14 @@ const getClients = (req, res = response) => {
     })
 }
 
+const getClient = (req, res = response) => {
+
+    ClientModel.findOne({ _id: req.params.id }).then(client => {
+        res.send(client);
+        res.end();
+    })
+}
+
 const getProducts = (req, res = response) => {
 
     ClientModel.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
@@ -77,6 +85,7 @@ const deleteProduct = (req, res = response) => {
 module.exports = {
     createClient,
     getClients,
+    getClient,
     addProduct,
     getProducts,
     deleteProduct,
