@@ -32,7 +32,7 @@ const getProduct = (req, res = response) => {
 
 const deleteProduct = (req, res = response) => {
 
-    c.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(product => {
+    ProductModel.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(product => {
 
         if( product.deletedCount == 1 )
             res.send({ok: true});
@@ -46,7 +46,7 @@ const updateProduct = (req, res = response) => {
 
     ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
         {
-            nombre: body.nombre,
+            name: body.name,
             urlImg: body.urlImg,
             
         }).then(product => {

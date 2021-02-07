@@ -11,6 +11,7 @@ import { DashboardRouter } from "./DashboardRouter";
 import { NavbarAdmin } from "../components/userInterface/NavbarAdmin";
 import { firebase } from '../firebase/firebase-config';
 import { clientLogin } from "../auth/clientAuth";
+import { AdminKitchenScreen } from "../components/adminKitchen/AdminKitchenScreen";
 
 export const AppRouter = () => {
     const [loggInd, setLoggInd] = useState(false)
@@ -28,11 +29,14 @@ export const AppRouter = () => {
 
     return (
         <Router>
+            <NavbarAdmin/>
             <Switch>
+                <Route exact path="/AdminKitchen" component={AdminKitchenScreen} />
+
                 <Route exact path="/login" component={LoginScreen} />
                 <Route exact path="/CreateUserScreen" component={CreateUserScreen} />
 
-                <Route exact path="/admin" component={NavbarAdmin} />
+                {/* <Route exact path="/admin" component={NavbarAdmin} /> */}
 
                 <Route path="/" component={DashboardRouter} />
 

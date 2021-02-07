@@ -1,13 +1,13 @@
 const { model, Schema } = require('mongoose');
 
 const schema = new Schema({
-    nombreCategoria: String,
-    nombre: String,
-    descripcion: String,
-    precio: Number,
-    cantidadInventario: Number,
+    nameCategory: String,
+    name: String,
+    description: String,
+    price: Number,
+    quantityInStock: Number,
     urlImg: String,
-    agotado: Boolean,
+    spent: Boolean,
 });
 
 module.exports = model('Product', schema);
