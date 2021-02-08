@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 export const AdminRoomScreen = () => {
     const [product, setProduct] = useState(null || []);
-
     // const category = getCategoryProduct(categories);
 
     useEffect(() => {
@@ -46,8 +45,8 @@ export const AdminRoomScreen = () => {
                                     <td >Empty</td>
                                     {/* <td >{item.spent}</td> */}
                                     <td >
-                                        <Link to={`/admin/AdminRoom/product/${item._id}`} className="btn btn-xs btn-info">Edit</Link>
-                                        <Link to={`/admin/AdminRoom/product/${item._id}`} className="btn btn-xs btn-danger">Delete</Link>
+                                        <Link to={`/AdminRoom/product/${item._id}`} className="btn btn-xs btn-info">Edit</Link>
+                                        <Link to={`/AdminRoom/delete/${item._id}`} className="btn btn-xs btn-danger">Delete</Link>
                                     </td>
                                 </tr>
                             ))

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
@@ -8,10 +8,8 @@ import {
 import { LoginScreen } from "../components/login/LoginScreen";
 import { CreateUserScreen } from "../components/login/CreateUserScreen";
 import { DashboardRouter } from "./DashboardRouter";
-import { firebase } from '../firebase/firebase-config';
-import { clientLogin } from "../auth/clientAuth";
-import { AdminKitchenScreen } from "../components/adminKitchen/AdminKitchenScreen";
-import { AdminRoomScreen } from "../components/adminRoom/AdminRoomScreen";
+// import { firebase } from '../firebase/firebase-config';
+// import { clientLogin } from "../auth/clientAuth";
 import { AdminRouter } from "./AdminRouter";
 
 export const AppRouter = () => {
