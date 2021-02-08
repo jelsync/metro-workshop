@@ -47,7 +47,12 @@ const updateProduct = (req, res = response) => {
     ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
         {
             name: body.name,
+            nameCategory: body.nameCategory,
+            description: body.description,
+            price: body.price,
+            quantityInStock: body.quantityInStock,
             urlImg: body.urlImg,
+            spent: body.spent,
             
         }).then(product => {
             res.send(product);
