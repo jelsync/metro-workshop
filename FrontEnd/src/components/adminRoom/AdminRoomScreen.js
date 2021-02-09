@@ -15,45 +15,25 @@ export const AdminRoomScreen = () => {
         setProduct(body);
     }
     return (
-        <>
-            <div className="container mt-3">
-                <Link to="/admin/AdminRoom/product/new" className="btn btn-xs btn-success">New Product</Link>
-                <table className="table table-hover">
-                    <thead>
-                        <tr className="table-warning ">
-                            <th scope="col-md-3">Name Category</th>
-                            <th scope="col">Name Articles</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity In Stock</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">Number Of Order</th>
-                            {/* <th scope="col">Spent</th> */}
-                            <th scope="col">Delet/Edit/Create</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            product && product.map(item => (
-                                <tr key={item._id} className="table-active">
-                                    <td >{item.nameCategory}</td>
-                                    <td >{item.name}</td>
-                                    <td >{item.description}</td>
-                                    <td >{item.price}</td>
-                                    <td >{item.quantityInStock}</td>
-                                    <td >{item.urlImg}</td>
-                                    <td >Empty</td>
-                                    {/* <td >{item.spent}</td> */}
-                                    <td >
-                                        <Link to={`/AdminRoom/product/${item._id}`} className="btn btn-xs btn-info">Edit</Link>
-                                        <Link to={`/AdminRoom/delete/${item._id}`} className="btn btn-xs btn-danger">Delete</Link>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </>
+        <div className="mt-5" >
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     )
 }

@@ -2,38 +2,36 @@ import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 import { AdminKitchenScreen } from "../components/adminKitchen/AdminKitchenScreen";
 import { AdminRoomScreen } from "../components/adminRoom/AdminRoomScreen";
 import { Delete } from "../components/adminRoom/Delete";
 
 import { FormProduct } from "../components/adminRoom/FormProduct";
+import { NewProduct } from "../components/adminRoom/NewProduct";
+import { Sidebar } from "../components/Sidebar";
 import { NavbarAdmin } from "../components/userInterface/NavbarAdmin";
+import '../styles/simple-sidebar.css';
 
 export const AdminRouter = () => {
     return (
-        <Router>
-            <NavbarAdmin/>
-            <Switch>
-                <Route exact path="/Admin/AdminRoom" component={AdminRoomScreen}/>
-                <Route exact path="/AdminRoom/product/:id">
-                    <FormProduct/>
-                </Route>
-                <Route exact path="/AdminRoom/delete/:id">
-                    <Delete/>
-                </Route>
-                    
-
-                <Route exact path="/AdminKitchen" component={AdminKitchenScreen} />
-                <Route exact path="/AdminKitchen/product" component={FormProduct}/>
-
-                {/* <Redirect to="/admin/AdminKitchen" /> */}
-
-
-
-            </Switch>
-
-        </Router>
+        <div className="d-flex" id="wrapper" >
+            <Sidebar />
+            <div className="container"  id="page-content-wrapper">
+                <NavbarAdmin/>
+                <div className="container" >
+                    <Switch>
+                        <Route exact path="/admin/adminRoom" component={AdminRoomScreen} />
+                        <Route exact path="/admin/product/:action/:id" component={FormProduct} />
+                        <Route exact path="/admin/delete/:id" component={Delete} />
+                        <Route exact path="/admin/createProduct" component={NewProduct} />
+                        <Route exact path="/admin/kitchen" component={AdminKitchenScreen} />
+                        <Redirect to="/admin/adminRoom" />
+                    </Switch>
+                </div>
+            </div>
+        </div>
     )
 }

@@ -1,24 +1,17 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom'
-
-import { useParams } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 
-export const FormProduct = () => {
-    
+export const NewProduct = () => {
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        editProduct();
+        createProduct();
         reset();
+        console.log(values);
     }
-    
-    const { id } = useParams();
-    
-    useEffect(() => {
-        getProduct();
-    }, [id]);
-    
-    const [values, handleInputChange, loadDataForm, reset, setValues] = useForm({
+
+    const [values, handleInputChange, reset, setValues] = useForm({
         name: '',
         nameCategory: '',
         description: '',
@@ -27,35 +20,23 @@ export const FormProduct = () => {
         urlImg: '',
         spent: ''
     });
-    
+
     const { name, nameCategory, description, price, quantityInStock, urlImg, spent } = values;
+    console.log(name);
 
-    const getProduct = async () => {
-        // console.log(id);
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`);
-        const body = await resp.json();
-        // const {name} = !!body && body[0];
-        loadDataForm(body);
-    }
-
-    const editProduct = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
-            method: 'PUT',
+    const createProduct = async () => {
+        const resp = await fetch(`http://localhost:4000/api/product`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: values.name,
-                nameCategory: values.nameCategory,
-                description: values.description,
-                price: values.price,
-                quantityInStock: values.quantityInStock,
-                spent: values.spent,
-                urlImg: values.urlImg
+                
             }),
-            });
-    
+        });
+
         const body = await resp.json();
+        console.log(body);
     }
     return (
         <>
@@ -65,7 +46,7 @@ export const FormProduct = () => {
                         <div className="box">
                             <form onSubmit={handleSubmit}>
                                 <fieldset>
-                                    <legend>Edit a Product</legend>
+                                    <legend>Create a Product</legend>
                                     <div className="form-group row">
                                     </div>
                                     <div className="form-group">
@@ -145,8 +126,7 @@ export const FormProduct = () => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    {/* <button type="submit" className="btn btn-primary">Create</button> */}
-                                    <button type="submit" className="btn btn-primary">Aceppt</button>
+                                    <button type="submit" className="btn btn-primary">Create</button>
                                     <Link to="/admin/AdminRoom" type="button" className="btn btn-danger">Back</Link>
                                 </fieldset>
                             </form>

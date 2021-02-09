@@ -29,15 +29,11 @@ export const AppRouter = () => {
     return (
         <Router>
             <Switch>
-                <Route exact path="/admin" component={AdminRouter} />
-                <Route exact path="/login" component={LoginScreen} />
-                <Route exact path="/CreateUserScreen" component={CreateUserScreen} />
-
-                <Route path="/" component={DashboardRouter} />
-
+                <Route path="/admin" component={AdminRouter} />
+                <Route exact path="/login" component={LoginScreen}/>
+                <Route exact path="/create-user" component={CreateUserScreen} />
+                <Route path="/" component={DashboardRouter} /> 
             </Switch>
-
         </Router>
-
     )
 }
