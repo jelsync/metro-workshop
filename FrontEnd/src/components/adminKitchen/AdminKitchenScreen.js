@@ -43,7 +43,7 @@ export const AdminKitchenScreen = () => {
                                     <td >Empty</td>
                                     {/* <td >{item.spent}</td> */}
                                     <td >
-                                        <i class="bi bi-bag-plus-fill"></i>
+                                        <i className="bi bi-bag-plus-fill"></i>
                                         <button className="btn btn-xs btn-success">Add</button>
                                         <button className="btn btn-xs btn-info">Edit</button>
                                         <button className="btn btn-xs btn-danger">Delete</button>

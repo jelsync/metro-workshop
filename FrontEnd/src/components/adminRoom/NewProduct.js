@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 
@@ -11,7 +11,7 @@ export const NewProduct = () => {
         console.log(values);
     }
 
-    const [values, handleInputChange, reset, setValues] = useForm({
+    const [values, handleInputChange, reset] = useForm({
         name: '',
         nameCategory: '',
         description: '',

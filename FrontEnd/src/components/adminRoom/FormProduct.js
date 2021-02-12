@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useForm } from '../hooks/useForm';
 
 export const FormProduct = () => {
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         editProduct();
@@ -16,9 +16,9 @@ export const FormProduct = () => {
     
     useEffect(() => {
         getProduct();
-    }, [id]);
+    }, [])
     
-    const [values, handleInputChange, loadDataForm, reset, setValues] = useForm({
+    const [values, handleInputChange, loadDataForm, reset] = useForm({
         name: '',
         nameCategory: '',
         description: '',
@@ -27,8 +27,8 @@ export const FormProduct = () => {
         urlImg: '',
         spent: ''
     });
-    
     const { name, nameCategory, description, price, quantityInStock, urlImg, spent } = values;
+    
 
     const getProduct = async () => {
         // console.log(id);
@@ -53,27 +53,24 @@ export const FormProduct = () => {
                 spent: values.spent,
                 urlImg: values.urlImg
             }),
-            });
-    
+        });
         const body = await resp.json();
     }
     return (
         <>
             <div className="container">
-                <div className="row justify-content-md-center">
-                    <div className="login-area col col-lg-6 col-md-8 col-sm-11">
-                        <div className="box">
+                {/* <div className="row justify-content-md-center"> */}
+                    <div className="col col-lg-6 col-md-8 col-sm-11">
+                        {/* <div className="box"> */}
                             <form onSubmit={handleSubmit}>
                                 <fieldset>
                                     <legend>Edit a Product</legend>
-                                    <div className="form-group row">
-                                    </div>
                                     <div className="form-group">
                                         <label>Name</label>
                                         <input
                                             type="text"
                                             name="name"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Name.."
                                             value={name}
                                             onChange={handleInputChange}
@@ -84,7 +81,7 @@ export const FormProduct = () => {
                                         <input
                                             type="text"
                                             name="description"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Description.."
                                             value={description}
                                             onChange={handleInputChange}
@@ -95,7 +92,7 @@ export const FormProduct = () => {
                                         <input
                                             type="text"
                                             name="price"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Price.."
                                             value={price}
                                             onChange={handleInputChange}
@@ -106,7 +103,7 @@ export const FormProduct = () => {
                                         <input
                                             type="text"
                                             name="spent"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Spent.."
                                             value={spent}
                                             onChange={handleInputChange}
@@ -117,7 +114,7 @@ export const FormProduct = () => {
                                         <input
                                             type="text"
                                             name="nameCategory"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Name Category..."
                                             value={nameCategory}
                                             onChange={handleInputChange}
@@ -128,7 +125,7 @@ export const FormProduct = () => {
                                         <input
                                             type="text"
                                             name="quantityInStock"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Quantity In Stock..."
                                             value={quantityInStock}
                                             onChange={handleInputChange}
@@ -139,19 +136,19 @@ export const FormProduct = () => {
                                         <input
                                             type="text"
                                             name="urlImg"
-                                            className="form-control"
+                                            className="form-control form-control-sm"
                                             placeholder="Url Image"
                                             value={urlImg}
                                             onChange={handleInputChange}
                                         />
                                     </div>
                                     {/* <button type="submit" className="btn btn-primary">Create</button> */}
-                                    <button type="submit" className="btn btn-primary">Aceppt</button>
-                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-danger">Back</Link>
+                                    <button type="submit" className="btn btn-outline-info btn-sm">Aceppt</button>
+                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-outline-danger btn-sm">Back</Link>
                                 </fieldset>
                             </form>
-                        </div>
-                    </div>
+                        {/* </div> */}
+                    {/* </div> */}
                 </div>
             </div>
         </>

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     Redirect
@@ -24,8 +23,8 @@ export const AdminRouter = () => {
                 <div className="container" >
                     <Switch>
                         <Route exact path="/admin/adminRoom" component={AdminRoomScreen} />
-                        <Route exact path="/admin/product/:action/:id" component={FormProduct} />
-                        <Route exact path="/admin/delete/:id" component={Delete} />
+                        <Route exact path="/admin/product/edit/:id" component={FormProduct} />
+                        <Route path="/admin/delete/:id" component={Delete} />
                         <Route exact path="/admin/createProduct" component={NewProduct} />
                         <Route exact path="/admin/kitchen" component={AdminKitchenScreen} />
                         <Redirect to="/admin/adminRoom" />

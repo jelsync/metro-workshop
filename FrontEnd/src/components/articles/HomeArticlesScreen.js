@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 // import { userRegister } from '../../auth/userAuth'
 
@@ -8,20 +8,20 @@ import { Link } from 'react-router-dom'
 export const HomeArticlesScreen = ({ history }) => {
     // const id = JSON.parse(localStorage.getItem('user'));
     // console.log('id de firebase ' + id);
-    
+
     // useEffect(() => { 
     //     // getClient(id);
     //     // editClient(_id);
     // }, [useState])
     // localStorage.setItem('body', JSON.stringify (body._id));
-    
-    const getClient = async (id) => {
-        const resp = await fetch(`http://localhost:4000/api/client/${id}`);
-        const body = await resp.json();
-        // console.log(body._id);
-        // setBody(body);
-    }
-    
+
+    // const getClient = async (id) => {
+    //     const resp = await fetch(`http://localhost:4000/api/client/${id}`);
+    //     const body = await resp.json();
+    //     // console.log(body._id);
+    //     // setBody(body);
+    // }
+
     // const [body, setBody] = useState(getClient)
 
     // const {_id} = body;
@@ -30,10 +30,10 @@ export const HomeArticlesScreen = ({ history }) => {
     // const uid = JSON.parse(localStorage.getItem('user'));
     // const id = JSON.parse(localStorage.getItem('body'));
     // useEffect(() => {
-        // editClient(uid);
-        // JSON.parse(localStorage.getItem(iud));
+    // editClient(uid);
+    // JSON.parse(localStorage.getItem(iud));
     // }, [useState])
-    
+
     // const _id = JSON.parse(localStorage.getItem('body'));
     // const editClient = async (_id) => {
     //     // console.log("HOLA "+_id);
@@ -46,18 +46,18 @@ export const HomeArticlesScreen = ({ history }) => {
     //         body: JSON.stringify({
     //             uid:id,
     //         }),
-            
+
     //     });
-        
+
     //     // setBody(body);
-        
+
     //     const body = await resp.json();
     //     // console.log(body);
     // }
     // const [body, setBody] = useState(editClient)
-    
+
     // localStorage.setItem('body', JSON.stringify (body._id));
-    
+
 
     // const {name} = body;
     const handleBuy = () => {
