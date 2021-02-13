@@ -12,6 +12,15 @@ export const Delete = () => {
     }    
 
     deleteProduct();
+
+    // const deleteClient = async () => {
+    //     const resp = await fetch(`http://localhost:4000/api/client/products/${id}/delete`, {
+    //         method: 'DELETE'
+    //     });
+    //     const body = await resp.json();
+    // }    
+
+    // deleteClient();
     return (
         <div>
             <h1>Eliminado</h1>

@@ -6,8 +6,8 @@ export const FormClient = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // editProduct();
-        // reset();
+        editClient();
+        reset();
     }
 
     const { id } = useParams();
@@ -26,31 +26,28 @@ export const FormClient = () => {
     });
     const {name, lastName, email, password, buy} = values;
 
-
     const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${id}`);
         const body = await resp.json();
         // const {name} = !!body && body[0];
         loadDataForm(body);
     }
-    // const editProduct = async () => {
-    //     const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             name: values.name,
-    //             nameCategory: values.nameCategory,
-    //             description: values.description,
-    //             price: values.price,
-    //             quantityInStock: values.quantityInStock,
-    //             spent: values.spent,
-    //             urlImg: values.urlImg
-    //         }),
-    //     });
-    //     const body = await resp.json();
-// }
+    const editClient = async () => {
+        const resp = await fetch(`http://localhost:4000/api/client/edit/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: values.name,
+                lastName: values.lastName,
+                email: values.email,
+                password: values.password,
+                buy: values.buy
+            }),
+        });
+        const body = await resp.json();
+}
 return (
     <>
         <div className="container">

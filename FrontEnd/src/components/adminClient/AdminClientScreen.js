@@ -26,7 +26,8 @@ export const AdminClientScreen = () => {
                         <th scope="col">Last Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">password</th>
-                        <th scope="col">Products</th>
+                        <th scope="col">Buys</th>
+                        <th scope="col" width="100%">Edit/Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +39,7 @@ export const AdminClientScreen = () => {
                                 <td>{item.lastName}</td>
                                 <td>{item.email}</td>
                                 <td>{item.password}</td>
-                                {/* <td>{item.buy}</td> */}
+                                <td>{item.buy}</td>
                                 <td width="100%">
                                 <Link to={`/admin/client/edit/${item._id}`} className="btn btn-outline-info btn-sm btn-block">Edit</Link>
                                 <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link>
