@@ -1,4 +1,5 @@
 import { firebase } from '../firebase/firebase-config';
+import Swal from 'sweetalert2'
 
 export const clientRegister = (email, password, name) => {
     return(
@@ -10,7 +11,8 @@ export const clientRegister = (email, password, name) => {
                 // localStorage.setItem('user', JSON.stringify (user.name));
             })
             .catch(e=>{
-                console.log(e);
+                Swal.fire('Error', e.message, 'error' );
+                // console.log(e);
             })
     )
 }
@@ -23,8 +25,9 @@ export const clientLogin = (email, password) => {
                 // console.log(user.uid, user.email);
             })
             .catch(e=>{
-                console.log(e);
-                <h1>erro</h1>
+                // console.log(e);
+                Swal.fire('Error', e.message, 'error' );
+                
             })
     )
 }

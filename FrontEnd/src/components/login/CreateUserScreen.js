@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import validator from 'validator';
 import { AuthContext } from '../../auth/AuthContext';
 import { clientRegister } from '../../auth/clientAuth';
-import { types } from '../../types/types';
 import { useForm } from '../hooks/useForm';
+import Swal from 'sweetalert2'
 
 
 export const CreateUserScreen = ({ history }) => {
@@ -22,16 +22,22 @@ export const CreateUserScreen = ({ history }) => {
 
     const formValid = () => {
         if (name.trim().length === 0) {
-            console.log('Falta nombre');
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a name',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+              })
             return false;
         } else if (lastName.trim().length === 0) {
-            console.log('Falta apellido');
-            return false;
-        } else if (!validator.isEmail(email)) {
-            console.log('emial, no valido');
-            return false;
-        } else if (password.length < 5) {
-            console.log('Contraseña debe tener 6 caracteres');
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a Last Name',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+              })
             return false;
         }
         return true;
@@ -39,18 +45,17 @@ export const CreateUserScreen = ({ history }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formValid()){
+        if (formValid()) {
             clientRegister(email, password, name, lastName);
             addClient();
-            dispatch({
-                type: types.login,
-                payload:{
-                    name: 'jelsyn'
-                }
-                // payload: localStorage.setItem('user', JSON.stringify (user.uid))
-            });
-            console.log('correot');
         };
+        // dispatch({
+        //     type: types.login,
+        //     payload:{
+        //         name: 'jelsyn'
+        //     }
+        //     // payload: localStorage.setItem('user', JSON.stringify (user.uid))
+        // });
         // history.push('/HomeArticlesScreen');
         // const _id = localStorage.setItem('body', JSON.stringify(body._id));
     }
