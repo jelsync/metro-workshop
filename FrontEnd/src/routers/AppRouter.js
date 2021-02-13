@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect} from "react";
 import {
     BrowserRouter as Router,
     Switch,
@@ -9,28 +9,35 @@ import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 import { AuthContext } from "../auth/AuthContext";
 
+
 import { LoginScreen } from "../components/login/LoginScreen";
 import { CreateUserScreen } from "../components/login/CreateUserScreen";
 import { DashboardRouter } from "./DashboardRouter";
-// import { firebase } from '../firebase/firebase-config';
-// import { clientLogin } from "../auth/clientAuth";
+import { firebase } from '../firebase/firebase-config';
 import { AdminRouter } from "./AdminRouter";
 import '../styles/login.css';
+import { AdministratorRoute } from "./AdministratorRoute";
+import { types } from "../types/types";
 
 export const AppRouter = () => {
+    const { dispatch } = useContext(AuthContext);
     const { user } = useContext(AuthContext);
-    // const [loggInd, setLoggInd] = useState(false)
 
-    // useEffect(() => {
-    //     firebase.auth().onAuthStateChanged((user) => {
-    //         if (user?.uid) {
-    //             clientLogin(user.email, user.uid);
-    //             setLoggInd(true);
-    //         } else {
-    //             setLoggInd(false);
-    //         }
-    //     });
-    // }, [setLoggInd])
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user?.uid) {
+                dispatch({
+                    type: types.login,
+                    payload: {
+                        name: user.displayName
+                        // payload: localStorage.setItem('user', JSON.stringify (user.uid))
+                    }
+                });
+            } else {
+                console.log('You must authenticate');
+            }
+        });
+    }, [dispatch])
 
     return (
         <Router>

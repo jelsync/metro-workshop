@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
+import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
 
 export const Navbar = () => {
@@ -23,9 +24,11 @@ export const Navbar = () => {
     const [body, setBody] = useState(getClient)
 
     // const { name } = body;
+    // console.log(body);
 
     const handleLogout = () =>{
         history.replace('/login');
+        LogOutUser();
         dispatch({
             type: types.logout
         });

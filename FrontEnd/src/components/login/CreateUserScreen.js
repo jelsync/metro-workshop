@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
-import { clientRegister } from '../../auth/clientAuth';
-import { useForm } from '../hooks/useForm';
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
+import validator from 'validator';
+import { AuthContext } from '../../auth/AuthContext';
+import { clientRegister } from '../../auth/clientAuth';
+import { types } from '../../types/types';
+import { useForm } from '../hooks/useForm';
 
 
 export const CreateUserScreen = ({ history }) => {
+    const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange,] = useForm({
         name: '',
@@ -16,11 +20,38 @@ export const CreateUserScreen = ({ history }) => {
 
     const { email, password, name, lastName, uid } = values;
 
+    const formValid = () => {
+        if (name.trim().length === 0) {
+            console.log('Falta nombre');
+            return false;
+        } else if (lastName.trim().length === 0) {
+            console.log('Falta apellido');
+            return false;
+        } else if (!validator.isEmail(email)) {
+            console.log('emial, no valido');
+            return false;
+        } else if (password.length < 5) {
+            console.log('Contraseña debe tener 6 caracteres');
+            return false;
+        }
+        return true;
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        clientRegister(email, password, name, lastName);
-        // addClient();
-        history.push('/HomeArticlesScreen'); 
+        if (formValid()){
+            clientRegister(email, password, name, lastName);
+            addClient();
+            dispatch({
+                type: types.login,
+                payload:{
+                    name: 'jelsyn'
+                }
+                // payload: localStorage.setItem('user', JSON.stringify (user.uid))
+            });
+            console.log('correot');
+        };
+        // history.push('/HomeArticlesScreen');
         // const _id = localStorage.setItem('body', JSON.stringify(body._id));
     }
 
@@ -53,49 +84,49 @@ export const CreateUserScreen = ({ history }) => {
                     <div className="sign-up-html">
                         <div className="group">
                             <label htmlFor="user" className="label">Name</label>
-                            <input 
-                            id="user"
-                            name="name" 
-                            type="text" 
-                            className="input" 
-                            value={name} 
-                            onChange={handleInputChange}/>
+                            <input
+                                id="user"
+                                name="name"
+                                type="text"
+                                className="input"
+                                value={name}
+                                onChange={handleInputChange} />
                         </div>
                         <div className="group">
                             <label htmlFor="pass" className="label">Last Name</label>
-                            <input 
-                            id="pass" 
-                            name="lastName" 
-                            type="text" 
-                            className="input" 
-                            value={lastName} 
-                            onChange={handleInputChange}/>
+                            <input
+                                id="pass"
+                                name="lastName"
+                                type="text"
+                                className="input"
+                                value={lastName}
+                                onChange={handleInputChange} />
                         </div>
                         <div className="group">
                             <label htmlFor="pass" className="label">Email Address</label>
-                            <input 
-                            id="pass" 
-                            name="email" 
-                            type="email" 
-                            className="input" 
-                            value={email} 
-                            onChange={handleInputChange}/>
+                            <input
+                                id="pass"
+                                name="email"
+                                type="email"
+                                className="input"
+                                value={email}
+                                onChange={handleInputChange} />
                         </div>
                         <div className="group">
                             <label htmlFor="pass" className="label">Password</label>
-                            <input 
-                            id="pass" 
-                            name="password"
-                            type="password" 
-                            className="input" 
-                            value={password} 
-                            onChange={handleInputChange}/>
+                            <input
+                                id="pass"
+                                name="password"
+                                type="password"
+                                className="input"
+                                value={password}
+                                onChange={handleInputChange} />
                         </div>
                         <div className="group">
-                            <input 
-                            type="submit"
-                            className="button" 
-                            value="Sign Up"/>
+                            <input
+                                type="submit"
+                                className="button"
+                                value="Sign Up" />
                         </div>
                         <div className="foot-lnk">
                             <Link to="/Login">Back</Link>

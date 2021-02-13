@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
+import { clientLogin } from '../../auth/clientAuth';
 import { types } from '../../types/types';
 import { useForm } from '../hooks/useForm';
 
@@ -34,19 +35,19 @@ export const LoginScreen = ({history}) => {
     // const [body, setBody] = useState(addClient)
     // const {name} = body;
 
-    const handleSubmit = (e) => {
-        // clientLogin(email, password);
-        e.preventDefault();
-        // console.log(body);
-        dispatch({
-            type: types.login,
-            payload:{
-                name: 'jelsyn'
-            }
-            // payload: localStorage.setItem('user', JSON.stringify (user.uid))
-        });
 
-        history.replace('/');
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        clientLogin(email, password);
+        // dispatch({
+        //     type: types.login,
+        //     payload:{
+        //         name: 'jelsyn'
+        //         // payload: localStorage.setItem('user', JSON.stringify (user.uid))
+        //     }
+        // });
+
+        // history.replace('/');
     }
     return (
         <div className="login-wrap mt-3">
