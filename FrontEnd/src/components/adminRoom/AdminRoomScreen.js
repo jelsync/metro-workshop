@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 
 export const AdminRoomScreen = () => {
     const [product, setProduct] = useState(null || []);
-    useParams();
+    // useParams();
     // const [product, setProduct] = useState(null || []);
     // const category = getCategoryProduct(categories);
 

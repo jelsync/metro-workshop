@@ -30,7 +30,6 @@ export const AppRouter = () => {
                     type: types.login,
                     payload: {
                         name: user.displayName
-                        // payload: localStorage.setItem('user', JSON.stringify (user.uid))
                     }
                 });
             } else {
@@ -44,7 +43,7 @@ export const AppRouter = () => {
             <Switch>
                 <PublicRoute exact path="/login" component={LoginScreen} isAuthenticated={user.logged} />
                 <PublicRoute exact path="/create-user" component={CreateUserScreen} isAuthenticated={user.logged} />
-                <AdministratorRoute path="/admin" component={AdminRouter} isAuthenticated={user.logged} />
+                <Route path="/admin" component={AdminRouter} isAuthenticated={user.logged} />
                 <PrivateRoute path="/" component={DashboardRouter} isAuthenticated={user.logged} />
             </Switch>
         </Router>

@@ -4,6 +4,8 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
+import { AdminClientScreen } from "../components/adminClient/AdminClientScreen";
+import { FormClient } from "../components/adminClient/FormClient";
 import { AdminKitchenScreen } from "../components/adminKitchen/AdminKitchenScreen";
 import { AdminRoomScreen } from "../components/adminRoom/AdminRoomScreen";
 import { Delete } from "../components/adminRoom/Delete";
@@ -26,7 +28,12 @@ export const AdminRouter = () => {
                         <Route exact path="/admin/product/edit/:id" component={FormProduct} />
                         <Route path="/admin/delete/:id" component={Delete} />
                         <Route exact path="/admin/createProduct" component={NewProduct} />
+
                         <Route exact path="/admin/kitchen" component={AdminKitchenScreen} />
+
+                        <Route exact path="/admin/client" component={AdminClientScreen} />
+                        <Route exact path="/admin/client/edit/:id" component={FormClient} />
+
                         <Redirect to="/admin/adminRoom" />
                     </Switch>
                 </div>

@@ -39,15 +39,6 @@ export const LoginScreen = ({history}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         clientLogin(email, password);
-        // dispatch({
-        //     type: types.login,
-        //     payload:{
-        //         name: 'jelsyn'
-        //         // payload: localStorage.setItem('user', JSON.stringify (user.uid))
-        //     }
-        // });
-
-        // history.replace('/');
     }
     return (
         <div className="login-wrap mt-3">
