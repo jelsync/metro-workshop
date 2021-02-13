@@ -87,11 +87,11 @@ const addProduct = (req, res = response) => {
 
 const deleteProduct = (req, res = response) => {
 
-    ClientModel.updateOne({ uid: mongoose.Types.ObjectId(req.params.id) }, {
+    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
 
         $pull: {
             buy: {
-                uid: mongoose.Types.ObjectId(req.body.idProducto)
+                _id: mongoose.Types.ObjectId(req.body.idProducto)
             }
         }
     }).then(result => {
@@ -106,10 +106,14 @@ const updateClient = (req, res = response) => {
 
     ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
         {
-            name: body._id,
-            
-        }).then(user => {
-            res.send(user);
+            name: body.name,
+            lastName: body.lastName,
+            email: body.email,
+            password: body.password,
+            buy: body.buy,
+
+        }).then(client => {
+            res.send(client);
             res.end();
         })
 }
