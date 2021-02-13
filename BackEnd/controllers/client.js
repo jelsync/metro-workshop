@@ -49,7 +49,7 @@ const getClients = (req, res = response) => {
 
 const getClient = (req, res = response) => {
 
-    ClientModel.findOne({ uid: req.params.uid }).then(client => {
+    ClientModel.findOne({ _id: req.params.id }).then(client => {
         res.send(client);
         res.end();
     })
