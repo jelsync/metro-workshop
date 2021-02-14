@@ -18,6 +18,7 @@ import { AdminRouter } from "./AdminRouter";
 import '../styles/login.css';
 import { AdministratorRoute } from "./AdministratorRoute";
 import { types } from "../types/types";
+import { LoginAdminScreen } from "../components/login/LoginAdminScreen";
 
 export const AppRouter = () => {
     const { dispatch } = useContext(AuthContext);
@@ -43,7 +44,10 @@ export const AppRouter = () => {
             <Switch>
                 <PublicRoute exact path="/login" component={LoginScreen} isAuthenticated={user.logged} />
                 <PublicRoute exact path="/create-user" component={CreateUserScreen} isAuthenticated={user.logged} />
+
+                <Route exact path="/admin/login" component={LoginAdminScreen} />
                 <Route path="/admin" component={AdminRouter} isAuthenticated={user.logged} />
+
                 <PrivateRoute path="/" component={DashboardRouter} isAuthenticated={user.logged} />
             </Switch>
         </Router>
