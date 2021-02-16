@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 
 const createClient = async (req, res = response) => {
 
+    console.log(req.body);
+
     const { email } = req.body;
     try {
         let client = await ClientModel.findOne({ email });
@@ -49,15 +51,15 @@ const getClients = (req, res = response) => {
 
 const getClient = (req, res = response) => {
 
-    ClientModel.findOne({ _id: req.params.id }).then(client => {
+    ClientModel.findOne({ uid: req.params.id }).then(client => {
         res.send(client);
         res.end();
     })
 }
 
-const getProducts = (req, res = response) => {
+const getProducts = (req, res = response) => {//GET COMPRAS
 
-    ClientModel.findOne({ uid: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
+    ClientModel.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
         res.send(products);
         res.end();
     })
@@ -65,11 +67,13 @@ const getProducts = (req, res = response) => {
 
 const addProduct = (req, res = response) => {
 
-    ClientModel.updateOne({ uid: mongoose.Types.ObjectId(req.params.id) }, {
+    
+
+    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
 
         $push: {
             buy: {
-                uid: mongoose.Types.ObjectId(),
+                _id: mongoose.Types.ObjectId(),
                 name: req.body.name,
                 price: req.body.price
             }
@@ -91,12 +95,17 @@ const deleteProduct = (req, res = response) => {
 
         $pull: {
             buy: {
-                _id: mongoose.Types.ObjectId(req.body.idProducto)
+                _id: mongoose.Types.ObjectId(req.params.idProduct)
             }
         }
     }).then(result => {
-        res.send(result);
-        res.end();
+        if (result.nModified == 1) {
+            res.send({ mensaje: 'Eliminado con exito', ok: true });
+            res.end();
+        } else {
+            res.send({ mensaje: 'Error al eliminar', ok: false });
+            res.end();
+        }
     })
 }
 
@@ -118,6 +127,21 @@ const updateClient = (req, res = response) => {
         })
 }
 
+const deleteClient = (req, res = response) => {
+
+    ClientModel.deleteOne({_id: mongoose.Types.ObjectId(req.params.id) } ).then(result => {
+
+        if (result.deletedCount == 1) {
+            res.send({ok: true});
+            res.end();
+        }else{
+            res.send({ok: false});
+            res.end(); 
+        }
+        
+    })
+}
+
 module.exports = {
     createClient,
     getClients,
@@ -125,5 +149,6 @@ module.exports = {
     addProduct,
     getProducts,
     deleteProduct,
-    updateClient
+    updateClient,
+    deleteClient
 }
