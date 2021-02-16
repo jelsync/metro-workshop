@@ -7,7 +7,7 @@ export const clientRegister = (email, password, name) => {
             .then( async ({ user }) => {
                 await user.updateProfile({displayName:name});
                 // localStorage.setItem('user', JSON.stringify ([user.uid, user.displayName, user.email] ));
-                // localStorage.setItem('user', JSON.stringify (user.uid));
+                localStorage.setItem('user', JSON.stringify (user.uid));
                 // localStorage.setItem('user', JSON.stringify (user.name));
             })
             .catch(e=>{
@@ -34,6 +34,7 @@ export const clientLogin = (email, password) => {
 
 export const LogOutUser = () => {
     return (
-        firebase.auth().signOut() 
+        firebase.auth().signOut(),
+        localStorage.clear()
     )
 }

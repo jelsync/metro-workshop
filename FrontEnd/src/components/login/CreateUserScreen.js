@@ -5,10 +5,14 @@ import { AuthContext } from '../../auth/AuthContext';
 import { clientRegister } from '../../auth/clientAuth';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2'
+import { firebase } from '../../firebase/firebase-config';
+
 
 
 export const CreateUserScreen = ({ history }) => {
     const { dispatch } = useContext(AuthContext);
+    const [user, setUser] = useState({ firebaseUid: '' });
+    const { firebaseUid } = user;
 
     const [values, handleInputChange,] = useForm({
         name: '',
@@ -18,7 +22,7 @@ export const CreateUserScreen = ({ history }) => {
         uid: '',
     });
 
-    const { email, password, name, lastName, uid } = values;
+    var { email, password, name, lastName, uid } = values;
 
     const formValid = () => {
         if (name.trim().length === 0) {
@@ -28,7 +32,7 @@ export const CreateUserScreen = ({ history }) => {
                 icon: 'error',
                 message: 'error',
                 confirmButtonText: 'Ok'
-              })
+            })
             return false;
         } else if (lastName.trim().length === 0) {
             Swal.fire({
@@ -37,7 +41,7 @@ export const CreateUserScreen = ({ history }) => {
                 icon: 'error',
                 message: 'error',
                 confirmButtonText: 'Ok'
-              })
+            })
             return false;
         }
         return true;
@@ -46,8 +50,21 @@ export const CreateUserScreen = ({ history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formValid()) {
-            clientRegister(email, password, name, lastName);
-            addClient();
+            //clientRegister(email, password, name, lastName);
+            //addClient();
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then(async ({ user }) => {
+                    localStorage.setItem('uid', JSON.stringify(user.uid));
+                    await user.updateProfile({ displayName: name });
+                    setUser({ firebaseUid: user.uid })
+                    addClient();
+                    //localStorage.setItem('user', JSON.stringify ([user.uid, user.displayName, user.email] ));
+                    // localStorage.setItem('user', JSON.stringify (user.name));
+                })
+                .catch(e => {
+                    Swal.fire('Error', e.message, 'error');
+                    // console.log(e);
+                })
         };
         // dispatch({
         //     type: types.login,
@@ -67,7 +84,7 @@ export const CreateUserScreen = ({ history }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                uid,
+                uid: JSON.parse(localStorage.getItem('uid')),
                 name,
                 lastName,
                 password,
@@ -76,8 +93,8 @@ export const CreateUserScreen = ({ history }) => {
         });
         const body = await resp.json();
         setBody(body);
-        // console.log(body._id);
-        // getClient(body._id);
+        console.log(body);
+        localStorage.setItem('id', JSON.stringify(body._id));
     }
     const [body, setBody] = useState(addClient)
 

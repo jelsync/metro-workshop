@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { firebase } from '../../firebase/firebase-config';
 import { AuthContext } from '../../auth/AuthContext';
 import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
@@ -27,11 +28,15 @@ export const Navbar = () => {
     // console.log(body);
 
     const handleLogout = () =>{
+        //firebase.auth().signOut();
+        //localStorage.clear();
         history.replace('/login');
+
         LogOutUser();
         dispatch({
             type: types.logout
         });
+
     }
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">

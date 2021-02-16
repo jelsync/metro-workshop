@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../auth/AuthContext';
+// import { AuthContext } from '../../auth/AuthContext';
 import { clientLogin } from '../../auth/clientAuth';
-import { types } from '../../types/types';
+// import { types } from '../../types/types';
 import { useForm } from '../hooks/useForm';
 
 export const LoginScreen = ({history}) => {
-    const { dispatch } = useContext(AuthContext);
+    // const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange] = useForm({
         email: '',
@@ -39,6 +39,8 @@ export const LoginScreen = ({history}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         clientLogin(email, password);
+
+        
     }
     return (
         <div className="login-wrap mt-3">

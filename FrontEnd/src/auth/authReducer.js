@@ -10,7 +10,7 @@ export const authReducer = (state = {}, action) => {
         case types.loginAdmin:
             return {
                 ...action.payload,
-                logged: true
+                loggedAdmin: true
             }
         case types.logout:
             return {
@@ -19,5 +19,4 @@ export const authReducer = (state = {}, action) => {
         default:
             return state;
     }
-
 }

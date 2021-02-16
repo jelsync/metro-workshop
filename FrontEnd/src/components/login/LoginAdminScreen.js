@@ -1,8 +1,11 @@
 import React from 'react'
+// import { useHistory } from 'react-router-dom';
+import { clientLogin } from '../../auth/clientAuth';
 import { useForm } from '../hooks/useForm';
 
-
 export const LoginAdminScreen = () => {
+    // const history = useHistory();
+
     const [values, handleInputChange] = useForm({
         email: '',
         password: '',
@@ -10,8 +13,10 @@ export const LoginAdminScreen = () => {
 
     const { email, password } = values;
 
-    const handleSubmit = () =>{
-
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        clientLogin(email, password);
+        // history.replace('/admin');
     }
 
     return (
