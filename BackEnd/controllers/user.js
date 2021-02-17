@@ -8,7 +8,6 @@ const createUser = async (req, res = response) => {
     const { email, password } = req.body;
     try {
         let user = await UserModel.findOne({ email });
-        console.log(user);
         if (user) {
             return res.json({
                 ok: false,
@@ -27,15 +26,43 @@ const createUser = async (req, res = response) => {
         })
 
     } catch (error) {
-
+        res.json({
+            ok: false
+        });
     }
 }
 
 
-const loginUser = (req, res = response) => {
-    const user = new UserModel(req.body);
+const loginUser = async (req, res = response) => {
+    // const user = new UserModel(req.body);
 
-    res.json(user)
+    const {email, password} = req.body;
+
+    try {
+        const  user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.json({
+                ok: false,
+                msg: 'Email not exist'
+            });
+        }
+
+        const correctPassword = bcrypt.compareSync(password, user.password);
+        if (!correctPassword) {
+            return res.json({
+                ok: false,
+                msg: 'Password not correct'
+            });
+        }
+        
+        res.json(user);
+
+    } catch (error) {
+        res.json({
+            ok: false
+        });
+    }
+
 
 }
 
