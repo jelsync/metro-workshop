@@ -1,15 +1,36 @@
 const { response } = require('express');
 const UserModel = require('../models/user');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const createUser = (req, res = response) => {
-    let user = new UserModel(req.body);
+const createUser = async (req, res = response) => {
 
-    user.save().then(user => {
-        res.send(user);
-        res.end();
-    })
+    const { email, password } = req.body;
+    try {
+        let user = await UserModel.findOne({ email });
+        console.log(user);
+        if (user) {
+            return res.json({
+                ok: false,
+                msg: 'User exist'
+            });
+        }
+
+        user = new UserModel(req.body);
+
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(password, salt);
+
+        await user.save().then(user => {
+            res.send(user);
+            res.end();
+        })
+
+    } catch (error) {
+
+    }
 }
+
 
 const loginUser = (req, res = response) => {
     const user = new UserModel(req.body);
