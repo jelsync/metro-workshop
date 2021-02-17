@@ -1,18 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import validator from 'validator';
-import { AuthContext } from '../../auth/AuthContext';
-import { clientRegister } from '../../auth/clientAuth';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2'
 import { firebase } from '../../firebase/firebase-config';
 
 
 
-export const CreateUserScreen = ({ history }) => {
-    const { dispatch } = useContext(AuthContext);
-    const [user, setUser] = useState({ firebaseUid: '' });
-    const { firebaseUid } = user;
+export const CreateUserScreen = () => {
 
     const [values, handleInputChange,] = useForm({
         name: '',
@@ -50,31 +44,16 @@ export const CreateUserScreen = ({ history }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (formValid()) {
-            //clientRegister(email, password, name, lastName);
-            //addClient();
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(async ({ user }) => {
                     localStorage.setItem('uid', JSON.stringify(user.uid));
                     await user.updateProfile({ displayName: name });
-                    setUser({ firebaseUid: user.uid })
                     addClient();
-                    //localStorage.setItem('user', JSON.stringify ([user.uid, user.displayName, user.email] ));
-                    // localStorage.setItem('user', JSON.stringify (user.name));
                 })
                 .catch(e => {
                     Swal.fire('Error', e.message, 'error');
-                    // console.log(e);
                 })
         };
-        // dispatch({
-        //     type: types.login,
-        //     payload:{
-        //         name: 'jelsyn'
-        //     }
-        //     // payload: localStorage.setItem('user', JSON.stringify (user.uid))
-        // });
-        // history.push('/HomeArticlesScreen');
-        // const _id = localStorage.setItem('body', JSON.stringify(body._id));
     }
 
     const addClient = async () => {
@@ -92,11 +71,9 @@ export const CreateUserScreen = ({ history }) => {
             }),
         });
         const body = await resp.json();
-        setBody(body);
-        console.log(body);
         localStorage.setItem('id', JSON.stringify(body._id));
     }
-    const [body, setBody] = useState(addClient)
+
 
     return (
         <div className="login-wrap mt-3">

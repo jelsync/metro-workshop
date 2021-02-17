@@ -6,32 +6,23 @@ import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
 
 export const Navbar = () => {
-    const { user: { name }, dispatch } = useContext(AuthContext);
+    const { dispatch } = useContext(AuthContext);
     const history = useHistory();
     
-    const id = JSON.parse(localStorage.getItem('body'));
+    const id = JSON.parse(localStorage.getItem('uid'));
 
-    // useEffect(() => { WARNING
-    //     getClient(id);
-    // }, [id])
-
-    const getClient = async (id) => {
+    const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${id}`);
         const body = await resp.json();
-        // console.log(body._id);
         setBody(body);
     }
 
     const [body, setBody] = useState(getClient)
 
-    // const { name } = body;
-    // console.log(body);
+    const {name} = body;
 
     const handleLogout = () =>{
-        //firebase.auth().signOut();
-        //localStorage.clear();
         history.replace('/login');
-
         LogOutUser();
         dispatch({
             type: types.logout
