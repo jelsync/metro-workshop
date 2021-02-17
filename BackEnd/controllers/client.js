@@ -50,7 +50,6 @@ const getClients = (req, res = response) => {
 }
 
 const getClient = (req, res = response) => {
-
     ClientModel.findOne({ uid: req.params.id }).then(client => {
         res.send(client);
         res.end();
@@ -58,7 +57,6 @@ const getClient = (req, res = response) => {
 }
 
 const getProducts = (req, res = response) => {//GET COMPRAS
-
     ClientModel.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
         res.send(products);
         res.end();
@@ -66,14 +64,9 @@ const getProducts = (req, res = response) => {//GET COMPRAS
 }
 
 const addProduct = (req, res = response) => {
-
-    
-
     ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
-
         $push: {
             buy: {
-                _id: mongoose.Types.ObjectId(),
                 name: req.body.name,
                 price: req.body.price
             }
@@ -83,16 +76,12 @@ const addProduct = (req, res = response) => {
         if (result.nModified == 1) {
             return res.send({ ok: true });
         }
-
         return res.send({ ok: false });
-
     })
 }
 
 const deleteProduct = (req, res = response) => {
-
     ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
-
         $pull: {
             buy: {
                 _id: mongoose.Types.ObjectId(req.params.idProduct)

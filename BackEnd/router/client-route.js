@@ -10,7 +10,7 @@ router.get('/:id', getClient); // api/client/idusario
 
 router.put('/:id', updateClient); // api/client/idusario
 
-router.put('/:id/products', addProduct); // api/client/idusario/products
+router.put('/:id/products', addProduct); // api/client/iudusario/products
 
 router.get('/:id/products', getProducts); // api/client/idUsuario/products/
 
