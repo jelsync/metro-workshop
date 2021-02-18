@@ -2,6 +2,7 @@ const { response } = require('express');
 const UserModel = require('../models/user');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const { generateToken } = require('../helpers/jwt');
 
 const createUser = async (req, res = response) => {
 
@@ -20,10 +21,16 @@ const createUser = async (req, res = response) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(password, salt);
 
-        await user.save().then(user => {
-            res.send(user);
-            res.end();
-        })
+        const token = await generateToken(user._id, user.name);
+        // await user.save().then(user => {
+        //     res.send(user);
+        //     res.end();
+        // })
+        res.json({
+            ok: true,
+            token,
+            user
+        });
 
     } catch (error) {
         res.json({
@@ -36,10 +43,10 @@ const createUser = async (req, res = response) => {
 const loginUser = async (req, res = response) => {
     // const user = new UserModel(req.body);
 
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     try {
-        const  user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email });
         if (!user) {
             return res.json({
                 ok: false,
@@ -54,8 +61,14 @@ const loginUser = async (req, res = response) => {
                 msg: 'Password not correct'
             });
         }
-        
-        res.json(user);
+
+        const token = await generateToken(user._id, user.name);
+
+        res.json({
+            ok: true,
+            user,
+            token
+        })
 
     } catch (error) {
         res.json({
