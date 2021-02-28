@@ -21,20 +21,10 @@ import { PrivateAdminRoute } from "./PrivateAdminRoute";
 import { PublicAdminRoute } from "./PublicAdminRoute";
 
 export const AppRouter = () => {
-    const { dispatch } = useContext(AuthContext);
-    const { user } = useContext(AuthContext);
+    const { user, dispatch } = useContext(AuthContext);
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
-            // if (user?.email === 'jelsyn.ceron@unah.com') {
-
-            //     dispatch({
-            //         type: types.loginAdmin,
-            //         payload: {
-            //             email: user.email
-            //         }
-            //     });
-            // } else 
             if (user?.uid) {
                 dispatch({
                     type: types.login,

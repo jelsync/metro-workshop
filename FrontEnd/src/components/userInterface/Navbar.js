@@ -10,16 +10,19 @@ export const Navbar = () => {
     const history = useHistory();
     
     const id = JSON.parse(localStorage.getItem('uid'));
+    console.log(id);
 
     const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${id}`);
         const body = await resp.json();
+        // console.log(body);
         setBody(body);
     }
 
     const [body, setBody] = useState(getClient)
 
     const {name} = body;
+    console.log(body);
 
     const handleLogout = () =>{
         history.replace('/login');

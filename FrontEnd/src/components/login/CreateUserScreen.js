@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2'
 import { firebase } from '../../firebase/firebase-config';
+import { types } from '../../types/types';
+import { AuthContext } from '../../auth/AuthContext';
 
 
 
 export const CreateUserScreen = () => {
+    const { dispatch} = useContext(AuthContext);
 
     const [values, handleInputChange,] = useForm({
         name: '',
@@ -38,6 +41,12 @@ export const CreateUserScreen = () => {
             })
             return false;
         }
+        dispatch({
+            type: types.login,
+            payload: {
+                accion: 'registro'
+            }
+        });
         return true;
     }
 

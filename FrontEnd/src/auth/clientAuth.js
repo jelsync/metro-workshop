@@ -6,6 +6,7 @@ export const clientLogin = (email, password) => {
     return(
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(({ user }) => {
+                localStorage.setItem('uid', JSON.stringify(user.uid));
                 // localStorage.setItem('user', JSON.stringify (user.uid));
                 // console.log(user.uid, user.email);
             })

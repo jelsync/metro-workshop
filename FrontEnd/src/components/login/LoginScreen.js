@@ -9,8 +9,8 @@ export const LoginScreen = ({history}) => {
     // const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange] = useForm({
-        email: '',
-        password: '',
+        email: 'johan@gmail.com',
+        password: '12345',
     });
 
     const { email, password } = values;
@@ -38,9 +38,7 @@ export const LoginScreen = ({history}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        clientLogin(email, password);
-
-        
+        clientLogin(email, password);        
     }
     return (
         <div className="login-wrap mt-3">
