@@ -7,7 +7,9 @@ const { generateToken } = require('../helpers/jwt');
 const createUser = async (req, res = response) => {
 
     const { email, password } = req.body;
+    console.log(req.body);
     try {
+
         let user = await UserModel.findOne({ email });
         if (user) {
             return res.json({
@@ -17,24 +19,30 @@ const createUser = async (req, res = response) => {
         }
 
         user = new UserModel(req.body);
+        // console.log(user._id);
 
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(password, salt);
 
-        const token = await generateToken(user._id, user.name);
+        await user.save();
         // await user.save().then(user => {
         //     res.send(user);
         //     res.end();
-        // })
+        // });
+
+        const token = await generateToken(user._id, user.name);
+
         res.json({
             ok: true,
-            token,
-            user
+            // user,
+            user,
+            token
         });
 
     } catch (error) {
         res.json({
-            ok: false
+            ok: false,
+            msg: 'Error'
         });
     }
 }
@@ -43,7 +51,8 @@ const createUser = async (req, res = response) => {
 const loginUser = async (req, res = response) => {
     // const user = new UserModel(req.body);
 
-    const { email, password } = req.body;
+    const { email, password} = req.body;
+    console.log(req.body);
 
     try {
         const user = await UserModel.findOne({ email });
@@ -75,8 +84,23 @@ const loginUser = async (req, res = response) => {
             ok: false
         });
     }
+}
 
+const relevalidateToken = async (req, res = response) => {
+    const _id = req._id;
+    const name = req.name;
+    // const { _id, name } = req;
+    // console.log(_id);
+    // console.log(name);
 
+    const token = await generateToken(_id, name);
+
+    res.json({
+        ok: true,
+        _id,
+        name,
+        token
+    })
 }
 
 const getUsers = (req, res = response) => {
@@ -118,5 +142,6 @@ module.exports = {
     getUsers,
     updateUser,
     deleteUser,
-    loginUser
+    loginUser,
+    relevalidateToken
 }

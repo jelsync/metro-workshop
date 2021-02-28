@@ -13,6 +13,10 @@ const schema = new Schema({
     password: {
         type: String,
         require: true
+    },
+    administrator: {
+        type: Boolean,
+        require: true
     }
 });
 
