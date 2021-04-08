@@ -11,12 +11,12 @@ export const ProductScreen = () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}/products`);
         const body = await resp.json();
         setProduct(body.buy);
-        // console.log(body.buy);
+        // console.log(body._id);
     }
 
     // const [buy, setBuy] = useState([]);
     // setBuy(products);
-    console.log(products);
+    // console.log(products);
 
     // const [name] = buy;
     // console.log(name);

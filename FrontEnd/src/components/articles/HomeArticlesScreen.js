@@ -99,7 +99,7 @@ export const HomeArticlesScreen = ({ history }) => {
                     {
                         products.map((item) => {
                             return (
-                                <div key={item._id} className="col-md-4 m-1 text-dark" >
+                                <div key={item._id} className="col-md-3 m-1 text-dark" >
                                     <div className="col home-area m-1">
                                         <div className="card">
                                             <div className="card-body">

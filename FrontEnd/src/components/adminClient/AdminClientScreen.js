@@ -16,10 +16,12 @@ export const AdminClientScreen = () => {
     const getClients = async () => {
         const resp = await fetch(`http://localhost:4000/api/client`);
         const body = await resp.json();
-        console.log(body);
-        setClient(body);
+        // console.log(body);
+        setClient(body.clients);
     }
 
+    // const [clients] = client;
+    // console.log(clients);
     const deleteClient = async (id) => {
         const resp = await fetch(`http://localhost:4000/api/client/${id}`, {
             method:'DELETE'
@@ -50,7 +52,7 @@ export const AdminClientScreen = () => {
                                 <th scope="col">Last Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Buys</th>
-                                <th scope="col">Edit/Delete</th>
+                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,7 +65,10 @@ export const AdminClientScreen = () => {
                                         <td>{item.email}</td>
                                         <td>{item.buy.length}</td>
                                         <td>
-                                            <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button>
+                                        <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link>
+
+                                        {/* <Link to={`admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link> */}
+                                            {/* <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button> */}
                                         </td>
                                     </tr>
                                 ))

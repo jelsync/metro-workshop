@@ -9,7 +9,7 @@ export const LoginScreen = ({history}) => {
     // const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange] = useForm({
-        email: 'johan@gmail.com',
+        email: 'jelsyn@gmail.com',
         password: '12345',
     });
 

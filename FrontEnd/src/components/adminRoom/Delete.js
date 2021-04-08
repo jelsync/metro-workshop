@@ -18,14 +18,15 @@ export const Delete = () => {
         // }
     }    
 
-    // const deleteClient = async () => {
-    //     const resp = await fetch(`http://localhost:4000/api/client/products/${id}/delete`, {
-    //         method: 'DELETE'
-    //     });
-    //     const body = await resp.json();
-    // }    
+    const deleteClient = async () => {
+        const resp = await fetch(`http://localhost:4000/api/client/${id}`, {
+            method: 'DELETE'
+        });
+        const body = await resp.json();
+    }    
 
     deleteProduct();
+    deleteClient();
     return (
         <div>
             <h1>Eliminado</h1>
