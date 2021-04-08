@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
 
 export const HomeArticlesScreen = ({ history }) => {
-    const [body, setBody] = useState({});
+    const uid = JSON.parse(localStorage.getItem('uid'));
+    // console.log(uid);
+
     const [products, setProducts] = useState([]);
-    console.log(products);
-    const { uid } = body;
+    // console.log(products);
 
     const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}`);
         const body = await resp.json();
-        setBody(body);
+        // setBody(body);
     }
 
     const getProducts = async () => {
         const resp = await fetch(`http://localhost:4000/api/product`);
         const body = await resp.json();
         setProducts(body);
+        // console.log(body);
     }
 
     const buy = async (product) => {
@@ -39,8 +43,9 @@ export const HomeArticlesScreen = ({ history }) => {
     // const id = JSON.parse(localStorage.getItem('body'));
 
     useEffect(() => {
-        getClient();
+        // getClient();
         getProducts();
+
     }, [])
 
     // const _id = JSON.parse(localStorage.getItem('body'));
@@ -88,17 +93,18 @@ export const HomeArticlesScreen = ({ history }) => {
                     </div>
                 </div>
             </div>
+            <Link to="/ProductScreen" className="btn btn-link" >My Product</Link>
             <div className="container mt-4">
                 <div className="row justify-content-md-center">
                     {
                         products.map((item) => {
                             return (
-                                <div key={item._id}  className="col-md-4 m-1 text-dark" >
+                                <div key={item._id} className="col-md-4 m-1 text-dark" >
                                     <div className="col home-area m-1">
                                         <div className="card">
                                             <div className="card-body">
                                                 <h4 className="card-title">{item.name}</h4>
-                                                <img src={'./assets/img/2.jpg'} width="100%" height="100%" alt="..."/>
+                                                <img src={item.urlImg} width="400px" className="img-fluid"/>
                                                 <hr />
                                                 <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>
                                                 <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

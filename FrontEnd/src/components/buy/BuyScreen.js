@@ -28,9 +28,6 @@ export const BuyScreen = () => {
                         </div>
                     </div>
                 </div>
-                <div className="alert alert-primary" role="alert">
-                    Successful purchase!
-            </div>
             </div>
         </>
     )

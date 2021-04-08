@@ -49,7 +49,6 @@ export const AdminClientScreen = () => {
                                 <th scope="col">Name</th>
                                 <th scope="col">Last Name</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">password</th>
                                 <th scope="col">Buys</th>
                                 <th scope="col">Edit/Delete</th>
                             </tr>
@@ -62,7 +61,6 @@ export const AdminClientScreen = () => {
                                         <td>{item.name}</td>
                                         <td>{item.lastName}</td>
                                         <td>{item.email}</td>
-                                        <td>{item.password}</td>
                                         <td>{item.buy.length}</td>
                                         <td>
                                             <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button>

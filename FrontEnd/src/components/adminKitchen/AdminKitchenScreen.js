@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 export const AdminKitchenScreen = () => {
     const [product, setProduct] = useState(null || []);
@@ -13,47 +14,62 @@ export const AdminKitchenScreen = () => {
         setProduct(body);
     }
 
+    const getState = (state) => {
+        if (state) {
+            return (
+                <div className="alert alert-success" >
+                    Disponible
+                </div>
+            )
+        }else{
+            return (
+                <div className="alert alert-danger" >
+                    Agotado
+                </div>
+            )
+        }
+    }
     return (
-        <>
-            <div className="container mt-3">
-                <table className="table table-hover">
-                    <thead>
-                        <tr className="table-warning ">
-                            <th scope="col-md-3">Name Categoy</th>
-                            <th scope="col">Name Articles</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity In Stock</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">Number Of Order</th>
-                            {/* <th scope="col">Spent</th> */}
-                            <th scope="col">Delet/Edit/Create</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            product && product.map(item => (
-                                <tr key={item._id} className="table-active">
-                                    <td >{item.nameCategory}</td>
-                                    <td >{item.name}</td>
-                                    <td >{item.description}</td>
-                                    <td >{item.price}</td>
-                                    <td >{item.quantityInStock}</td>
-                                    <td >{item.urlImg}</td>
-                                    <td >Empty</td>
-                                    {/* <td >{item.spent}</td> */}
-                                    <td >
-                                        <i className="bi bi-bag-plus-fill"></i>
-                                        <button className="btn btn-xs btn-success">Add</button>
-                                        <button className="btn btn-xs btn-info">Edit</button>
-                                        <button className="btn btn-xs btn-danger">Delete</button>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-12 col-md-12 mt-2">
+                    <table className="table table-hover">
+                        <thead>
+                            <tr className="table-info">
+                            <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Name Category</th>
+                                <th scope="col" >Quantity In Stock</th>
+                                <th scope="col">Spent</th>
+                                <th scope="col" >Url Imagen</th>
+                                <th scope="col" >Edit/Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                product && product.map((item, i )=> (
+                                    <tr key={item._id} className="table-active">
+                                        <th scope="row">{i + 1}</th>
+                                        <td>{item.name}</td>
+                                        <td>{item.description}</td>
+                                        <td>{item.price}</td>
+                                        <td>{item.nameCategory}</td>
+                                        <td>{item.quantityInStock}</td>
+                                        <td>{getState(item.spent)  }</td>
+                                        <td > <img src={item.urlImg} width="80px" className="img-fluid" /></td>
+                                        <td>
+                                            <Link to={`/admin/product/edit/${item._id}`} className="btn btn-outline-info btn-sm btn-block">Edit</Link>
+                                            <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </>
+        </div>
     )
 }

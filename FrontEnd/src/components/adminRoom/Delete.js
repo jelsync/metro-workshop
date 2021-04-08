@@ -12,10 +12,10 @@ export const Delete = () => {
         });
         const body = await resp.json();
 
-        if (body.ok) {
-            console.log('Eliminado');
-            Swal.fire('Error', body );
-        }
+        // if (body.ok) {
+        //     // console.log('Eliminado');
+        //     Swal.fire('Elimiado', body );
+        // }
     }    
 
     // const deleteClient = async () => {
@@ -25,12 +25,12 @@ export const Delete = () => {
     //     const body = await resp.json();
     // }    
 
-    // deleteClient();
+    deleteProduct();
     return (
         <div>
             <h1>Eliminado</h1>
 
-            <button onClick={deleteProduct} >Eliminar</button>
+            {/* <button onClick={deleteProduct} >Eliminar</button> */}
         </div>
     )
 }

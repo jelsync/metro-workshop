@@ -74,7 +74,6 @@ export const AdminRoomScreen = () => {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
 
