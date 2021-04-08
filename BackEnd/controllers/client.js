@@ -44,47 +44,72 @@ const createClient = async (req, res = response) => {
 const getClients = (req, res = response) => {
 
     ClientModel.find().then(clients => {
-        res.send(clients);
+        res.json({
+            ok: true,
+            clients
+        });
         res.end();
     })
 }
 
 const getClient = (req, res = response) => {
     ClientModel.findOne({ uid: req.params.id }).then(client => {
-        res.send(client);
+        res.json({
+            ok: true,
+            client
+        });
         res.end();
     })
 }
 
 const getProducts = (req, res = response) => {//GET COMPRAS
-    ClientModel.findOne({ _id: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
+    ClientModel.findOne({ id: req.params.uid }, { buy: true }).then(products => {
+        // ClientModel.findOne({ uid: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
         res.send(products);
         res.end();
     })
 }
 
 const addProduct = (req, res = response) => {
-    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
+    // let id = req.body._id;
+    let body = req.body;
+    // console.log(id);
+    ClientModel.updateOne({ id: req.params.uid }, {
+        // ClientModel.updateOne({ id: mongoose.Types.ObjectId(req.params.id) }, {
+            // ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
         $push: {
             buy: {
-                name: req.body.name,
-                price: req.body.price
+                id: body._id,
+                name: body.name,
+                nameCategory: body.nameCategory,
+                description: body.description,
+                quantityInStock: body.quantityInStock,
+                urlImg: body.urlImg,
+                spent: body.spent,
+                price: body.price
             }
         }
     }).then(result => {
 
         if (result.nModified == 1) {
-            return res.send({ ok: true });
+            return res.send({ 
+                ok: true,
+                uid: ClientModel._id });
         }
         return res.send({ ok: false });
     })
 }
 
 const deleteProduct = (req, res = response) => {
-    ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
+    let id = req.params.uid;
+    let id2 = req.params.idProduct;
+    console.log(`Usuario ${id}`);
+    console.log(`Producto ${id2}`);
+    ClientModel.updateOne({ _id: req.params.uid }, {
+        // ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
         $pull: {
             buy: {
-                _id: mongoose.Types.ObjectId(req.params.idProduct)
+                id: req.params.idProduct
             }
         }
     }).then(result => {
@@ -118,16 +143,16 @@ const updateClient = (req, res = response) => {
 
 const deleteClient = (req, res = response) => {
 
-    ClientModel.deleteOne({_id: mongoose.Types.ObjectId(req.params.id) } ).then(result => {
+    ClientModel.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(result => {
 
         if (result.deletedCount == 1) {
-            res.send({ok: true});
+            res.send({ ok: true });
             res.end();
-        }else{
-            res.send({ok: false});
-            res.end(); 
+        } else {
+            res.send({ ok: false });
+            res.end();
         }
-        
+
     })
 }
 

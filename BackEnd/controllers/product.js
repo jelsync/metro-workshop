@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const createProduct = (req, res = response) => {
 
     let product = new ProductModel(req.body);
-
+    console.log(product);
     product.save().then(product => {
         res.send(product);
         res.end();
