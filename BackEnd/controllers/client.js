@@ -101,11 +101,11 @@ const addProduct = (req, res = response) => {
 }
 
 const deleteProduct = (req, res = response) => {
-    let id = req.params.uid;
+    let id = req.params.id;
     let id2 = req.params.idProduct;
     console.log(`Usuario ${id}`);
     console.log(`Producto ${id2}`);
-    ClientModel.updateOne({ _id: req.params.uid }, {
+    ClientModel.updateOne({ uid: req.params.id }, {
         // ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
         $pull: {
             buy: {

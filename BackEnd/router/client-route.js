@@ -14,7 +14,7 @@ router.put('/:id/products', addProduct); // api/client/iudusario/products
 
 router.get('/:id/products', getProducts); // api/client/idUsuario/products/
 
-router.delete('/:id', deleteClient); // api/client/idUsuario/products/
+router.delete('/:id', deleteClient); // api/client/idUsuario/
 
 router.put('/:id/products/:idProduct', deleteProduct); // api/client/idUsuario/products/:idProducto
 
