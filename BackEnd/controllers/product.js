@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const createProduct = async (req, res = response) => {
 
     let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
-    let client = await ClientModel.findOne({ _id: req.body.clientId }, {});
+    // let client = await ClientModel.findOne({ _id: req.body.clientId }, {});
 
     let newProduct = new ProductModel({
         name: req.body.name,
@@ -18,19 +18,19 @@ const createProduct = async (req, res = response) => {
         urlImg: req.body.urlImg,
         spent: req.body.spent,
         category: category.name,
-        client: client.name
+        amount: req.body.amount
     });
     await newProduct.save();
 
     res.send(newProduct);
 }
 
-const getProducts = (req, res = response) => {
+const getProducts = async (req, res = response) => {
 
     ProductModel.find().then(products => {
-        res.send(products);
-        res.end();
-    })
+            res.json({ products });
+            res.end();
+    });
 }
 
 const getProduct = (req, res = response) => {
@@ -63,6 +63,7 @@ const updateProduct = async (req, res = response) => {
             quantityInStock: body.quantityInStock,
             urlImg: body.urlImg,
             spent: body.spent,
+            amount: req.body.amount,
 
         }).then(product => {
             res.send(product);
@@ -72,11 +73,9 @@ const updateProduct = async (req, res = response) => {
 
 const addCategory = (req, res) => {
     let body = req.body;
-    // let id = mongoose.Types.ObjectId(req.params.id)
+
     console.log(body);
     ProductModel.updateOne({ id: req.params.id }, {
-        // ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
-        // ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
         $push: {
             category: {
                 // id: mongoose.Types.ObjectId(req.body.id),

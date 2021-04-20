@@ -1,6 +1,9 @@
 const { response } = require('express');
+const CategoryModel = require('../models/category');
 const ClientModel = require('../models/client');
+const ProductModel = require('../models/product');
 const mongoose = require('mongoose');
+const product = require('../models/product');
 
 
 const createClient = async (req, res = response) => {
@@ -63,53 +66,115 @@ const getClient = (req, res = response) => {
 }
 
 const getProducts = (req, res = response) => {//GET COMPRAS
-    ClientModel.findOne({ id: req.params.uid }, { buy: true }).then(products => {
+    ClientModel.findOne({ uid: req.params.id }, { buy: true }).then(products => {
         // ClientModel.findOne({ uid: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
         res.send(products);
         res.end();
     })
 }
 
-const addProduct = (req, res = response) => {
-    // let id = req.body._id;
+const addProduct = async (req, res = response) => {
     let body = req.body;
-    // console.log(id);
-    ClientModel.updateOne({ id: req.params.uid }, {
-        // ClientModel.updateOne({ id: mongoose.Types.ObjectId(req.params.id) }, {
-            // ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
-        $push: {
-            buy: {
-                id: body._id,
-                name: body.name,
-                nameCategory: body.nameCategory,
-                description: body.description,
-                quantityInStock: body.quantityInStock,
-                urlImg: body.urlImg,
-                spent: body.spent,
-                price: body.price
-            }
-        }
-    }).then(result => {
+    let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
+    let product = await ProductModel.findOne({ _id: req.body.productId }, {});
+    let client = await ClientModel.findOne({ uid: req.params.id }, { buy: true });
 
-        if (result.nModified == 1) {
-            return res.send({ 
-                ok: true,
-                uid: ClientModel._id });
-        }
-        return res.send({ ok: false });
-    })
+    let { buy } = client;
+
+    if (product.quantityInStock <= 0) {
+        await ProductModel.updateOne({ _id: req.body.productId }, {
+            spent: product.spent = false
+        }).then(result => {
+            if (result.nModified == 1) {
+                return res.send({
+                    ok: true,
+                    mgs: 'Product Spent'
+                });
+            }
+            return res.send({ ok: false });
+        })
+    }
+    let idBuy = buy.find(el => el._id == req.body.productId);
+    if (idBuy == undefined) {
+        await ProductModel.updateOne({ _id: req.body.productId }, {
+            quantityInStock: product.quantityInStock - 1
+        });
+
+        await ClientModel.updateOne({ uid: req.params.id }, {
+            $push: {
+                buy: {
+                    _id: body.productId, // _id: mongoose.Types.ObjectId()//
+                    name: body.name,
+                    category: category.name,
+                    description: body.description,
+                    urlImg: body.urlImg,
+                    price: parseInt(body.price),
+                    amount: parseInt(body.amount)
+                }
+            }
+        }).then(result => {
+            if (result.nModified == 1) {
+                return res.send({
+                    ok: true,
+                    uid: ClientModel._id
+                });
+            }
+            return res.send({ ok: false });
+        })
+    } else {
+        // let idBuy = buy.find(el => el._id == req.body.productId);
+        // if (product._id && idBuy._id) {
+        let bi = buy.filter(idBuy = (elemento) => {
+            if (elemento._id == product._id) {
+                let newAmount = elemento.amount += 1;
+                let newPrice = elemento.price * newAmount;//No lo actualiza
+                console.log(newPrice);
+                return elemento._id;
+            }
+        });
+        await ProductModel.updateOne({ _id: req.body.productId }, {
+            quantityInStock: product.quantityInStock - 1
+        });
+        await ClientModel.updateOne({ uid: req.params.id }, {
+            $pull: {
+                buy:
+                {
+                    _id: body.productId
+                }
+            }
+        });
+        await ClientModel.updateOne({ uid: req.params.id }, {
+            $push: {
+                buy: bi
+                //  {
+                //     _id: body.productId,
+                //     name: body.name,
+                //     category: category.name,
+                //     description: body.description,
+                //     urlImg: body.urlImg,
+                //     price: parseInt(product.price),
+                //     amount: parseInt(product.amount)
+                // }
+            }
+        }).then(result => {
+            if (result.nModified == 1) {
+                return res.send({
+                    ok: true,
+                    mss: 'Added'
+                });
+            }
+            return res.send({ ok: false });
+        })
+    }
+
 }
 
 const deleteProduct = (req, res = response) => {
-    let id = req.params.id;
-    let id2 = req.params.idProduct;
-    console.log(`Usuario ${id}`);
-    console.log(`Producto ${id2}`);
     ClientModel.updateOne({ uid: req.params.id }, {
         // ClientModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) }, {
         $pull: {
             buy: {
-                id: req.params.idProduct
+                _id: req.params.idProduct
             }
         }
     }).then(result => {

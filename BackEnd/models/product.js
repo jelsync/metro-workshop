@@ -8,7 +8,8 @@ const schema = new Schema({
     urlImg: String,
     spent: Boolean,
     category: String,
-    client: String
+    amount: Number
+    // client: String
 });
 
 module.exports = model('Product', schema);
