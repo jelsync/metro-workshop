@@ -14,7 +14,7 @@ const createProduct = async (req, res = response) => {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
-        quantityInStock: req.body.quantityInStock,
+        quantityInStock: parseInt(req.body.quantityInStock),
         urlImg: req.body.urlImg,
         spent: req.body.spent,
         category: category.name,
@@ -31,6 +31,14 @@ const getProducts = async (req, res = response) => {
             res.json({ products });
             res.end();
     });
+}
+
+const getProductCategory = async (req, res = response) => {
+    let category = await CategoryModel.findOne({ _id: req.params.categoryId }, {});
+    ProductModel.find({ category: category.name}).then(product => {
+        res.send(product);
+        res.end();
+    })
 }
 
 const getProduct = (req, res = response) => {
@@ -102,5 +110,6 @@ module.exports = {
     getProducts,
     deleteProduct,
     updateProduct,
-    addCategory
+    addCategory,
+    getProductCategory
 }

@@ -80,8 +80,9 @@ const addProduct = async (req, res = response) => {
     let client = await ClientModel.findOne({ uid: req.params.id }, { buy: true });
 
     let { buy } = client;
-
-    if (product.quantityInStock <= 0) {
+    // console.log(req.body.quantityInStock);
+    if (body.quantityInStock == 0) {
+        // if (product.quantityInStock == 0) {
         await ProductModel.updateOne({ _id: req.body.productId }, {
             spent: product.spent = false
         }).then(result => {
@@ -95,9 +96,11 @@ const addProduct = async (req, res = response) => {
         })
     }
     let idBuy = buy.find(el => el._id == req.body.productId);
+    console.log(idBuy);
     if (idBuy == undefined) {
         await ProductModel.updateOne({ _id: req.body.productId }, {
-            quantityInStock: product.quantityInStock - 1
+            quantityInStock: body.quantityInStock - 1
+            // quantityInStock: product.quantityInStock - 1
         });
 
         await ClientModel.updateOne({ uid: req.params.id }, {
@@ -106,7 +109,9 @@ const addProduct = async (req, res = response) => {
                     _id: body.productId, // _id: mongoose.Types.ObjectId()//
                     name: body.name,
                     category: category.name,
+                    category: categoryId,
                     description: body.description,
+                    quantityInStock: parseInt(body.quantityInStock),
                     urlImg: body.urlImg,
                     price: parseInt(body.price),
                     amount: parseInt(body.amount)
@@ -121,14 +126,15 @@ const addProduct = async (req, res = response) => {
             }
             return res.send({ ok: false });
         })
-    } else {
-        // let idBuy = buy.find(el => el._id == req.body.productId);
+    } 
+    else {
+        let idBuy = buy.find(el => el._id == req.body.productId);
+        console.log(idBuy);
         // if (product._id && idBuy._id) {
         let bi = buy.filter(idBuy = (elemento) => {
             if (elemento._id == product._id) {
                 let newAmount = elemento.amount += 1;
                 let newPrice = elemento.price * newAmount;//No lo actualiza
-                console.log(newPrice);
                 return elemento._id;
             }
         });
@@ -156,7 +162,8 @@ const addProduct = async (req, res = response) => {
                 //     amount: parseInt(product.amount)
                 // }
             }
-        }).then(result => {
+        })
+        .then(result => {
             if (result.nModified == 1) {
                 return res.send({
                     ok: true,
