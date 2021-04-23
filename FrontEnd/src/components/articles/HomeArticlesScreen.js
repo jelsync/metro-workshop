@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-
 export const HomeArticlesScreen = ({ history }) => {
     const uid = JSON.parse(localStorage.getItem('uid'));
     // console.log(uid);
 
     const [products, setProducts] = useState([]);
-    // console.log(products);
+    const [categories, setCategories] = useState([]);
+    // let [_id] = products;
+    // let { category: categoryId } = _id;
+    var productsFront = products.map(item => {
+        // console.log(item.category);
+        return {
+            ...item,
+            categoryId: item.category
+        };
+    });
 
     const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}`);
@@ -15,11 +23,17 @@ export const HomeArticlesScreen = ({ history }) => {
         // setBody(body);
     }
 
+    const getCategories = async () => {
+        const resp = await fetch(`http://localhost:4000/api/category`);
+        const body = await resp.json();
+        setCategories(body);
+        // console.log(body);
+    }
     const getProducts = async () => {
         const resp = await fetch(`http://localhost:4000/api/product`);
         const body = await resp.json();
-        setProducts(body);
-        // console.log(body);
+        setProducts(body.products);
+        // console.log(body.products);
     }
 
     const buy = async (product) => {
@@ -30,8 +44,7 @@ export const HomeArticlesScreen = ({ history }) => {
             },
             body: JSON.stringify(product),
         });
-        // const data = await resp.json();
-        // console.log(data)
+        const data = await resp.json();
 
     }
 
@@ -44,6 +57,8 @@ export const HomeArticlesScreen = ({ history }) => {
 
     useEffect(() => {
         // getClient();
+        getCategories();
+        // getIdCategory();
         getProducts();
 
     }, [])
@@ -74,9 +89,34 @@ export const HomeArticlesScreen = ({ history }) => {
 
 
     // const {name} = body;
-    const handleBuy = () => {
+    const handleInfo = () => {
         history.push('/BuyScreen');
         // JSON.parse(localStorage.getItem('user', JSON.stringify ({email, name})));
+    }
+
+    const getState = (state) => {
+        if (state) {
+            return (
+                <button className="btn btn-success" >
+                    Buy
+                </button>
+            )
+        } else {
+            return (
+                <button className="btn btn-secondary" disabled>
+                    Spent
+                </button>
+            )
+        }
+    }
+
+    const getIdCategory = (name) => {
+        categories.map(item => {
+            if (name === item.name) {
+                // console.log(item._id);
+                return item._id;
+            }
+        })
     }
     return (
         <>
@@ -97,19 +137,22 @@ export const HomeArticlesScreen = ({ history }) => {
             <div className="container mt-4">
                 <div className="row justify-content-md-center">
                     {
-                        products.map((item) => {
+                        productsFront.map((item) => {
+                            // getIdCategory(item.categoryId);
+                            // console.log(item.categoryId);
                             return (
                                 <div key={item._id} className="col-md-3 m-1 text-dark" >
                                     <div className="col home-area m-1">
                                         <div className="card">
                                             <div className="card-body">
                                                 <h4 className="card-title">{item.name}</h4>
-                                                <img src={item.urlImg} width="400px" className="img-fluid"/>
+                                                <img src={item.urlImg} width="400px" className="img-fluid" />
                                                 <hr />
-                                                <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>
-                                                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <button type="button" className="btn btn-link" onClick={handleBuy}>More info</button>
-                                                <button type="button" className="btn btn-success btn-sm" onClick={() => buy(item)}>Buy</button>
+                                                <h6 className="card-subtitle mb-2">Price: {item.price}</h6>
+                                                <h6 className="card-subtitle mb-2 text-muted">Category: {item.categoryId}</h6>
+                                                <p className="card-text">{item.description}</p>
+                                                <button type="button" className="btn btn-link" onClick={handleInfo}>More info</button>
+                                                <div onClick={() => buy(item)}>{getState(item.spent)}</div>
                                             </div>
                                         </div>
                                     </div>

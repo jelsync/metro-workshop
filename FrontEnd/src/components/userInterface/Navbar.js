@@ -8,7 +8,7 @@ import { types } from '../../types/types';
 export const Navbar = () => {
     const { dispatch } = useContext(AuthContext);
     const history = useHistory();
-    
+
     const id = JSON.parse(localStorage.getItem('uid'));
     // console.log(id);
 
@@ -20,18 +20,33 @@ export const Navbar = () => {
     }
 
     const [body, setBody] = useState(getClient)
+    const [category, setCategory] = useState([])
 
-    const {name} = body;
+    const { name } = body;
     // console.log(body);
 
-    const handleLogout = () =>{
+    const handleLogout = () => {
         history.replace('/login');
         LogOutUser();
         dispatch({
             type: types.logout
         });
-
     }
+
+    const getCategory = async () => {
+        const resp = await fetch(`http://localhost:4000/api/category`);
+        const body = await resp.json();
+        setCategory(body);
+    }
+
+    useEffect(() => {
+        getCategory();
+    }, [])
+
+    const getIdCategory = (idcategory) =>{
+        console.log(idcategory);
+    }
+
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
             <div className="container">
@@ -48,16 +63,19 @@ export const Navbar = () => {
                                 Home
                             </h4>
                         </Link>
-                        <Link to="/KitchenScreen" className="nav-link" >
-                            <h4>
-                                Kitchen
-                            </h4>
-                        </Link>
-                        <Link to="/RoomScreen" className="nav-link" >
-                            <h4>
-                                Room
-                            </h4>
-                        </Link>
+                        {
+                            category.map((item) => {
+                                return (
+                                    <div>
+                                        <h4>
+                                            <Link to={`/CategoryScreen/${item._id}`} className="nav-link" key={item._id} >
+                                                {item.name}
+                                            </Link>
+                                        </h4>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     <div className="d-flex justify-content-end w-100">
                         <ul className="navbar-nav">
@@ -76,6 +94,6 @@ export const Navbar = () => {
                     </div>
                 </div>
             </div>
-        </nav>   
+        </nav>
     )
 }
