@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 export const AdminCategoryScreen = () => {
     useEffect(() => {
         getProductCategory();
-    }, []);
+    });
     
     let { id } = useParams();
     // let v = localStorage.setItem('idCate', JSON.stringify(id));
@@ -62,7 +62,7 @@ export const AdminCategoryScreen = () => {
                                         <td>{item.category}</td>
                                         <td>{item.quantityInStock}</td>
                                         <td>{getState(item.spent)}</td>
-                                        <td > <img src={item.urlImg} width="80px" className="img-fluid" /></td>
+                                        <td > <img src={item.urlImg} width="80px" className="img-fluid" alt="img"/></td>
                                         <td>
                                             <Link to={`/admin/product/edit/${item._id}`} className="btn btn-outline-info btn-sm btn-block">Edit</Link>
                                             <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link>

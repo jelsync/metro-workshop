@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { firebase } from '../../firebase/firebase-config';
+// import { firebase } from '../../firebase/firebase-config';
 import { AuthContext } from '../../auth/AuthContext';
 import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
@@ -47,7 +47,7 @@ export const Navbar = () => {
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
             <div className="container">
                 <Link to="/" className="navbar-brand">
-                    <img src={'./assets/img/1.png'} style={{ width: 70, marginTop: -7 }} alt="..." />
+                    <img src={'./assets/img/1.png'} style={{ width: 70, marginTop: -7 }} alt="MetroShop" />
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -62,7 +62,7 @@ export const Navbar = () => {
                         {
                             category.map((item) => {
                                 return (
-                                    <div>
+                                    <div key={item._id}>
                                         <h4>
                                             <Link to={`/CategoryScreen/${item._id}`} className="nav-link" key={item._id} >
                                                 {item.name}

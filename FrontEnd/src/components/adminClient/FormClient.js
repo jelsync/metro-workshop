@@ -14,7 +14,7 @@ export const FormClient = () => {
 
     useEffect(() => {
         getClient();
-    }, [])
+    })
 
     const [values, handleInputChange, loadDataForm, reset] = useForm({
         name: '',

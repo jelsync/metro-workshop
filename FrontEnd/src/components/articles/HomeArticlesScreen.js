@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export const HomeArticlesScreen = ({ history }) => {
     const uid = JSON.parse(localStorage.getItem('uid'));
@@ -37,6 +38,13 @@ export const HomeArticlesScreen = ({ history }) => {
     }
 
     const buy = async (product) => {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Product removed',
+            showConfirmButton: false,
+            timer: 1500
+          })
         const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
             method: 'PUT',
             headers: {
@@ -109,15 +117,6 @@ export const HomeArticlesScreen = ({ history }) => {
             )
         }
     }
-
-    const getIdCategory = (name) => {
-        categories.map(item => {
-            if (name === item.name) {
-                // console.log(item._id);
-                return item._id;
-            }
-        })
-    }
     return (
         <>
             <div className="carousel slide" data-bs-ride="carousel">
@@ -133,7 +132,7 @@ export const HomeArticlesScreen = ({ history }) => {
                     </div>
                 </div>
             </div>
-            <Link to="/ProductScreen" className="btn btn-link" >My Product</Link>
+            <Link to="/ProductScreen" className="btn btn-dark m-3" >My Product</Link>
             <div className="container mt-4">
                 <div className="row justify-content-md-center">
                     {

@@ -1,11 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { useCounter } from '../hooks/useCounter'
 
 export const BuyScreen = () => {
 
     const { counter, increment, decrement } = useCounter();
     
-    let bol = !true ;      
     return (
         <>
             <div className="container">
@@ -24,7 +24,9 @@ export const BuyScreen = () => {
                                 <button className='btn btn-secondary btn-others' onClick={decrement}> - </button>
                                 <button className='btn btn-secondary btn-others' onClick={increment}> + </button>
                             </div>
-                            <button type="button" className="btn btn-link" disabled={bol}>Buy</button>
+                            <button type="button" className="btn btn-link" >Buy</button>
+                            <Link to="/" type="button" className="btn btn-outline-danger btn-sm btn-block">Back</Link>
+
                         </div>
                     </div>
                 </div>

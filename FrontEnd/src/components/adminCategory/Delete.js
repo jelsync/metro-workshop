@@ -1,7 +1,5 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
-import Swal from 'sweetalert2'
-
 
 export const Delete = () => {
     const { id } = useParams();
@@ -30,8 +28,6 @@ export const Delete = () => {
     return (
         <div>
             <h1>Eliminado</h1>
-
-            {/* <button onClick={deleteProduct} >Eliminar</button> */}
         </div>
     )
 }

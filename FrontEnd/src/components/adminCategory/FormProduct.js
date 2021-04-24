@@ -19,7 +19,7 @@ export const FormProduct = () => {
     useEffect(() => {
         getProduct();
         getCategory();
-    }, [])
+    })
 
     const [values, handleInputChange, loadDataForm, reset] = useForm({
         name: '',
