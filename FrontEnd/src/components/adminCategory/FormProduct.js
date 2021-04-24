@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 
 import { useParams } from "react-router-dom";
 import { useForm } from '../hooks/useForm';
 
 export const FormProduct = () => {
+    // const categoryId = JSON.parse(localStorage.getItem('idCate'));
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,37 +14,42 @@ export const FormProduct = () => {
     }
 
     const { id } = useParams();
+    // console.log(id);
 
     useEffect(() => {
         getProduct();
+        getCategory();
     }, [])
 
     const [values, handleInputChange, loadDataForm, reset] = useForm({
         name: '',
-        nameCategory: '',
+        category: '',
         description: '',
         price: '',
         quantityInStock: '',
         urlImg: '',
         spent: ''
     });
-    const { name, nameCategory, description, price, quantityInStock, urlImg, spent } = values;
+    const { name, category, description, price, quantityInStock, urlImg, spent} = values;
 
-
+    // console.log(values);
     const getProduct = async () => {
         // console.log(id);
         const resp = await fetch(`http://localhost:4000/api/product/${id}`);
         const body = await resp.json();
         // const {name} = !!body && body[0];
         loadDataForm(body);
+        // console.log(body);
     }
 
+    const [categories, setCategories] = useState()
     const getCategory = async () => {
         // console.log(id);
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`);
+        const resp = await fetch(`http://localhost:4000/api/category`);
         const body = await resp.json();
         // const {name} = !!body && body[0];
-        loadDataForm(body);
+        setCategories(body);
+        // console.log(body);
     }
 
     const editProduct = async () => {
@@ -67,9 +73,10 @@ export const FormProduct = () => {
     return (
         <>
             <div className="container">
-                {/* <div className="row justify-content-md-center"> */}
-                <div className="col col-lg-6 col-md-8 col-sm-11">
-                    {/* <div className="box"> */}
+                <div className="row justify-content-md-center">
+                    <div className="login-area col col-lg-6 col-md-8 col-sm-11">
+                {/* <div className="col col-lg-6 col-md-8 col-sm-11"> */}
+                    <div className="box">
                     <form onSubmit={handleSubmit}>
                         <fieldset>
                             <legend>Edit a Product</legend>
@@ -119,20 +126,20 @@ export const FormProduct = () => {
                             </div>
                             <div className="form-group">
                                 <label>Name Category</label>
-                                <select 
-                                // value={nameCategory} 
-                                onChange={handleInputChange}
-                                className="form-control form-control-sm"
-                                >
-                                    <option value={nameCategory}>{nameCategory}</option>
-                                </select>
-                                {/* <input
+                                <select
+                                    name="category"
+                                    className="form-control form-control-sm"
+                                    value={category}
                                     onChange={handleInputChange}
-                                    type="text"
-                                    name="nameCategory"
-                                    placeholder="Name Category..."
-                                    value={nameCategory}
-                                /> */}
+                                >
+                                    {
+                                        categories && categories.map((item) => {
+                                            return(
+                                                <option key={item._id} value={item.name}>{item.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
                             </div>
                             <div className="form-group">
                                 <label>Quantity In Stock</label>
@@ -161,8 +168,8 @@ export const FormProduct = () => {
                             <Link to="/admin/AdminRoom" type="button" className="btn btn-outline-danger btn-sm">Back</Link>
                         </fieldset>
                     </form>
-                    {/* </div> */}
-                    {/* </div> */}
+                    </div>
+                    </div>
                 </div>
             </div>
         </>

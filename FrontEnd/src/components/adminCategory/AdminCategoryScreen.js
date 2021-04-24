@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
-export const AdminKitchenScreen = () => {
-    const [product, setProduct] = useState(null || []);
-
+export const AdminCategoryScreen = () => {
     useEffect(() => {
-        getPoduct();
+        getProductCategory();
     }, []);
-
-    const getPoduct = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product`);
+    
+    let { id } = useParams();
+    // let v = localStorage.setItem('idCate', JSON.stringify(id));
+    const [category, setCategory] = useState();
+    
+    const getProductCategory = async () => {
+        const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
         const body = await resp.json();
-        setProduct(body);
+        setCategory(body);
     }
-
     const getState = (state) => {
         if (state) {
             return (
@@ -21,7 +22,7 @@ export const AdminKitchenScreen = () => {
                     Disponible
                 </div>
             )
-        }else{
+        } else {
             return (
                 <div className="alert alert-danger" >
                     Agotado
@@ -29,14 +30,16 @@ export const AdminKitchenScreen = () => {
             )
         }
     }
+
     return (
         <div className="container">
             <div className="row">
+            <Link to={`/admin/createProduct`} className="btn btn-outline-info btn-sm btn-block">Crear New Product</Link>
                 <div className="col-lg-12 col-md-12 mt-2">
                     <table className="table table-hover">
                         <thead>
-                            <tr className="table-info">
-                            <th scope="col">#</th>
+                            <tr className="table-info ">
+                                <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Price</th>
@@ -49,15 +52,16 @@ export const AdminKitchenScreen = () => {
                         </thead>
                         <tbody>
                             {
-                                product && product.map((item, i )=> (
-                                    <tr key={item._id} className="table-active">
+                                category && category.map((item, i) => (
+                                    // category.map((item, i) => (
+                                    <tr key={item._id}>
                                         <th scope="row">{i + 1}</th>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
                                         <td>{item.price}</td>
-                                        <td>{item.nameCategory}</td>
+                                        <td>{item.category}</td>
                                         <td>{item.quantityInStock}</td>
-                                        <td>{getState(item.spent)  }</td>
+                                        <td>{getState(item.spent)}</td>
                                         <td > <img src={item.urlImg} width="80px" className="img-fluid" /></td>
                                         <td>
                                             <Link to={`/admin/product/edit/${item._id}`} className="btn btn-outline-info btn-sm btn-block">Edit</Link>
@@ -71,5 +75,6 @@ export const AdminKitchenScreen = () => {
                 </div>
             </div>
         </div>
+
     )
 }

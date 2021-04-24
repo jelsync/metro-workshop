@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 
 export const NewProduct = () => {
+    useEffect(() => {
+        // getProduct();
+        getCategory();
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,16 +17,17 @@ export const NewProduct = () => {
 
     const [values, handleInputChange, reset] = useForm({
         name: '',
-        nameCategory: '',
+        category: '',
         description: '',
         price: '',
         quantityInStock: '',
         urlImg: '',
-        spent: ''
+        spent: '',
+        amount: ''
     });
 
-    const { name, nameCategory, description, price, quantityInStock, urlImg, spent } = values;
-    console.log(name);
+    const { name, category, description, price, quantityInStock, urlImg, spent, amount } = values;
+    // console.log(name);
 
     const createProduct = async () => {
         const resp = await fetch(`http://localhost:4000/api/product`, {
@@ -31,12 +36,21 @@ export const NewProduct = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                
             }),
         });
 
         const body = await resp.json();
         console.log(body);
+    }
+
+    const [categories, setCategories] = useState();
+    const getCategory = async () => {
+        // console.log(id);
+        const resp = await fetch(`http://localhost:4000/api/category`);
+        const body = await resp.json();
+        // const {name} = !!body && body[0];
+        setCategories(body);
+        // console.log(body);
     }
     return (
         <>
@@ -95,14 +109,20 @@ export const NewProduct = () => {
                                     </div>
                                     <div className="form-group">
                                         <label>Name Category</label>
-                                        <input
-                                            type="text"
-                                            name="nameCategory"
-                                            className="form-control"
-                                            placeholder="Name Category..."
-                                            value={nameCategory}
+                                        <select
+                                            name="category"
+                                            className="form-control form-control-sm"
+                                            value={category}
                                             onChange={handleInputChange}
-                                        />
+                                        >
+                                            {
+                                                categories && categories.map((item) => {
+                                                    return (
+                                                        <option key={item._id} value={item.name}>{item.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
                                     </div>
                                     <div className="form-group">
                                         <label>Quantity In Stock</label>
@@ -112,6 +132,17 @@ export const NewProduct = () => {
                                             className="form-control"
                                             placeholder="Quantity In Stock..."
                                             value={quantityInStock}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Amount</label>
+                                        <input
+                                            type="text"
+                                            name="amount"
+                                            className="form-control"
+                                            placeholder="Amount..."
+                                            value={amount}
                                             onChange={handleInputChange}
                                         />
                                     </div>
@@ -126,8 +157,8 @@ export const NewProduct = () => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Create</button>
-                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-danger">Back</Link>
+                                    <button type="submit" className="btn btn-outline-primary btn-sm btn-block">Create</button>
+                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-outline-danger btn-sm btn-block">Back</Link>
                                 </fieldset>
                             </form>
                         </div>

@@ -6,13 +6,12 @@ import {
 } from "react-router-dom";
 import { AdminClientScreen } from "../components/adminClient/AdminClientScreen";
 import { FormClient } from "../components/adminClient/FormClient";
-import { AdminKitchenScreen } from "../components/adminKitchen/AdminKitchenScreen";
-import { AdminRoomScreen } from "../components/adminRoom/AdminRoomScreen";
-import { Delete } from "../components/adminRoom/Delete";
+import { AdminCategoryScreen} from "../components/adminCategory/AdminCategoryScreen";
+import { Delete } from "../components/adminCategory/Delete";
 
-import { FormProduct } from "../components/adminRoom/FormProduct";
-import { NewProduct } from "../components/adminRoom/NewProduct";
-import { Sidebar } from "../components/Sidebar";
+import { FormProduct } from "../components/adminCategory/FormProduct";
+import { NewProduct } from "../components/adminCategory/NewProduct";
+import { Sidebar } from "../components/userInterface/Sidebar";
 import { NavbarAdmin } from "../components/userInterface/NavbarAdmin";
 import '../styles/simple-sidebar.css';
 
@@ -24,17 +23,14 @@ export const AdminRouter = () => {
                 <NavbarAdmin/>
                 <div className="container" >
                     <Switch>
-                        <Route exact path="/admin/adminRoom" component={AdminRoomScreen} />
+                        <Route exact path="/admin/AdminCategoryScreen/:id" component={AdminCategoryScreen} />
                         <Route exact path="/admin/product/edit/:id" component={FormProduct} />
                         <Route path="/admin/delete/:id" component={Delete} />
                         <Route exact path="/admin/createProduct" component={NewProduct} />
-
-                        <Route exact path="/admin/kitchen" component={AdminKitchenScreen} />
-
                         <Route exact path="/admin/client" component={AdminClientScreen} />
                         <Route exact path="/admin/client/edit/:id" component={FormClient} />
 
-                        <Redirect to="/admin/adminRoom" />
+                        <Redirect to="/admin/client" />
                     </Switch>
                 </div>
             </div>

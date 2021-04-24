@@ -15,7 +15,6 @@ export const NavbarAdmin = () => {
             type: types.logout
         });
     }
-
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 

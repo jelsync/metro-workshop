@@ -43,10 +43,6 @@ export const Navbar = () => {
         getCategory();
     }, [])
 
-    const getIdCategory = (idcategory) =>{
-        console.log(idcategory);
-    }
-
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
             <div className="container">

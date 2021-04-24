@@ -1,14 +1,14 @@
 .login-area{
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(1, 146, 243, 0.068); 
     border:1px; 
-    border-color:#ffffff;
+    border-color:#9397ac;
     border-style: solid;
     padding:50px;
     margin:50px;
     border-radius: 5%;
 }
 .box{
-    color:#ffffff; 
+    color:#4a9494; 
 }
 
 .home-area{
