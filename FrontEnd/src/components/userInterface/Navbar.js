@@ -23,7 +23,6 @@ export const Navbar = () => {
     const [category, setCategory] = useState([])
 
     const { name } = body;
-    // console.log(body);
 
     const handleLogout = () => {
         history.replace('/login');
@@ -41,13 +40,13 @@ export const Navbar = () => {
 
     useEffect(() => {
         getCategory();
-    }, [])
+    });
 
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
             <div className="container">
                 <Link to="/" className="navbar-brand">
-                    <img src={'./assets/img/1.png'} style={{ width: 70, marginTop: -7 }} alt="MetroShop" />
+                    <img src={'/assets/img/1.png'} style={{ width: 70, marginTop: -7 }} alt="MetroShop" />
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

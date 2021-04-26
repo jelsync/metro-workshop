@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 export const HomeArticlesScreen = ({ history }) => {
     const uid = JSON.parse(localStorage.getItem('uid'));
@@ -44,7 +44,7 @@ export const HomeArticlesScreen = ({ history }) => {
             title: 'Product removed',
             showConfirmButton: false,
             timer: 1500
-          })
+        })
         const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
             method: 'PUT',
             headers: {
@@ -55,20 +55,9 @@ export const HomeArticlesScreen = ({ history }) => {
         const data = await resp.json();
 
     }
-
-
-    // const {_id} = body;
-    // console.log('id Base ' + _id);
-
-    // const uid = JSON.parse(localStorage.getItem('user'));
-    // const id = JSON.parse(localStorage.getItem('body'));
-
     useEffect(() => {
-        // getClient();
         getCategories();
-        // getIdCategory();
         getProducts();
-
     }, [])
 
     // const _id = JSON.parse(localStorage.getItem('body'));
@@ -95,23 +84,16 @@ export const HomeArticlesScreen = ({ history }) => {
 
     // localStorage.setItem('body', JSON.stringify (body._id));
 
-
-    // const {name} = body;
-    const handleInfo = () => {
-        history.push('/BuyScreen');
-        // JSON.parse(localStorage.getItem('user', JSON.stringify ({email, name})));
-    }
-
     const getState = (state) => {
         if (state) {
             return (
-                <button className="btn btn-success" >
+                <button className="btn btn-success btn-block" >
                     Buy
                 </button>
             )
         } else {
             return (
-                <button className="btn btn-secondary" disabled>
+                <button className="btn btn-secondary btn-block" disabled>
                     Spent
                 </button>
             )
@@ -137,20 +119,19 @@ export const HomeArticlesScreen = ({ history }) => {
                 <div className="row justify-content-md-center">
                     {
                         productsFront.map((item) => {
-                            // getIdCategory(item.categoryId);
-                            // console.log(item.categoryId);
                             return (
                                 <div key={item._id} className="col-md-3 m-1 text-dark" >
                                     <div className="col home-area m-1">
                                         <div className="card">
                                             <div className="card-body">
-                                                <h4 className="card-title">{item.name}</h4>
+                                                <h4 className="card-title"><kbd>{item.name}</kbd></h4>
                                                 <img src={item.urlImg} width="400px" className="img-fluid" />
                                                 <hr />
-                                                <h6 className="card-subtitle mb-2">Price: {item.price}</h6>
-                                                <h6 className="card-subtitle mb-2 text-muted">Category: {item.categoryId}</h6>
-                                                <p className="card-text">{item.description}</p>
-                                                <button type="button" className="btn btn-link" onClick={handleInfo}>More info</button>
+                                                <h6 className="card-subtitle mb-2 font-weight-bold text-danger"><font size="4" color="red">P</font><font size="3"></font><font size="4">rice: </font><mark>$ {item.price}</mark></h6>
+                                                <p className="card-text mb-2"><font size="3" color="Navy">Description:</font> {item.description}</p>
+                                                <h6 className="card-text" ><strong>Category: </strong><em>{item.category}</em></h6>
+                                                <Link to={`/BuyScreen/${item._id}`} className="btn btn-link btn-block">More Info</Link>
+                                                {/* <Link to={`/infoProduct`} className="btn btn-link btn-block">More Info</Link> */}
                                                 <div onClick={() => buy(item)}>{getState(item.spent)}</div>
                                             </div>
                                         </div>

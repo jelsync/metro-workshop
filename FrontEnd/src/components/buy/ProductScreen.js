@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 export const ProductScreen = ({ history }) => {
     const uid = JSON.parse(localStorage.getItem('uid'));
 
     const [products, setProduct] = useState([]);
-    // console.log(products);
 
     const getProductClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}/products`);
         const body = await resp.json();
         setProduct(body.buy);
-        // console.log(body._id);
     }
 
     useEffect(() => {
@@ -61,9 +59,9 @@ export const ProductScreen = ({ history }) => {
                                                     <p className="card-text">Amount: {item.amount}</p>
                                                     <hr />
                                                 </div>
-                                                <button onClick={() => deleleProductId(item._id)} className="btn btn-outline-warning btn-sm btn-block">Remover from my list</button>
+                                                <button onClick={() => deleleProductId(item._id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button>
                                                 {/* <Link to={`/delete/${item._id}`} className="btn btn-outline-warning btn-sm btn-block">Remover from my list</Link> */}
-                                                <Link to="/" type="button" className="btn btn-outline-danger btn-sm btn-block">Back</Link>
+                                                <Link to="/" type="button" className="btn btn-danger btn-sm btn-block">Back</Link>
                                             </div>
                                         </div>
                                     )
