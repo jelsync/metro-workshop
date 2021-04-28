@@ -6,7 +6,11 @@ import { useForm } from '../hooks/useForm';
 
 export const FormProduct = () => {
     // const categoryId = JSON.parse(localStorage.getItem('idCate'));
-
+    useEffect(() => {
+        getProduct();
+        getCategory();
+    },[]);
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         editProduct();
@@ -14,12 +18,6 @@ export const FormProduct = () => {
     }
 
     const { id } = useParams();
-    // console.log(id);
-
-    useEffect(() => {
-        getProduct();
-        getCategory();
-    })
 
     const [values, handleInputChange, loadDataForm, reset] = useForm({
         name: '',
@@ -31,25 +29,22 @@ export const FormProduct = () => {
         spent: ''
     });
     const { name, category, description, price, quantityInStock, urlImg, spent} = values;
-
     // console.log(values);
+
     const getProduct = async () => {
-        // console.log(id);
         const resp = await fetch(`http://localhost:4000/api/product/${id}`);
         const body = await resp.json();
         // const {name} = !!body && body[0];
         loadDataForm(body);
-        // console.log(body);
     }
 
     const [categories, setCategories] = useState()
+
     const getCategory = async () => {
-        // console.log(id);
         const resp = await fetch(`http://localhost:4000/api/category`);
         const body = await resp.json();
         // const {name} = !!body && body[0];
         setCategories(body);
-        // console.log(body);
     }
 
     const editProduct = async () => {
@@ -69,6 +64,7 @@ export const FormProduct = () => {
             }),
         });
         const body = await resp.json();
+        console.log(body);
     }
     return (
         <>
@@ -126,10 +122,10 @@ export const FormProduct = () => {
                             </div>
                             <div className="form-group">
                                 <label>Name Category</label>
-                                <select
+                                {/* <select
                                     name="category"
                                     className="form-control form-control-sm"
-                                    value={category}
+                                    // value={category}
                                     onChange={handleInputChange}
                                 >
                                     {
@@ -139,7 +135,7 @@ export const FormProduct = () => {
                                             )
                                         })
                                     }
-                                </select>
+                                </select> */}
                             </div>
                             <div className="form-group">
                                 <label>Quantity In Stock</label>

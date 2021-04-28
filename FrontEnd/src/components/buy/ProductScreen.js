@@ -5,28 +5,30 @@ import Swal from 'sweetalert2';
 export const ProductScreen = ({ history }) => {
     const uid = JSON.parse(localStorage.getItem('uid'));
 
-    const [products, setProduct] = useState([]);
-
     const getProductClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}/products`);
         const body = await resp.json();
         setProduct(body.buy);
     }
-
+    
     useEffect(() => {
         getProductClient();
     }, []);
-
+    
+    const [products, setProduct] = useState([]);
+    
     const deleleProductId = (id) => {
         Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'A purchase has been added',
+            title: 'Product Removed',
             showConfirmButton: false,
             timer: 1500
         })
         deleteProduct(id);
         history.push('/ProductScreen');
+        // updateProductRemoved(contador=QuantityInStock)
+        //actualicar productos + contador
     }
 
     const deleteProduct = async (id) => {
@@ -42,6 +44,7 @@ export const ProductScreen = ({ history }) => {
                 products.length > 0
                     ?
                     <div className="container">
+                        <Link to="/" type="button" className="btn btn-danger btn-sm mt-2">Back</Link>
                         <div className="card mt-3">
                             {
                                 products.map((item) => {
@@ -52,16 +55,17 @@ export const ProductScreen = ({ history }) => {
                                             </div>
                                             <div className="col-md-7 m-2">
                                                 <div className="card-body">
-                                                    <h5 className="card-title">Name: {item.name}</h5>
-                                                    <h6><strong>Category: {item.category} </strong></h6>
-                                                    <p className="card-text">Description: {item.description}</p>
-                                                    <p className="card-text">Price: {item.price}</p>
-                                                    <p className="card-text">Amount: {item.amount}</p>
+                                                    <h4 className="card-title"><kbd>{item.name}</kbd></h4>
+                                                    <hr />
+                                                    <h6 className="card-subtitle mb-2 font-weight-bold text-danger"><font size="4" color="red">P</font><font size="3"></font><font size="4">rice: </font><mark>$ {item.price}</mark></h6>
+                                                    <p className="card-subtitle mb-2"><font size="3" color="Navy">Description:</font> <font size="3" color="black">{item.description}</font></p>
+                                                    <h6><font size="3" color="black"> <strong>Category: </strong></font><em><font size="3" color="black">{item.category}</font></em></h6>
+                                                    <h5><font size="3" color="black"> Quantity In Stock </font><font size="4" color="red"><em>{item.quantityInStock}</em></font></h5>
+                                                    <p className="card-text"><font size="3" color="black">Amount: {item.amount}</font></p>
                                                     <hr />
                                                 </div>
                                                 <button onClick={() => deleleProductId(item._id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button>
                                                 {/* <Link to={`/delete/${item._id}`} className="btn btn-outline-warning btn-sm btn-block">Remover from my list</Link> */}
-                                                <Link to="/" type="button" className="btn btn-danger btn-sm btn-block">Back</Link>
                                             </div>
                                         </div>
                                     )

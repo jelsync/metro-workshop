@@ -15,18 +15,26 @@ export const CategoryScreen = () => {
         const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
         const body = await resp.json();
         setCategory(body);
+        // console.log(body);
     }
     const [category, setCategory] = useState([]);
     const [categories, setCategories] = useState();
 
+    let productsFront = category.map(item => {
+        return {
+            ...item,
+            productId: item._id
+        };
+    });
     const buy = async (product) => {
         Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Product removed',
+            title: 'Purchased product',
             showConfirmButton: false,
             timer: 1500
-        })
+        });
+        console.log(product);
         const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
             method: 'PUT',
             headers: {
@@ -35,7 +43,6 @@ export const CategoryScreen = () => {
             body: JSON.stringify(product),
         });
         const data = await resp.json();
-
     }
 
     const getCategories = async () => {
@@ -67,9 +74,9 @@ export const CategoryScreen = () => {
                 }
                 <div className="row justify-content-md-center">
                     {
-                        category.map((item) => {
+                        productsFront.map((item) => {
                             return (
-                                <div key={item._id} className="col-md-3 m-1 text-dark" >
+                                <div key={item.productId} className="col-md-3 m-1 text-dark" >
                                     <div className="col home-area m-1">
                                         <div className="card">
                                             <div className="card-body">
@@ -79,7 +86,7 @@ export const CategoryScreen = () => {
                                                 <h6 className="card-subtitle mb-2 font-weight-bold text-danger"><font size="4" color="red">P</font><font size="3"></font><font size="4">rice: </font><mark>$ {item.price}</mark></h6>
                                                 <p className="card-subtitle mb-2"><font size="3" color="Navy">Description:</font> {item.description}</p>
                                                 <h6 className="card-text" ><strong>Category: </strong><em>{item.category}</em></h6>
-                                                <Link to={`/BuyScreen/${item._id}`} className="btn btn-link btn-block">More Info</Link>
+                                                <Link to={`/BuyScreen/${item.productId}`} className="btn btn-link btn-block">More Info</Link>
                                                 <div onClick={() => buy(item)}>{getState(item.spent)}</div>
                                             </div>
                                         </div>
