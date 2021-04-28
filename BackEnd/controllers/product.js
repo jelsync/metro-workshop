@@ -9,16 +9,17 @@ const createProduct = async (req, res = response) => {
 
     let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
     // let client = await ClientModel.findOne({ _id: req.body.clientId }, {});
+    // console.log(category);
 
     let newProduct = new ProductModel({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price,
+        price: parseInt(req.body.price),
         quantityInStock: parseInt(req.body.quantityInStock),
         urlImg: req.body.urlImg,
         spent: req.body.spent,
         category: category.name,
-        amount: req.body.amount
+        amount: parseInt(req.body.amount)    
     });
     await newProduct.save();
 
@@ -63,20 +64,20 @@ const updateProduct = async (req, res = response) => {
     let body = req.body;
     let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
     ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
-        {
-            name: body.name,
-            category: category.name,
-            description: body.description,
-            price: body.price,
-            quantityInStock: body.quantityInStock,
-            urlImg: body.urlImg,
-            spent: body.spent,
-            amount: req.body.amount,
-
-        }).then(product => {
-            res.send(product);
-            res.end();
-        })
+    {
+        name: body.name,
+        description: body.description,
+        price: parseInt(body.price),
+        quantityInStock: parseInt(body.quantityInStock),
+        spent: body.spent,
+        urlImg: body.urlImg,
+        amount: parseInt(body.amount),
+        category: category.name,
+    }).then(product => {
+        res.send(product);
+        res.end();
+    })
+    console.log(body);
 }
 
 const addCategory = (req, res) => {

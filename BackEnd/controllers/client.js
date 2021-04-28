@@ -1,9 +1,8 @@
-const { response } = require('express');
+const { response, json } = require('express');
 const CategoryModel = require('../models/category');
 const ClientModel = require('../models/client');
 const ProductModel = require('../models/product');
 const mongoose = require('mongoose');
-const product = require('../models/product');
 
 
 const createClient = async (req, res = response) => {
@@ -65,7 +64,7 @@ const getClient = (req, res = response) => {
     })
 }
 
-const getProducts = (req, res = response) => {//GET COMPRAS
+const getProducts = (req, res = response) => {
     ClientModel.findOne({ uid: req.params.id }, { buy: true }).then(products => {
         // ClientModel.findOne({ uid: mongoose.Types.ObjectId(req.params.id) }, { buy: true }).then(products => {
         res.send(products);
@@ -80,41 +79,32 @@ const addProduct = async (req, res = response) => {
     let client = await ClientModel.findOne({ uid: req.params.id }, { buy: true });
 
     let { buy } = client;
-    // console.log(req.body.quantityInStock);
-    if (body.quantityInStock == 0) {
-        // if (product.quantityInStock == 0) {
-        await ProductModel.updateOne({ _id: req.body.productId }, {
-            spent: product.spent = false
-        }).then(result => {
-            if (result.nModified == 1) {
-                return res.send({
-                    ok: true,
-                    mgs: 'Product Spent'
-                });
-            }
-            return res.send({ ok: false });
-        })
-    }
+    
     let idBuy = buy.find(el => el._id == req.body.productId);
-    console.log(idBuy);
     if (idBuy == undefined) {
+        if (product.quantityInStock <= 1) {
+            await ProductModel.updateOne({ _id: req.body.productId }, {
+                spent: product.spent = false,
+                quantityInStock: body.quantityInStock - 1
+            })
+        }
+
         await ProductModel.updateOne({ _id: req.body.productId }, {
             quantityInStock: body.quantityInStock - 1
-            // quantityInStock: product.quantityInStock - 1
-        });
+        })
 
         await ClientModel.updateOne({ uid: req.params.id }, {
             $push: {
                 buy: {
                     _id: body.productId, // _id: mongoose.Types.ObjectId()//
                     name: body.name,
-                    category: category.name,
-                    category: categoryId,
+                    category: body.category,
                     description: body.description,
-                    quantityInStock: parseInt(body.quantityInStock),
+                    quantityInStock: parseInt(product.quantityInStock - 1),
                     urlImg: body.urlImg,
                     price: parseInt(body.price),
-                    amount: parseInt(body.amount)
+                    amount: parseInt(body.amount),
+                    spent: body.spent
                 }
             }
         }).then(result => {
@@ -125,21 +115,25 @@ const addProduct = async (req, res = response) => {
                 });
             }
             return res.send({ ok: false });
-        })
-    } 
+        });
+    }
     else {
-        let idBuy = buy.find(el => el._id == req.body.productId);
-        console.log(idBuy);
-        // if (product._id && idBuy._id) {
+        if (product.quantityInStock <= 1) {
+            await ProductModel.updateOne({ _id: req.body.productId }, {
+                spent: product.spent = false,
+                quantityInStock: body.quantityInStock - 1
+            })
+        }
+
         let bi = buy.filter(idBuy = (elemento) => {
             if (elemento._id == product._id) {
-                let newAmount = elemento.amount += 1;
-                let newPrice = elemento.price * newAmount;//No lo actualiza
-                return elemento._id;
+                if (elemento.quantityInStock <= 1) {
+                    elemento.quantityInStock = elemento.quantityInStock - 1;
+                    let newAmount = elemento.amount += 1;
+                    elemento.price += elemento.price;
+                    return elemento;
+                }
             }
-        });
-        await ProductModel.updateOne({ _id: req.body.productId }, {
-            quantityInStock: product.quantityInStock - 1
         });
         await ClientModel.updateOne({ uid: req.params.id }, {
             $pull: {
@@ -152,28 +146,18 @@ const addProduct = async (req, res = response) => {
         await ClientModel.updateOne({ uid: req.params.id }, {
             $push: {
                 buy: bi
-                //  {
-                //     _id: body.productId,
-                //     name: body.name,
-                //     category: category.name,
-                //     description: body.description,
-                //     urlImg: body.urlImg,
-                //     price: parseInt(product.price),
-                //     amount: parseInt(product.amount)
-                // }
             }
         })
-        .then(result => {
-            if (result.nModified == 1) {
-                return res.send({
-                    ok: true,
-                    mss: 'Added'
-                });
-            }
-            return res.send({ ok: false });
-        })
+            .then(result => {
+                if (result.nModified == 1) {
+                    return res.send({
+                        ok: true,
+                        mss: 'Added'
+                    });
+                }
+                return res.send({ ok: false });
+            })
     }
-
 }
 
 const deleteProduct = (req, res = response) => {

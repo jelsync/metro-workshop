@@ -9,7 +9,6 @@ const schema = new Schema({
     spent: Boolean,
     category: String,
     amount: Number
-    // client: String
 });
 
 module.exports = model('Product', schema);
