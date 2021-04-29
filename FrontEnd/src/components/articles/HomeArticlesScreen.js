@@ -13,6 +13,7 @@ export const HomeArticlesScreen = () => {
             productId: item._id
         };
     });
+    // console.log(productsFront);
     const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}`);
         const body = await resp.json();
@@ -37,7 +38,6 @@ export const HomeArticlesScreen = () => {
             showConfirmButton: false,
             timer: 1500
         });
-        console.log(product);
         const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
             method: 'PUT',
             headers: {

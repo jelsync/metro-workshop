@@ -8,28 +8,23 @@ export const ProductScreen = ({ history }) => {
     const getProductClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}/products`);
         const body = await resp.json();
-        setProduct(body.buy);
+        let { buy } = body;
+        setProduct(buy);
     }
-    
+
+    const [products, setProduct] = useState([]);
+
+    let productsFront = products.map(item => {
+        return {
+            ...item,
+            counter: item.amount,
+            id: item._id
+        };
+    });
+
     useEffect(() => {
         getProductClient();
-    }, []);
-    
-    const [products, setProduct] = useState([]);
-    
-    const deleleProductId = (id) => {
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Product Removed',
-            showConfirmButton: false,
-            timer: 1500
-        })
-        deleteProduct(id);
-        history.push('/ProductScreen');
-        // updateProductRemoved(contador=QuantityInStock)
-        //actualicar productos + contador
-    }
+    }, [()=>allFunction()]);
 
     const deleteProduct = async (id) => {
         const resp = await fetch(`http://localhost:4000/api/client/${uid}/products/${id}`, {
@@ -38,16 +33,39 @@ export const ProductScreen = ({ history }) => {
         const body = await resp.json();
     }
 
+    const updateProduct = async (product, id) => {
+        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product),
+        });
+        const data = await resp.json();
+    }
+
+    const allFunction = (id, product)=>{
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Product Removed',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        deleteProduct(id);
+        updateProduct(product, id);
+
+    }
     return (
         <>
             {
-                products.length > 0
+                productsFront.length > 0
                     ?
                     <div className="container">
                         <Link to="/" type="button" className="btn btn-danger btn-sm mt-2">Back</Link>
                         <div className="card mt-3">
                             {
-                                products.map((item) => {
+                                productsFront.map((item) => {
                                     return (
                                         <div className="row g-0" key={item._id}>
                                             <div className="col-md m-4">
@@ -64,7 +82,9 @@ export const ProductScreen = ({ history }) => {
                                                     <p className="card-text"><font size="3" color="black">Amount: {item.amount}</font></p>
                                                     <hr />
                                                 </div>
-                                                <button onClick={() => deleleProductId(item._id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button>
+                                                {/* <button onClick={() => deleleProductId(item._id) () => updateProduct(item, item.id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button> */}
+                                                {/* <button onClick={() => deleleProductId(item._id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button> */}
+                                                <button onClick={() => allFunction(item._id, item)} className="btn btn-warning btn-sm btn-block">Remover from my list</button>
                                                 {/* <Link to={`/delete/${item._id}`} className="btn btn-outline-warning btn-sm btn-block">Remover from my list</Link> */}
                                             </div>
                                         </div>

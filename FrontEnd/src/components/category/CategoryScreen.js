@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-export const CategoryScreen = () => {
+export const CategoryScreen = ({history}) => {
     let { id } = useParams();
     const uid = JSON.parse(localStorage.getItem('uid'));
 
     useEffect(() => {
-        getProductCategory();
         getCategories();
     }, []);
 
@@ -15,7 +14,6 @@ export const CategoryScreen = () => {
         const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
         const body = await resp.json();
         setCategory(body);
-        // console.log(body);
     }
     const [category, setCategory] = useState([]);
     const [categories, setCategories] = useState();
@@ -26,6 +24,11 @@ export const CategoryScreen = () => {
             productId: item._id
         };
     });
+    useEffect(() => {
+        getProductCategory();
+        
+    }, [category]);
+
     const buy = async (product) => {
         Swal.fire({
             position: 'center',
