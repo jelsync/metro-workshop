@@ -19,7 +19,7 @@ const createProduct = async (req, res = response) => {
         urlImg: req.body.urlImg,
         spent: req.body.spent,
         category: category.name,
-        amount: parseInt(req.body.amount)    
+        amount: parseInt(req.body.amount)
     });
     await newProduct.save();
 
@@ -29,14 +29,14 @@ const createProduct = async (req, res = response) => {
 const getProducts = async (req, res = response) => {
 
     ProductModel.find().then(products => {
-            res.json({ products });
-            res.end();
+        res.json({ products });
+        res.end();
     });
 }
 
 const getProductCategory = async (req, res = response) => {
     let category = await CategoryModel.findOne({ _id: req.params.categoryId }, {});
-    ProductModel.find({ category: category.name}).then(product => {
+    ProductModel.find({ category: category.name }).then(product => {
         res.send(product);
         res.end();
     })
@@ -62,22 +62,32 @@ const deleteProduct = (req, res = response) => {
 const updateProduct = async (req, res = response) => {
 
     let body = req.body;
-    let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
-    ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
-    {
-        name: body.name,
-        description: body.description,
-        price: parseInt(body.price),
-        quantityInStock: parseInt(body.quantityInStock),
-        spent: body.spent,
-        urlImg: body.urlImg,
-        amount: parseInt(body.amount),
-        category: category.name,
-    }).then(product => {
-        res.send(product);
-        res.end();
-    })
-    console.log(body);
+    let product = await ProductModel.findOne({ _id: req.body.id }, {});
+    if (product) {
+        await ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
+            {
+                quantityInStock: parseInt(body.quantityInStock) + body.amount,
+                spent: body.spent = true,
+            }).then(product => {
+                res.send(product);
+                res.end();
+            })
+    } else {
+        await ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
+            {
+                name: body.name,
+                description: body.description,
+                price: parseInt(body.price),
+                quantityInStock: parseInt(body.quantityInStock),
+                spent: body.spent,
+                urlImg: body.urlImg,
+                amount: parseInt(body.amount),
+                category: category.name,
+            }).then(product => {
+                res.send(product);
+                res.end();
+            })
+    }
 }
 
 const addCategory = (req, res) => {

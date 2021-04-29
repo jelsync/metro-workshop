@@ -79,7 +79,6 @@ const addProduct = async (req, res = response) => {
     let client = await ClientModel.findOne({ uid: req.params.id }, { buy: true });
 
     let { buy } = client;
-    
     let idBuy = buy.find(el => el._id == req.body.productId);
     if (idBuy == undefined) {
         if (product.quantityInStock <= 1) {
@@ -123,16 +122,20 @@ const addProduct = async (req, res = response) => {
                 spent: product.spent = false,
                 quantityInStock: body.quantityInStock - 1
             })
+        }else{
+            await ProductModel.updateOne({ _id: req.body.productId }, {
+                quantityInStock: body.quantityInStock - 1
+            })
         }
 
         let bi = buy.filter(idBuy = (elemento) => {
             if (elemento._id == product._id) {
-                if (elemento.quantityInStock <= 1) {
+                // if (elemento.quantityInStock <= 1) {
                     elemento.quantityInStock = elemento.quantityInStock - 1;
                     let newAmount = elemento.amount += 1;
-                    elemento.price += elemento.price;
+                    elemento.price = elemento.price + product.price;
                     return elemento;
-                }
+                // }
             }
         });
         await ClientModel.updateOne({ uid: req.params.id }, {
