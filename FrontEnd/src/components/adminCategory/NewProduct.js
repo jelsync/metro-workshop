@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
-import axios from 'axios'
 
 export const NewProduct = () => {
     useEffect(() => {
@@ -12,10 +11,6 @@ export const NewProduct = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         createProduct();
-        // if (formValid()) {
-        //     console.log('ok');
-        // }
-
     }
 
     const [values, handleInputChange, reset] = useForm({
@@ -25,11 +20,10 @@ export const NewProduct = () => {
         price: '',
         quantityInStock: '',
         urlImg: '',
-        spent: '',
         amount: 1
     });
 
-    const { name, price, description, quantityInStock, urlImg, spent, category: categoryId } = values || {};
+    const { name, price, description, quantityInStock, urlImg, category: categoryId } = values || {};
     console.log(values);
 
     const [categories, setCategories] = useState([]);
@@ -40,85 +34,7 @@ export const NewProduct = () => {
         setCategories(body);
     }
 
-    const formValid = () => {
-        if (name.trim().length === 0) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'You must enter a name',
-                icon: 'error',
-                message: 'error',
-                confirmButtonText: 'Ok'
-            })
-            return false;
-        } else if (description.trim().length === 0) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'You must enter a description',
-                icon: 'error',
-                message: 'error',
-                confirmButtonText: 'Ok'
-            })
-            return false;
-        }
-        // } else if (price > 0) {
-        //     Swal.fire({
-        //         title: 'Error!',
-        //         text: 'Price must be greater than zero',
-        //         icon: 'error',
-        //         message: 'error',
-        //         confirmButtonText: 'Ok'
-        //     })
-        //     return false;
-        // } else if (quantityInStock >= 0) {
-        //     Swal.fire({
-        //         title: 'Error!',
-        //         text: 'Quantity In Stock must be greater than or equal to zero',
-        //         icon: 'error',
-        //         message: 'error',
-        //         confirmButtonText: 'Ok'
-        //     })
-        //     return false;
-        // } else if (spent.trim().length === 0) {
-        //     Swal.fire({
-        //         title: 'Error!',
-        //         text: 'You must enter a Last Name',
-        //         icon: 'error',
-        //         message: 'error',
-        //         confirmButtonText: 'Ok'
-        //     })
-        //     return false;
-        // } else if (urlImg.trim().length === 0) {
-        //     Swal.fire({
-        //         title: 'Error!',
-        //         text: 'You must enter a Last Name',
-        //         icon: 'error',
-        //         message: 'error',
-        //         confirmButtonText: 'Ok'
-        //     })
-        //     return false;
-        // } else if (categoryId.trim().length === 0) {
-        //     Swal.fire({
-        //         title: 'Error!',
-        //         text: 'You must enter a Last Name',
-        //         icon: 'error',
-        //         message: 'error',
-        //         confirmButtonText: 'Ok'
-        //     })
-        //     return false;
-        // }
-        return true;
-    }
     const createProduct = async () => {
-        console.clear();
-        console.log(values);
-
-        // const res = axios.post(`http://localhost:4000/api/product`,  values);
-        // console.log(res);
-
-        // if (res.status == 200) {
-        //     reset();
-        // }
-
         const resp = await fetch(`http://localhost:4000/api/product`, {
             method: 'POST',
             headers: {
@@ -126,8 +42,7 @@ export const NewProduct = () => {
             },
             body: JSON.stringify(values),
         });
-        //const body = await resp.json();
-        console.log(resp);
+        console.clear();
     }
 
     return (
@@ -175,17 +90,6 @@ export const NewProduct = () => {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Spent</label>
-                                        <input
-                                            type="text"
-                                            name="spent"
-                                            className="form-control"
-                                            placeholder="Spent.."
-                                            value={spent}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                    <div className="form-group">
                                         <label>Name Category</label>
                                         <select
                                             name="categoryId"
@@ -193,7 +97,6 @@ export const NewProduct = () => {
                                             onChange={handleInputChange}
                                         >
                                             <option value="0">Seleccione categoria</option>
-
                                             {
                                                 categories && categories.map((item) => {
                                                     return (

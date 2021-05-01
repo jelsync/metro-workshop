@@ -1,40 +1,15 @@
-import React, { useContext } from 'react'
+import React  from 'react'
 import { Link } from 'react-router-dom';
-// import { AuthContext } from '../../auth/AuthContext';
 import { clientLogin } from '../../auth/clientAuth';
-// import { types } from '../../types/types';
 import { useForm } from '../hooks/useForm';
 
-export const LoginScreen = ({history}) => {
-    // const { dispatch } = useContext(AuthContext);
-
+export const LoginScreen = () => {
     const [values, handleInputChange] = useForm({
         email: 'jelsyn@gmail.com',
-        password: '12345',
+        password: '123456',
     });
 
     const { email, password } = values;
-
-    // const addClient = async () => {
-    //     const resp = await fetch(`http://localhost:4000/api/client`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             password,
-    //             email
-    //         }),
-    //     });
-
-    //     const body = await resp.json();
-    //     localStorage.setItem('body', JSON.stringify (body._id));
-
-    // }
-
-    // const [body, setBody] = useState(addClient)
-    // const {name} = body;
-
 
     const handleSubmit = (e) => {
         e.preventDefault();

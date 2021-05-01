@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// import { firebase } from '../../firebase/firebase-config';
 import { AuthContext } from '../../auth/AuthContext';
 import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
@@ -10,19 +9,21 @@ export const Navbar = () => {
     const history = useHistory();
 
     const id = JSON.parse(localStorage.getItem('uid'));
-    // console.log(id);
 
     const getClient = async () => {
         const resp = await fetch(`http://localhost:4000/api/client/${id}`);
         const body = await resp.json();
-        // console.log(body);
-        setBody(body);
+        let { client } = body;
+        setBody(client);
     }
 
-    const [body, setBody] = useState(getClient)
-    const [category, setCategory] = useState([])
+    useEffect(() => {
+        getClient();
+    }, []);
 
-    const { name } = body;
+    const [body, setBody] = useState({});
+
+    const [category, setCategory] = useState([]);
 
     const handleLogout = () => {
         history.replace('/login');
@@ -40,7 +41,7 @@ export const Navbar = () => {
 
     useEffect(() => {
         getCategory();
-    });
+    }, []);
 
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
@@ -75,9 +76,9 @@ export const Navbar = () => {
                     <div className="d-flex justify-content-end w-100">
                         <ul className="navbar-nav">
                             <li
-                                className="nav-item nav-link"
+                                className="nav-item nav-link btn"
                             >
-                                {name}
+                                {/* Welcome {name} */}
                             </li>
                             <button
                                 className="nav-item nav-link btn"

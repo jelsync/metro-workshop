@@ -73,7 +73,6 @@ export const FormProduct = ({ history }) => {
             <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="login-area col col-lg-6 col-md-8 col-sm-11">
-                        {/* <div className="col col-lg-6 col-md-8 col-sm-11"> */}
                         <div className="box">
                             <form onSubmit={handleSubmit}>
                                 <fieldset>
@@ -133,7 +132,6 @@ export const FormProduct = ({ history }) => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    {/* <button type="submit" className="btn btn-primary">Create</button> */}
                                     <button type="submit" className="btn btn-outline-info btn-sm mr-2">Aceppt</button>
                                     <Link to={`/Admin/AdminCategoryScreen/`} type="button" className="btn btn-outline-danger btn-sm">Back</Link>
                                 </fieldset>

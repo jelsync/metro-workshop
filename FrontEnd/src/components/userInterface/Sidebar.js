@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Sidebar = () => {
     const [category, setCategory] = useState([]);

@@ -5,21 +5,22 @@ import Swal from 'sweetalert2';
 export const BuyScreen = () => {
     let { id } = useParams();
     const uid = JSON.parse(localStorage.getItem('uid'));
-  
+
     const getProduct = async () => {
         const resp = await fetch(`http://localhost:4000/api/product/${id}`);
         const body = await resp.json();
         setProduct({
             ...body,
-            productId: body._id});
+            productId: body._id
+        });
     }
 
     const [product, setProduct] = useState({});
     let { _id, description, name, price, quantityInStock, spent, urlImg, category } = product;
-    
+
     useEffect(() => {
         getProduct();
-    }, [()=>buy()]);
+    }, [() => buy()]);
 
     const buy = async (product) => {
         Swal.fire({

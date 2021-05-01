@@ -1,66 +1,21 @@
-import React, { useContext, useEffect } from 'react'
-import { AuthContext } from '../../auth/AuthContext';
+import React from 'react';
 import { clientLogin } from '../../auth/clientAuth';
-import { types } from '../../types/types';
 import { useForm } from '../hooks/useForm';
 
 export const LoginAdminScreen = () => {
-    // const history = useHistory();
-    const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange] = useForm({
-        // email: '',
         email: 'jelsync@gmail.com',
         password: '123456',
-        // password: '',
     });
 
     const { email, password } = values;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        clientLogin(email, password);        
-        // dispatch({
-        //     type: types.login,
-        //     payload: {
-        //         status: 'registro'
-        //     }
-        // });
-
-        // addUser();
-        // console.log(values);
-        // clientLogin(email, password);
-        // history.replace('/admin');
+        clientLogin(email, password);
     }
 
-    const getUser = async () => {
-
-        const resp = await fetch(`http://localhost:4000/api/user-admin`);
-        const body = await resp.json();
-
-        console.log(body);
-    }
-
-    const addUser = async () => {
-        const resp = await fetch(`http://localhost:4000/api/user-admin/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email,
-                password
-            }),
-        });
-
-        const body = await resp.json();
-        localStorage.setItem('admin', JSON.stringify(body.user.administrator));
-        console.log(body);
-    }
-    // const login = () => {
-    //     return console.log(email, password);
-
-    // }
     return (
         <div className="login-wrap mt-3">
             <div className="login-html">

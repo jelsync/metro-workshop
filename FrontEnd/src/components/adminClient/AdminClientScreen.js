@@ -4,9 +4,6 @@ import Swal from 'sweetalert2'
 
 export const AdminClientScreen = () => {
     const [client, setClient] = useState([]);
-    // // useParams();
-    // // const [product, setProduct] = useState(null || []);
-    // // const category = getCategoryProduct(categories);
 
     useEffect(() => {
         getClients();
@@ -38,7 +35,6 @@ export const AdminClientScreen = () => {
         }
     }
 
-
     return (
         <div className="container mt-3">
             <div className="row" >
@@ -54,13 +50,6 @@ export const AdminClientScreen = () => {
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
-                        {/* <td>{item.buy.map((item2) => {
-                                                return (
-                                                    item2.name
-                                                )
-                                            })}
-                                            </td> */}
-
                         <tbody>
                             {
                                 client.map((item, i) => {
@@ -73,10 +62,6 @@ export const AdminClientScreen = () => {
                                             <td>{item.buy.length}</td>
                                             <td>
                                                 <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button>
-                                                {/* <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link> */}
-
-                                                {/* <Link to={`admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link> */}
-                                                {/* <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button> */}
                                             </td>
                                         </tr>
                                     )

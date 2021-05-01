@@ -6,9 +6,7 @@ import {
 } from "react-router-dom";
 import { AdminClientScreen } from "../components/adminClient/AdminClientScreen";
 import { FormClient } from "../components/adminClient/FormClient";
-import { AdminCategoryScreen} from "../components/adminCategory/AdminCategoryScreen";
-import { Delete } from "../components/adminCategory/Delete";
-
+import { AdminCategoryScreen } from "../components/adminCategory/AdminCategoryScreen";
 import { FormProduct } from "../components/adminCategory/FormProduct";
 import { NewProduct } from "../components/adminCategory/NewProduct";
 import { Sidebar } from "../components/userInterface/Sidebar";
@@ -19,13 +17,12 @@ export const AdminRouter = () => {
     return (
         <div className="d-flex" id="wrapper" >
             <Sidebar />
-            <div className="container"  id="page-content-wrapper">
-                <NavbarAdmin/>
+            <div className="container" id="page-content-wrapper">
+                <NavbarAdmin />
                 <div className="container" >
                     <Switch>
                         <Route exact path="/admin/AdminCategoryScreen/:id" component={AdminCategoryScreen} />
                         <Route exact path="/admin/product/edit/:id" component={FormProduct} />
-                        <Route path="/admin/delete/:id" component={Delete} />
                         <Route exact path="/admin/createProduct" component={NewProduct} />
                         <Route exact path="/admin/client" component={AdminClientScreen} />
                         <Route exact path="/admin/client/edit/:id" component={FormClient} />

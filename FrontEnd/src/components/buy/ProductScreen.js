@@ -54,7 +54,6 @@ export const ProductScreen = ({ history }) => {
         })
         deleteProduct(id);
         updateProduct(product, id);
-
     }
     return (
         <>
@@ -82,10 +81,7 @@ export const ProductScreen = ({ history }) => {
                                                     <p className="card-text"><font size="3" color="black">Amount: {item.amount}</font></p>
                                                     <hr />
                                                 </div>
-                                                {/* <button onClick={() => deleleProductId(item._id) () => updateProduct(item, item.id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button> */}
-                                                {/* <button onClick={() => deleleProductId(item._id)} className="btn btn-warning btn-sm btn-block">Remover from my list</button> */}
                                                 <button onClick={() => allFunction(item._id, item)} className="btn btn-warning btn-sm btn-block">Remover from my list</button>
-                                                {/* <Link to={`/delete/${item._id}`} className="btn btn-outline-warning btn-sm btn-block">Remover from my list</Link> */}
                                             </div>
                                         </div>
                                     )

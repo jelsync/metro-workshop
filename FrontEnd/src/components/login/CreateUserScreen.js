@@ -1,15 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { firebase } from '../../firebase/firebase-config';
 import { types } from '../../types/types';
 import { AuthContext } from '../../auth/AuthContext';
 
-
-
 export const CreateUserScreen = () => {
-    const { dispatch} = useContext(AuthContext);
+    const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange,] = useForm({
         name: '',
@@ -82,7 +80,6 @@ export const CreateUserScreen = () => {
         const body = await resp.json();
         localStorage.setItem('id', JSON.stringify(body._id));
     }
-
 
     return (
         <div className="login-wrap mt-3">

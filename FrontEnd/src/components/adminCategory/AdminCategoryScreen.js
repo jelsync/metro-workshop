@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2'
-
+import Swal from 'sweetalert2';
 
 export const AdminCategoryScreen = () => {
     useEffect(() => {
         getProductCategory();
-    },[]);
+    }, []);
 
     let { id } = useParams();
-    // let v = localStorage.setItem('idCate', JSON.stringify(id));
     const [category, setCategory] = useState();
 
     const getProductCategory = async () => {
@@ -71,7 +69,6 @@ export const AdminCategoryScreen = () => {
                         <tbody>
                             {
                                 category && category.map((item, i) => (
-                                    // category.map((item, i) => (
                                     <tr key={item._id}>
                                         <th scope="row">{i + 1}</th>
                                         <td>{item.name}</td>
@@ -93,6 +90,5 @@ export const AdminCategoryScreen = () => {
                 </div>
             </div>
         </div>
-
     )
 }
