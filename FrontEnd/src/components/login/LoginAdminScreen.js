@@ -8,14 +8,9 @@ export const LoginAdminScreen = () => {
     // const history = useHistory();
     const { dispatch } = useContext(AuthContext);
 
-    useEffect(() => {
-        // getUser();
-        // addUser();
-    }, [])
-
     const [values, handleInputChange] = useForm({
         // email: '',
-        email: 'jelsyn@gmail.es',
+        email: 'jelsync@gmail.com',
         password: '123456',
         // password: '',
     });
@@ -25,12 +20,12 @@ export const LoginAdminScreen = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         clientLogin(email, password);        
-        dispatch({
-            type: types.login,
-            payload: {
-                status: 'registro'
-            }
-        });
+        // dispatch({
+        //     type: types.login,
+        //     payload: {
+        //         status: 'registro'
+        //     }
+        // });
 
         // addUser();
         // console.log(values);
