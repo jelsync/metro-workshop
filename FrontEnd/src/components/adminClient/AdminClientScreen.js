@@ -15,15 +15,15 @@ export const AdminClientScreen = () => {
     const getClients = async () => {
         const resp = await fetch(`http://localhost:4000/api/client`);
         const body = await resp.json();
-        // console.log(body);
-        setClient(body.clients);
+        let { clients } = body;
+        setClient(clients);
     }
 
-    // const [clients] = client;
-    // console.log(clients);
+    const [buy] = client;
+
     const deleteClient = async (id) => {
         const resp = await fetch(`http://localhost:4000/api/client/${id}`, {
-            method:'DELETE'
+            method: 'DELETE'
         });
         const body = await resp.json();
         console.log(body);
@@ -32,9 +32,9 @@ export const AdminClientScreen = () => {
             getClients();
             Swal.fire({
                 icon: 'error',
-                title: 'Eliminado con exito',
-                text: 'Something went wrong!'
-              })
+                title: 'Delete',
+                text: 'Deleted customer!'
+            })
         }
     }
 
@@ -54,23 +54,33 @@ export const AdminClientScreen = () => {
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
+                        {/* <td>{item.buy.map((item2) => {
+                                                return (
+                                                    item2.name
+                                                )
+                                            })}
+                                            </td> */}
+
                         <tbody>
                             {
-                                client.map((item, i) => (
-                                    <tr key={item._id}>
-                                        <th scope="row">{ i + 1 }</th>
-                                        <td>{item.name}</td>
-                                        <td>{item.lastName}</td>
-                                        <td>{item.email}</td>
-                                        <td>{item.buy.length}</td>
-                                        <td>
-                                        <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link>
+                                client.map((item, i) => {
+                                    return (
+                                        <tr key={item._id}>
+                                            <th scope="row">{i + 1}</th>
+                                            <td>{item.name}</td>
+                                            <td>{item.lastName}</td>
+                                            <td>{item.email}</td>
+                                            <td>{item.buy.length}</td>
+                                            <td>
+                                                <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button>
+                                                {/* <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link> */}
 
-                                        {/* <Link to={`admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link> */}
-                                            {/* <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button> */}
-                                        </td>
-                                    </tr>
-                                ))
+                                                {/* <Link to={`admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link> */}
+                                                {/* <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button> */}
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                             }
                         </tbody>
                     </table>

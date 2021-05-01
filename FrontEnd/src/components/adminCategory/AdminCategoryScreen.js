@@ -1,19 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
+
 
 export const AdminCategoryScreen = () => {
     useEffect(() => {
         getProductCategory();
-    });
-    
+    },[]);
+
     let { id } = useParams();
     // let v = localStorage.setItem('idCate', JSON.stringify(id));
     const [category, setCategory] = useState();
-    
+
     const getProductCategory = async () => {
         const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
         const body = await resp.json();
         setCategory(body);
+    }
+
+    const deleteProduct = async (id) => {
+        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
+            method: 'DELETE'
+        });
+        const body = await resp.json();
+
+        if (body.ok) {
+            getProductCategory();
+            Swal.fire({
+                icon: 'error',
+                title: 'Delete',
+                text: 'Deleted product!'
+            })
+        }
     }
     const getState = (state) => {
         if (state) {
@@ -34,7 +52,7 @@ export const AdminCategoryScreen = () => {
     return (
         <div className="container">
             <div className="row">
-            <Link to={`/admin/createProduct`} className="btn btn-outline-info btn-sm btn-block">Crear New Product</Link>
+                <Link to={`/admin/createProduct`} className="btn btn-outline-info btn-sm btn-block">Crear New Product</Link>
                 <div className="col-lg-12 col-md-12 mt-2">
                     <table className="table table-hover">
                         <thead>
@@ -62,10 +80,10 @@ export const AdminCategoryScreen = () => {
                                         <td>{item.category}</td>
                                         <td>{item.quantityInStock}</td>
                                         <td>{getState(item.spent)}</td>
-                                        <td > <img src={item.urlImg} width="80px" className="img-fluid" alt="img"/></td>
+                                        <td > <img src={item.urlImg} width="80px" className="img-fluid" alt="img" /></td>
                                         <td>
-                                            <Link to={`/admin/product/edit/${item._id}`} className="btn btn-outline-info btn-sm btn-block">Edit</Link>
-                                            <Link to={`/admin/delete/${item._id}`} className="btn btn-outline-danger btn-sm btn-block">Delete</Link>
+                                            <Link to={`/admin/product/edit/${item._id}`} className="btn btn-info btn-sm btn-block">Edit</Link>
+                                            <button onClick={() => deleteProduct(item._id)} className="btn btn-danger btn-sm btn-block">Delete</button>
                                         </td>
                                     </tr>
                                 ))

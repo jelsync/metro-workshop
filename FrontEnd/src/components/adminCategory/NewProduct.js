@@ -1,57 +1,135 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
+import Swal from 'sweetalert2';
+import axios from 'axios'
 
 export const NewProduct = () => {
     useEffect(() => {
-        // getProduct();
         getCategory();
     }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
         createProduct();
-        reset();
-        console.log(values);
+        // if (formValid()) {
+        //     console.log('ok');
+        // }
+
     }
 
     const [values, handleInputChange, reset] = useForm({
         name: '',
-        category: '',
+        categoryId: '',
         description: '',
         price: '',
         quantityInStock: '',
         urlImg: '',
         spent: '',
-        amount: ''
+        amount: 1
     });
 
-    const { name, category, description, price, quantityInStock, urlImg, spent, amount } = values;
-    // console.log(name);
+    const { name, price, description, quantityInStock, urlImg, spent, category: categoryId } = values || {};
+    console.log(values);
 
+    const [categories, setCategories] = useState([]);
+
+    const getCategory = async () => {
+        const resp = await fetch(`http://localhost:4000/api/category`);
+        const body = await resp.json();
+        setCategories(body);
+    }
+
+    const formValid = () => {
+        if (name.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a name',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        } else if (description.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a description',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        }
+        // } else if (price > 0) {
+        //     Swal.fire({
+        //         title: 'Error!',
+        //         text: 'Price must be greater than zero',
+        //         icon: 'error',
+        //         message: 'error',
+        //         confirmButtonText: 'Ok'
+        //     })
+        //     return false;
+        // } else if (quantityInStock >= 0) {
+        //     Swal.fire({
+        //         title: 'Error!',
+        //         text: 'Quantity In Stock must be greater than or equal to zero',
+        //         icon: 'error',
+        //         message: 'error',
+        //         confirmButtonText: 'Ok'
+        //     })
+        //     return false;
+        // } else if (spent.trim().length === 0) {
+        //     Swal.fire({
+        //         title: 'Error!',
+        //         text: 'You must enter a Last Name',
+        //         icon: 'error',
+        //         message: 'error',
+        //         confirmButtonText: 'Ok'
+        //     })
+        //     return false;
+        // } else if (urlImg.trim().length === 0) {
+        //     Swal.fire({
+        //         title: 'Error!',
+        //         text: 'You must enter a Last Name',
+        //         icon: 'error',
+        //         message: 'error',
+        //         confirmButtonText: 'Ok'
+        //     })
+        //     return false;
+        // } else if (categoryId.trim().length === 0) {
+        //     Swal.fire({
+        //         title: 'Error!',
+        //         text: 'You must enter a Last Name',
+        //         icon: 'error',
+        //         message: 'error',
+        //         confirmButtonText: 'Ok'
+        //     })
+        //     return false;
+        // }
+        return true;
+    }
     const createProduct = async () => {
+        console.clear();
+        console.log(values);
+
+        // const res = axios.post(`http://localhost:4000/api/product`,  values);
+        // console.log(res);
+
+        // if (res.status == 200) {
+        //     reset();
+        // }
+
         const resp = await fetch(`http://localhost:4000/api/product`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-            }),
+            body: JSON.stringify(values),
         });
-
-        const body = await resp.json();
-        console.log(body);
+        //const body = await resp.json();
+        console.log(resp);
     }
 
-    const [categories, setCategories] = useState();
-    const getCategory = async () => {
-        // console.log(id);
-        const resp = await fetch(`http://localhost:4000/api/category`);
-        const body = await resp.json();
-        // const {name} = !!body && body[0];
-        setCategories(body);
-        // console.log(body);
-    }
     return (
         <>
             <div className="container">
@@ -110,15 +188,16 @@ export const NewProduct = () => {
                                     <div className="form-group">
                                         <label>Name Category</label>
                                         <select
-                                            name="category"
+                                            name="categoryId"
                                             className="form-control form-control-sm"
-                                            value={category}
                                             onChange={handleInputChange}
                                         >
+                                            <option value="0">Seleccione categoria</option>
+
                                             {
                                                 categories && categories.map((item) => {
                                                     return (
-                                                        <option key={item._id} value={item.name}>{item.name}</option>
+                                                        <option key={item._id} value={item._id}>{item.name}</option>
                                                     )
                                                 })
                                             }
@@ -136,17 +215,6 @@ export const NewProduct = () => {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Amount</label>
-                                        <input
-                                            type="text"
-                                            name="amount"
-                                            className="form-control"
-                                            placeholder="Amount..."
-                                            value={amount}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                    <div className="form-group">
                                         <label>Url Image</label>
                                         <input
                                             type="text"
@@ -157,8 +225,8 @@ export const NewProduct = () => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-outline-primary btn-sm btn-block">Create</button>
-                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-outline-danger btn-sm btn-block">Back</Link>
+                                    <button type="submit" className="btn btn-info btn-sm btn-block">Create</button>
+                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-danger btn-sm btn-block">Back</Link>
                                 </fieldset>
                             </form>
                         </div>

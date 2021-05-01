@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-export const CategoryScreen = ({history}) => {
+export const CategoryScreen = ({ history }) => {
     let { id } = useParams();
     const uid = JSON.parse(localStorage.getItem('uid'));
 
@@ -26,8 +26,7 @@ export const CategoryScreen = ({history}) => {
     });
     useEffect(() => {
         getProductCategory();
-        
-    }, [category]);
+    }, []);
 
     const buy = async (product) => {
         Swal.fire({
@@ -46,6 +45,7 @@ export const CategoryScreen = ({history}) => {
             body: JSON.stringify(product),
         });
         const data = await resp.json();
+        getProductCategory();
     }
 
     const getCategories = async () => {

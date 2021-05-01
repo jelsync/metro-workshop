@@ -14,7 +14,7 @@ export const FormClient = () => {
 
     useEffect(() => {
         getClient();
-    })
+    },[]);
 
     const [values, handleInputChange, loadDataForm, reset] = useForm({
         name: '',
@@ -117,8 +117,6 @@ return (
                         <Link to="/admin/client" type="button" className="btn btn-outline-danger btn-sm">Back</Link>
                     </fieldset>
                 </form>
-                {/* </div> */}
-                {/* </div> */}
             </div>
         </div>
     </>

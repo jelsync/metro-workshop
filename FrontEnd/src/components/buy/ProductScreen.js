@@ -24,7 +24,7 @@ export const ProductScreen = ({ history }) => {
 
     useEffect(() => {
         getProductClient();
-    }, [()=>allFunction()]);
+    }, [() => allFunction()]);
 
     const deleteProduct = async (id) => {
         const resp = await fetch(`http://localhost:4000/api/client/${uid}/products/${id}`, {
@@ -44,7 +44,7 @@ export const ProductScreen = ({ history }) => {
         const data = await resp.json();
     }
 
-    const allFunction = (id, product)=>{
+    const allFunction = (id, product) => {
         Swal.fire({
             position: 'center',
             icon: 'success',
