@@ -16,7 +16,7 @@ const createClient = async (req, res = response) => {
         if (client) {
             return res.json({
                 ok: true,
-                // msg: 'correo existe',
+                msg: 'correo existe',
                 uid: client.uid,
             })
         }
@@ -27,7 +27,8 @@ const createClient = async (req, res = response) => {
             lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password,
-            buy: []
+            buy: [],
+            isAdmin: false,
         });
 
         await client.save().then(client => {
