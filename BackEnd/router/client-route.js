@@ -2,21 +2,20 @@ const { Router } = require('express');
 const { createClient, getClient, addProduct, getClients, getProducts, deleteProduct, updateClient, deleteClient } = require('../controllers/client');
 const router = Router();
 
-router.post('/', createClient); // api/client/
+router.post('/', createClient);
 
-router.get('/', getClients); // api/client/
+router.get('/', getClients);
 
-router.get('/:id', getClient); // api/client/idusario
+router.get('/:id', getClient);
 
-router.put('/:id', updateClient); // api/client/idusario
+router.put('/:id', updateClient);
 
-router.put('/:id/products', addProduct); // api/client/iudusario/products
+router.put('/:id/products', addProduct);
 
-router.get('/:id/products', getProducts); // api/client/idUsuario/products/
+router.get('/:id/products', getProducts);
 
-router.delete('/:id', deleteClient); // api/client/idUsuario/
+router.delete('/:id', deleteClient);
 
-router.put('/:id/products/:idProduct', deleteProduct); // api/client/idUsuario/products/:idProducto
-
+router.put('/:id/products/:idProduct', deleteProduct);
 
 module.exports = router;

@@ -6,5 +6,3 @@ const schema = new Schema({
 });
 
 module.exports = model('Category', schema);
-
-//<Option  value="{ item._id }" >{ item.nombre }</Option>

@@ -6,28 +6,26 @@ const mongoose = require('mongoose');
 
 
 const createProduct = async (req, res = response) => {
-
+    let body = req.body;
     let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
-    // let client = await ClientModel.findOne({ _id: req.body.clientId }, {});
-    // console.log(category);
-
     let newProduct = new ProductModel({
-        name: req.body.name,
-        description: req.body.description,
-        price: parseInt(req.body.price),
-        quantityInStock: parseInt(req.body.quantityInStock),
-        urlImg: req.body.urlImg,
-        spent: req.body.spent,
+        name: body.name,
+        description: body.description,
+        price: parseInt(body.price),
+        quantityInStock: parseInt(body.quantityInStock),
+        urlImg: body.urlImg,
+        spent: body.spent,
         category: category.name,
-        amount: parseInt(req.body.amount)
+        amount: parseInt(body.amount)
     });
     await newProduct.save();
-
-    res.send(newProduct);
+    res.status(200).json({
+        ok: true,
+        newProduct
+    });
 }
 
 const getProducts = async (req, res = response) => {
-
     ProductModel.find().then(products => {
         res.json({ products });
         res.end();
@@ -43,7 +41,6 @@ const getProductCategory = async (req, res = response) => {
 }
 
 const getProduct = (req, res = response) => {
-
     ProductModel.findOne({ _id: req.params.id }).then(product => {
         res.send(product);
         res.end();
@@ -51,7 +48,6 @@ const getProduct = (req, res = response) => {
 }
 
 const deleteProduct = (req, res = response) => {
-
     ProductModel.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(product => {
         if (product.deletedCount == 1)
             res.send({ ok: true });
@@ -60,8 +56,8 @@ const deleteProduct = (req, res = response) => {
 }
 
 const updateProduct = async (req, res = response) => {
-
     let body = req.body;
+    let category = await CategoryModel.findOne({ _id: req.body.categoryId }, {});
     let product = await ProductModel.findOne({ _id: req.body.id }, {});
     if (product) {
         await ProductModel.updateOne({ _id: mongoose.Types.ObjectId(req.params.id) },
@@ -79,10 +75,7 @@ const updateProduct = async (req, res = response) => {
                 description: body.description,
                 price: parseInt(body.price),
                 quantityInStock: parseInt(body.quantityInStock),
-                spent: body.spent,
                 urlImg: body.urlImg,
-                amount: parseInt(body.amount),
-                category: category.name,
             }).then(product => {
                 res.send(product);
                 res.end();
@@ -92,18 +85,15 @@ const updateProduct = async (req, res = response) => {
 
 const addCategory = (req, res) => {
     let body = req.body;
-
     console.log(body);
     ProductModel.updateOne({ id: req.params.id }, {
         $push: {
             category: {
-                // id: mongoose.Types.ObjectId(req.body.id),
                 id: body.id,
                 name: body.name
             }
         }
     }).then(result => {
-
         if (result.nModified == 1) {
             return res.json({
                 ok: true

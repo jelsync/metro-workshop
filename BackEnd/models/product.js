@@ -1,4 +1,4 @@
-const { model, Schema, mongoose} = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const schema = new Schema({
     name: String,
@@ -6,7 +6,7 @@ const schema = new Schema({
     price: Number,
     quantityInStock: Number,
     urlImg: String,
-    spent: Boolean,
+    spent: { type: Boolean, default: true },
     category: String,
     amount: Number
 });
