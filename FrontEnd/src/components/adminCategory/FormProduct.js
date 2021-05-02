@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
 
-export const FormProduct = ({ history }) => {
+export const FormProduct = () => {
     useEffect(() => {
         getProduct();
         getCategory();
@@ -17,7 +16,7 @@ export const FormProduct = ({ history }) => {
 
     const { id } = useParams();
 
-    const [values, handleInputChange, loadDataForm, reset] = useForm({
+    const [values, handleInputChange, loadDataForm] = useForm({
         name: '',
         description: '',
         price: '',
@@ -26,7 +25,6 @@ export const FormProduct = ({ history }) => {
     });
 
     const { name, description, price, quantityInStock, urlImg } = values;
-    console.log(values);
 
     const getProduct = async () => {
         const resp = await fetch(`http://localhost:4000/api/product/${id}`);
@@ -66,7 +64,15 @@ export const FormProduct = ({ history }) => {
                 timer: 1500
             });
         }
-        reset();
+        handleGameClick();
+    }
+    const back = () => {
+        window.history.back()
+    }
+    const [disabled, setDisabled] = useState(false);
+
+    const handleGameClick = () => {
+        setDisabled(!disabled);
     }
     return (
         <>
@@ -82,6 +88,7 @@ export const FormProduct = ({ history }) => {
                                         <input
                                             type="text"
                                             name="name"
+                                            disabled={disabled}
                                             className="form-control form-control-sm"
                                             placeholder="Name.."
                                             value={name}
@@ -93,6 +100,7 @@ export const FormProduct = ({ history }) => {
                                         <input
                                             type="text"
                                             name="description"
+                                            disabled={disabled}
                                             className="form-control form-control-sm"
                                             placeholder="Description.."
                                             value={description}
@@ -102,8 +110,10 @@ export const FormProduct = ({ history }) => {
                                     <div className="form-group">
                                         <label>Price</label>
                                         <input
-                                            type="text"
+                                            type="number"
+                                            min="0"
                                             name="price"
+                                            disabled={disabled}
                                             className="form-control form-control-sm"
                                             placeholder="Price.."
                                             value={price}
@@ -113,8 +123,10 @@ export const FormProduct = ({ history }) => {
                                     <div className="form-group">
                                         <label>Quantity In Stock</label>
                                         <input
-                                            type="text"
+                                            type="number"
+                                            min="0"
                                             name="quantityInStock"
+                                            disabled={disabled}
                                             className="form-control form-control-sm"
                                             placeholder="Quantity In Stock..."
                                             value={quantityInStock}
@@ -126,14 +138,15 @@ export const FormProduct = ({ history }) => {
                                         <input
                                             type="text"
                                             name="urlImg"
+                                            disabled={disabled}
                                             className="form-control form-control-sm"
                                             placeholder="Url Image"
                                             value={urlImg}
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-outline-info btn-sm mr-2">Aceppt</button>
-                                    <Link to={`/Admin/AdminCategoryScreen/`} type="button" className="btn btn-outline-danger btn-sm">Back</Link>
+                                    <button type="submit" className="btn btn-info btn-sm mr-2" onClick={() => handleGameClick} disabled={disabled}>Aceppt</button>
+                                    <button onClick={() => back()} type="button" className="btn btn-danger btn-sm">Back</button>
                                 </fieldset>
                             </form>
                         </div>

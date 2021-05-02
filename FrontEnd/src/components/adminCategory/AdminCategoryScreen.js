@@ -27,7 +27,9 @@ export const AdminCategoryScreen = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Delete',
-                text: 'Deleted product!'
+                text: 'Deleted product!',
+                showConfirmButton: false,
+                timer: 1500
             })
         }
     }

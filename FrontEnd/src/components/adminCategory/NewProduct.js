@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
 
@@ -10,10 +9,12 @@ export const NewProduct = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        createProduct();
+        if (formValid()) {
+            createProduct();
+        }
     }
 
-    const [values, handleInputChange, reset] = useForm({
+    const [values, handleInputChange] = useForm({
         name: '',
         categoryId: '',
         description: '',
@@ -24,7 +25,6 @@ export const NewProduct = () => {
     });
 
     const { name, price, description, quantityInStock, urlImg, category: categoryId } = values || {};
-    console.log(values);
 
     const [categories, setCategories] = useState([]);
 
@@ -42,9 +42,81 @@ export const NewProduct = () => {
             },
             body: JSON.stringify(values),
         });
-        console.clear();
+        const body = await resp.json();
+
+        if (body.ok) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Product created successfully',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
     }
 
+    const formValid = () => {
+        if (name.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a name',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        } else if (description.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a description',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        }
+        else if (price.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a price for the product',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        } else if (values.categoryId.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must select a category',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        } else if (quantityInStock.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a quantity In Stock',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        } else if (urlImg.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'You must enter a url',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        }
+        return true;
+    }
+    const back = () =>{
+        window.history.back()
+    }
     return (
         <>
             <div className="container">
@@ -81,10 +153,11 @@ export const NewProduct = () => {
                                     <div className="form-group">
                                         <label>Price</label>
                                         <input
-                                            type="text"
+                                            type="number"
+                                            min="0"
                                             name="price"
                                             className="form-control"
-                                            placeholder="Price.."
+                                            placeholder="Example 9999"
                                             value={price}
                                             onChange={handleInputChange}
                                         />
@@ -109,8 +182,9 @@ export const NewProduct = () => {
                                     <div className="form-group">
                                         <label>Quantity In Stock</label>
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="quantityInStock"
+                                            min="0"
                                             className="form-control"
                                             placeholder="Quantity In Stock..."
                                             value={quantityInStock}
@@ -128,8 +202,8 @@ export const NewProduct = () => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-info btn-sm btn-block">Create</button>
-                                    <Link to="/admin/AdminRoom" type="button" className="btn btn-danger btn-sm btn-block">Back</Link>
+                                    <button type="submit" className="btn btn-info btn-sm btn-block" onClick={()=>back()}>Create</button>
+                                    <button onClick={()=>back()} type="button" className="btn btn-danger btn-sm btn-block">Back</button>
                                 </fieldset>
                             </form>
                         </div>
