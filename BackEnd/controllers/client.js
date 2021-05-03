@@ -3,9 +3,10 @@ const CategoryModel = require('../models/category');
 const ClientModel = require('../models/client');
 const ProductModel = require('../models/product');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs'); 
 
 const createClient = async (req, res = response) => {
-    const { email } = req.body;
+    const { email, password } = req.body;
     try {
         let client = await ClientModel.findOne({ email });
 
@@ -16,6 +17,7 @@ const createClient = async (req, res = response) => {
             })
         }
 
+        
         client = new ClientModel({
             uid: req.body.uid,
             name: req.body.name,
@@ -25,6 +27,8 @@ const createClient = async (req, res = response) => {
             buy: [],
             isAdmin: false,
         });
+        const salt = bcrypt.genSaltSync();
+        client.password = bcrypt.hashSync(password, salt);
 
         await client.save().then(client => {
             res.send(client);
