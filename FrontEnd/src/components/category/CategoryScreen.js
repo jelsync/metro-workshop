@@ -37,6 +37,7 @@ export const CategoryScreen = () => {
     const getCategoriesList = async () => {
         const resp = await getCategories(id);
         const body = await resp.json();
+        setCategories(body);
     }
 
     const getState = (state) => {

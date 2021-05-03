@@ -54,24 +54,24 @@ export const HomeArticlesScreen = () => {
             <div className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src={'./assets/img/1.jpg'} className="d-block w-100 img-fluid" alt="..." />
+                        <img src={'/assets/img/1.jpg'} className="d-block w-100 img-fluid" alt="..." />
                     </div>
                     <div className="carousel-item">
-                        <img src={'./assets/img/4.jpg'} className="d-block w-100 img-fluid" alt="..." />
+                        <img src={'/assets/img/5.jpg'} className="d-block w-100 img-fluid" alt="..." />
                     </div>
                     <div className="carousel-item">
-                        <img src={'./assets/img/5.jpg'} className="d-block w-100 img-fluid" alt="..." />
+                        <img src={'/assets/img/6.jpg'} className="d-block w-100 img-fluid" alt="..." />
                     </div>
                 </div>
             </div>
             <Link to="/ProductScreen" className="btn btn-dark m-3" >My Product</Link>
-            <div className="container mt-4">
+            <div className="container-fluid">
                 <div className="row justify-content-md-center">
                     {
                         productsFront.map((item) => {
                             return (
-                                <div key={item.productId} className="col-md-3 m-1 text-dark" >
-                                    <div className="col home-area m-1">
+                                <div key={item.productId} className="col-md-2 m-1 text-dark" >
+                                    <div className="col--md-3 m-1">
                                         <div className="card">
                                             <div className="card-body">
                                                 <h4 className="card-title"><kbd>{item.name}</kbd></h4>

@@ -6,6 +6,7 @@ export const clientLogin = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(({ user }) => {
                 localStorage.setItem('uid', JSON.stringify(user.uid));
+                localStorage.setItem('email', JSON.stringify(user.email));
             })
             .catch(e => {
                 Swal.fire('Error', e.message, 'error');

@@ -10,7 +10,7 @@ import { CategoryScreen } from '../components/category/CategoryScreen';
 export const DashboardRouter = () => {
     return (
         <>
-            <Navbar />
+            <Navbar/>
 
             <Switch>
                 <Route exact path="/HomeArticlesScreen" component={HomeArticlesScreen} />
