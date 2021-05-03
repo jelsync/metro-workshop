@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
+import { getCategory, newProduct } from './services';
 
 export const NewProduct = () => {
     useEffect(() => {
-        getCategory();
+        getCategoryList();
     }, [])
 
     const handleSubmit = (e) => {
@@ -28,31 +29,14 @@ export const NewProduct = () => {
 
     const [categories, setCategories] = useState([]);
 
-    const getCategory = async () => {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+    const getCategoryList = async () => {
+        const resp = await getCategory();
         const body = await resp.json();
         setCategories(body);
     }
 
     const createProduct = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values),
-        });
-        const body = await resp.json();
-
-        if (body.ok) {
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Product created successfully',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
+        const resp = await newProduct(values);
     }
 
     const formValid = () => {
@@ -114,7 +98,8 @@ export const NewProduct = () => {
         }
         return true;
     }
-    const back = () =>{
+
+    const back = () => {
         window.history.back()
     }
     return (
@@ -202,8 +187,8 @@ export const NewProduct = () => {
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    <button type="submit" className="btn btn-info btn-sm btn-block" onClick={()=>back()}>Create</button>
-                                    <button onClick={()=>back()} type="button" className="btn btn-danger btn-sm btn-block">Back</button>
+                                    <button type="submit" className="btn btn-info btn-sm btn-block" onClick={() => back()}>Create</button>
+                                    <button onClick={() => back()} type="button" className="btn btn-danger btn-sm btn-block">Back</button>
                                 </fieldset>
                             </form>
                         </div>

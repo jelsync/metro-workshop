@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { getProductClient, deleteProduct, updateProduct } from "../buy/services";
 
-export const ProductScreen = ({ history }) => {
-    const uid = JSON.parse(localStorage.getItem('uid'));
+export const ProductScreen = () => {
 
-    const getProductClient = async () => {
-        const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}/products`);
+    const getProductClientId = async () => {
+        const resp = await getProductClient();
         const body = await resp.json();
         let { buy } = body;
         setProduct(buy);
@@ -23,24 +22,19 @@ export const ProductScreen = ({ history }) => {
     });
 
     useEffect(() => {
-        getProductClient();
     }, [() => allFunction()]);
 
-    const deleteProduct = async (id) => {
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products/${id}`, {
-            method: 'PUT'
-        });
+    useEffect(() => {
+        getProductClientId();
+    }, []);
+
+    const deleteProductId = async (id) => {
+        const resp = await deleteProduct(id);
         const body = await resp.json();
     }
 
-    const updateProduct = async (product, id) => {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(product),
-        });
+    const updateProductId = async (product, id) => {
+        const resp = await updateProduct(product, id);
         const data = await resp.json();
     }
 
@@ -52,8 +46,12 @@ export const ProductScreen = ({ history }) => {
             showConfirmButton: false,
             timer: 1500
         })
-        deleteProduct(id);
-        updateProduct(product, id);
+        deleteProductId(id);
+        updateProductId(product, id);
+        getProductClientId();
+    }
+    const back = () => {
+        window.history.back()
     }
     return (
         <>
@@ -61,7 +59,7 @@ export const ProductScreen = ({ history }) => {
                 productsFront.length > 0
                     ?
                     <div className="container">
-                        <Link to="/" type="button" className="btn btn-danger btn-sm mt-2">Back</Link>
+                        <button onClick={() => back()} type="button" className="btn btn-danger btn-sm mt-3">Back</button>
                         <div className="card mt-3">
                             {
                                 productsFront.map((item) => {
@@ -94,7 +92,7 @@ export const ProductScreen = ({ history }) => {
                         <div className="card-center mt-3">
                         </div>
                         <h3>You have no purchase</h3>
-                        <Link to="/" type="button" className="btn btn-outline-danger btn-sm">Back</Link>
+                        <button onClick={() => back()} type="button" className="btn btn-danger btn-sm">Back</button>
                     </div>
             }
         </>

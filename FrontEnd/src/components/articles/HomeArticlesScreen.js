@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { getCategories, getProducts, buy } from './services';
 
 export const HomeArticlesScreen = () => {
-    const uid = JSON.parse(localStorage.getItem('uid'));
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -13,45 +12,27 @@ export const HomeArticlesScreen = () => {
             productId: item._id
         };
     });
-    // console.log(productsFront);
-    const getClient = async () => {
-        const resp = await fetch(`http://localhost:4000/api/client/${JSON.parse(localStorage.getItem('uid'))}`);
-        const body = await resp.json();
-    }
 
-    const getCategories = async () => {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+    const getCategoriesList = async () => {
+        const resp = await getCategories();
         const body = await resp.json();
         setCategories(body);
     }
-    const getProducts = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product`);
+    const getProductsList = async () => {
+        const resp = await getProducts();
         const body = await resp.json();
         setProducts(body.products);
     }
 
-    const buy = async (product) => {
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Purchased product',
-            showConfirmButton: false,
-            timer: 1500
-        });
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(product),
-        });
+    const buyProduct = async (product) => {
+        const resp = await buy(product);
         const data = await resp.json();
+        getProductsList();
     }
 
     useEffect(() => {
-        getCategories();
-        getProducts();
-        getState();
+        getCategoriesList();
+        getProductsList();
     }, [])
 
     const getState = (state) => {
@@ -101,8 +82,7 @@ export const HomeArticlesScreen = () => {
                                                 <p className="card-text mb-2"><font size="3" color="Navy">Description:</font> {item.description}</p>
                                                 <h6 className="card-text" ><strong>Category: </strong><em>{item.category}</em></h6>
                                                 <Link to={`/BuyScreen/${item.productId}`} className="btn btn-link btn-block">More Info</Link>
-                                                {/* <Link to={`/infoProduct`} className="btn btn-link btn-block">More Info</Link> */}
-                                                <div onClick={() => buy(item)}>{getState(item.spent)}</div>
+                                                <div onClick={() => buyProduct(item)}>{getState(item.spent)}</div>
                                             </div>
                                         </div>
                                     </div>

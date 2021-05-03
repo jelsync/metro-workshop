@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { useForm } from '../hooks/useForm';
-import Swal from 'sweetalert2';
+import { getCategory, getProduct, editProduct } from './services';
 
 export const FormProduct = () => {
     useEffect(() => {
-        getProduct();
-        getCategory();
+        getProductId();
+        getCategoryList();
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        editProduct();
+        editProductId();
     }
 
     const { id } = useParams();
@@ -26,44 +26,22 @@ export const FormProduct = () => {
 
     const { name, description, price, quantityInStock, urlImg } = values;
 
-    const getProduct = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`);
+    const getProductId = async () => {
+        const resp = await getProduct(id);
         const body = await resp.json();
         loadDataForm(body);
     }
 
     const [categories, setCategories] = useState([]);
 
-    const getCategory = async () => {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+    const getCategoryList = async () => {
+        const resp = await getCategory();
         const body = await resp.json();
         setCategories(body);
     }
 
-    const editProduct = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: values.name,
-                description: values.description,
-                price: values.price,
-                quantityInStock: values.quantityInStock,
-                urlImg: values.urlImg
-            }),
-        });
-        const body = await resp.json();
-        if (body.nModified == 1) {
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Product edited successfully',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
+    const editProductId = async () => {
+        const resp = await editProduct(id, values);
         handleGameClick();
     }
     const back = () => {

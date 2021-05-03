@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { useParams } from 'react-router-dom';
+import { getProduct, buy } from './services';
 
 export const BuyScreen = () => {
     let { id } = useParams();
-    const uid = JSON.parse(localStorage.getItem('uid'));
 
-    const getProduct = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`);
+    const getProductList = async () => {
+        const resp = await getProduct(id);
         const body = await resp.json();
         setProduct({
             ...body,
@@ -19,24 +18,11 @@ export const BuyScreen = () => {
     let { _id, description, name, price, quantityInStock, spent, urlImg, category } = product;
 
     useEffect(() => {
-        getProduct();
+        getProductList();
     }, [() => buy()]);
 
-    const buy = async (product) => {
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Purchased product',
-            showConfirmButton: false,
-            timer: 1500
-        });
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(product),
-        });
+    const buyProduct = async (product) => {
+        const resp = await buy(product);
         const data = await resp.json();
     }
 
@@ -54,6 +40,9 @@ export const BuyScreen = () => {
                 </button>
             )
         }
+    }
+    const back = () => {
+        window.history.back()
     }
     return (
         <>
@@ -73,8 +62,8 @@ export const BuyScreen = () => {
                                 <p className="card-text"><font size="4" color="red"><em>{quantityInStock}</em></font></p>
                                 <hr />
                             </div>
-                            <div onClick={() => buy(product)}>{getState(spent)}</div>
-                            <Link to="/" type="button" className="btn btn-danger btn-sm btn-block mt-2">Back</Link>
+                            <div onClick={() => buyProduct(product)}>{getState(spent)}</div>
+                            <button onClick={() => back()} type="button" className="btn btn-danger btn-sm btn-block mt-2">Back</button>
                         </div>
                     </div>
                 </div>

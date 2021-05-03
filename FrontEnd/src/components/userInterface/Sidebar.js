@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getCategories } from '../articles/services';
 
 export const Sidebar = () => {
     const [category, setCategory] = useState([]);
 
     const getCategory = async () => {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+        const resp = await getCategories();
         const body = await resp.json();
         setCategory(body);
     }

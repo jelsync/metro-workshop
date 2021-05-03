@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { buy, getCategories, getProductCategory } from '../buy/services';
 
-export const CategoryScreen = ({ history }) => {
+export const CategoryScreen = () => {
     let { id } = useParams();
-    const uid = JSON.parse(localStorage.getItem('uid'));
 
     useEffect(() => {
-        getCategories();
+        getCategoriesList();
     }, []);
 
-    const getProductCategory = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
+    const getProductCategoryList = async () => {
+        const resp = await getProductCategory(id);
         const body = await resp.json();
         setCategory(body);
     }
@@ -25,33 +24,18 @@ export const CategoryScreen = ({ history }) => {
         };
     });
     useEffect(() => {
-        getProductCategory();
+        getProductCategoryList();
     }, []);
 
-    const buy = async (product) => {
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Purchased product',
-            showConfirmButton: false,
-            timer: 1500
-        });
-        console.log(product);
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(product),
-        });
+    const buyProduct = async (product) => {
+        const resp = await buy(product);
         const data = await resp.json();
         getProductCategory();
     }
 
-    const getCategories = async () => {
-        const resp = await fetch(`http://localhost:4000/api/category/${id}`);
+    const getCategoriesList = async () => {
+        const resp = await getCategories(id);;
         const body = await resp.json();
-        setCategories(body);
     }
 
     const getState = (state) => {
@@ -90,7 +74,7 @@ export const CategoryScreen = ({ history }) => {
                                                 <p className="card-subtitle mb-2"><font size="3" color="Navy">Description:</font> {item.description}</p>
                                                 <h6 className="card-text" ><strong>Category: </strong><em>{item.category}</em></h6>
                                                 <Link to={`/BuyScreen/${item.productId}`} className="btn btn-link btn-block">More Info</Link>
-                                                <div onClick={() => buy(item)}>{getState(item.spent)}</div>
+                                                <div onClick={() => buyProduct(item)}>{getState(item.spent)}</div>
                                             </div>
                                         </div>
                                     </div>

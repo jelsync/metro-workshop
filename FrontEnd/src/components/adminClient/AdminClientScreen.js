@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2'
+import { deleteClient, getClients } from '../adminClient/services';
 
 export const AdminClientScreen = () => {
     const [client, setClient] = useState([]);
 
     useEffect(() => {
-        getClients();
+        getClientsList();
     }, []);
 
-    const getClients = async () => {
-        const resp = await fetch(`http://localhost:4000/api/client`);
+    const getClientsList = async () => {
+        const resp = await getClients();
         const body = await resp.json();
         let { clients } = body;
         setClient(clients);
@@ -18,21 +17,9 @@ export const AdminClientScreen = () => {
 
     const [buy] = client;
 
-    const deleteClient = async (id) => {
-        const resp = await fetch(`http://localhost:4000/api/client/${id}`, {
-            method: 'DELETE'
-        });
-        const body = await resp.json();
-        console.log(body);
-
-        if (body.ok) {
-            getClients();
-            Swal.fire({
-                icon: 'error',
-                title: 'Delete',
-                text: 'Deleted customer!'
-            })
-        }
+    const deleteClientId = async (id) => {
+        const resp = await deleteClient(id);
+        getClientsList();
     }
 
     return (
@@ -61,7 +48,7 @@ export const AdminClientScreen = () => {
                                             <td>{item.email}</td>
                                             <td>{item.buy.length}</td>
                                             <td>
-                                                <button onClick={() => deleteClient(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button>
+                                                <button onClick={() => deleteClientId(item._id)} className="btn btn-outline-danger btn-sm btn-block">Delete</button>
                                             </td>
                                         </tr>
                                     )

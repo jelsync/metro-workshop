@@ -3,6 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
 import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
+import { getClient } from '../adminClient/services';
+import { getCategories } from '../articles/services';
 
 export const Navbar = () => {
     const { dispatch } = useContext(AuthContext);
@@ -10,15 +12,15 @@ export const Navbar = () => {
 
     const id = JSON.parse(localStorage.getItem('uid'));
 
-    const getClient = async () => {
-        const resp = await fetch(`http://localhost:4000/api/client/${id}`);
+    const getClientList = async () => {
+        const resp = await getClient(id);
         const body = await resp.json();
         let { client } = body;
         setBody(client);
     }
 
     useEffect(() => {
-        getClient();
+        getClientList();
     }, []);
 
     const [body, setBody] = useState({});
@@ -34,7 +36,7 @@ export const Navbar = () => {
     }
 
     const getCategory = async () => {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+        const resp = await getCategories();
         const body = await resp.json();
         setCategory(body);
     }
@@ -78,7 +80,7 @@ export const Navbar = () => {
                             <li
                                 className="nav-item nav-link btn"
                             >
-                                {/* Welcome {name} */}
+                                Welcome {body.name}
                             </li>
                             <button
                                 className="nav-item nav-link btn"

@@ -1,37 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { getProductCategory, deleteProduct } from '../adminCategory/services';
 
 export const AdminCategoryScreen = () => {
     useEffect(() => {
-        getProductCategory();
+        getProductCategoryList();
     }, []);
 
     let { id } = useParams();
     const [category, setCategory] = useState();
 
-    const getProductCategory = async () => {
-        const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
+    const getProductCategoryList = async () => {
+        const resp = await getProductCategory(id);
         const body = await resp.json();
         setCategory(body);
     }
 
-    const deleteProduct = async (id) => {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
-            method: 'DELETE'
-        });
-        const body = await resp.json();
-
-        if (body.ok) {
-            getProductCategory();
-            Swal.fire({
-                icon: 'error',
-                title: 'Delete',
-                text: 'Deleted product!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
+    const deleteProductId = async (id) => {
+        const resp = await deleteProduct(id);
+        getProductCategoryList();
     }
     const getState = (state) => {
         if (state) {
@@ -82,7 +69,7 @@ export const AdminCategoryScreen = () => {
                                         <td > <img src={item.urlImg} width="80px" className="img-fluid" alt="img" /></td>
                                         <td>
                                             <Link to={`/admin/product/edit/${item._id}`} className="btn btn-info btn-sm btn-block">Edit</Link>
-                                            <button onClick={() => deleteProduct(item._id)} className="btn btn-danger btn-sm btn-block">Delete</button>
+                                            <button onClick={() => deleteProductId(item._id)} className="btn btn-danger btn-sm btn-block">Delete</button>
                                         </td>
                                     </tr>
                                 ))
