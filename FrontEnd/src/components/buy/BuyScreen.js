@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProduct, buy } from './services';
+import { buy } from '../articles/services';
+import { getProduct } from './services';
 
 export const BuyScreen = () => {
     let { id } = useParams();
@@ -24,6 +25,7 @@ export const BuyScreen = () => {
     const buyProduct = async (product) => {
         const resp = await buy(product);
         const data = await resp.json();
+        // getProductsList();
     }
 
     const getState = (state) => {

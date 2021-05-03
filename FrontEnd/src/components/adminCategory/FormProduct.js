@@ -89,7 +89,7 @@ export const FormProduct = () => {
                                         <label>Price</label>
                                         <input
                                             type="number"
-                                            min="0"
+                                            min="1"
                                             name="price"
                                             disabled={disabled}
                                             className="form-control form-control-sm"

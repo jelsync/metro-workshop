@@ -169,7 +169,7 @@ export const NewProduct = () => {
                                         <input
                                             type="number"
                                             name="quantityInStock"
-                                            min="0"
+                                            min="1"
                                             className="form-control"
                                             placeholder="Quantity In Stock..."
                                             value={quantityInStock}

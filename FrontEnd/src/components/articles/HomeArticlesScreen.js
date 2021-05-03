@@ -12,7 +12,6 @@ export const HomeArticlesScreen = () => {
             productId: item._id
         };
     });
-
     const getCategoriesList = async () => {
         const resp = await getCategories();
         const body = await resp.json();

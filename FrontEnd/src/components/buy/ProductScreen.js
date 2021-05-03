@@ -48,7 +48,7 @@ export const ProductScreen = () => {
         })
         deleteProductId(id);
         updateProductId(product, id);
-        getProductClientId();
+        getProductClientId(id);
     }
     const back = () => {
         window.history.back()

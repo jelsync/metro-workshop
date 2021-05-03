@@ -11,6 +11,7 @@ export const Navbar = () => {
     const history = useHistory();
 
     const id = JSON.parse(localStorage.getItem('uid'));
+    const email = JSON.parse(localStorage.getItem('email'));
 
     const getClientList = async () => {
         const resp = await getClient(id);
@@ -80,7 +81,7 @@ export const Navbar = () => {
                             <li
                                 className="nav-item nav-link btn"
                             >
-                                Welcome {body.name}
+                                Welcome {email}
                             </li>
                             <button
                                 className="nav-item nav-link btn"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { buy, getCategories, getProductCategory } from '../buy/services';
+import { buy } from '../articles/services';
+import { getCategories, getProductCategory } from '../buy/services';
 
 export const CategoryScreen = () => {
     let { id } = useParams();
@@ -30,11 +31,11 @@ export const CategoryScreen = () => {
     const buyProduct = async (product) => {
         const resp = await buy(product);
         const data = await resp.json();
-        getProductCategory();
+        getProductCategoryList();
     }
 
     const getCategoriesList = async () => {
-        const resp = await getCategories(id);;
+        const resp = await getCategories(id);
         const body = await resp.json();
     }
 

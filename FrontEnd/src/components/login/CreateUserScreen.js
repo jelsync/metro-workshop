@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import Swal from 'sweetalert2';
 import { firebase } from '../../firebase/firebase-config';
-import { types } from '../../types/types';
-import { AuthContext } from '../../auth/AuthContext';
 
 export const CreateUserScreen = () => {
-    const { dispatch } = useContext(AuthContext);
 
     const [values, handleInputChange,] = useForm({
         name: '',
@@ -17,8 +14,7 @@ export const CreateUserScreen = () => {
         uid: '',
     });
 
-    var { email, password, name, lastName, uid } = values;
-
+    const { email, password, name, lastName, uid } = values;
     const formValid = () => {
         if (name.trim().length === 0) {
             Swal.fire({
@@ -38,14 +34,27 @@ export const CreateUserScreen = () => {
                 confirmButtonText: 'Ok'
             })
             return false;
+        } else if (email.trim().length === 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Enter an email',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
+        } else if (password.trim().length < 6) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'The password must be greater than 6 digits',
+                icon: 'error',
+                message: 'error',
+                confirmButtonText: 'Ok'
+            })
+            return false;
         }
-        dispatch({
-            type: types.login,
-            payload: {
-                accion: 'registro'
-            }
-        });
         return true;
+
     }
 
     const handleSubmit = (e) => {
@@ -54,12 +63,13 @@ export const CreateUserScreen = () => {
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(async ({ user }) => {
                     localStorage.setItem('uid', JSON.stringify(user.uid));
+                    localStorage.setItem('email', JSON.stringify(user.email));
                     await user.updateProfile({ displayName: name });
                     addClient();
                 })
                 .catch(e => {
                     Swal.fire('Error', e.message, 'error');
-                })
+                });
         };
     }
 

@@ -24,8 +24,6 @@ export const deleteClient = async (id) => {
             method: 'DELETE'
         });
         const body = await resp.json();
-        console.log(body);
-
         if (body.ok) {
             Swal.fire({
                 icon: 'error',
@@ -33,7 +31,7 @@ export const deleteClient = async (id) => {
                 text: 'Deleted customer!'
             })
         }
-        return body();
+        return resp();
     } catch (error) {
         return error;
     }
