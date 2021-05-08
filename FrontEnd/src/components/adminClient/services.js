@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 
 export const getClients = async () => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/client`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client`);
         return resp;
     } catch (error) {
         return error;
@@ -11,7 +11,7 @@ export const getClients = async () => {
 
 export const getClient = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/client/${id}`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client/${id}`);
         return resp;
     } catch (error) {
         return error;
@@ -20,7 +20,7 @@ export const getClient = async (id) => {
 
 export const deleteClient = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/client/${id}`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client/${id}`, {
             method: 'DELETE'
         });
         const body = await resp.json();

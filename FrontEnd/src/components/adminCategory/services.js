@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 
 export const getProductCategory = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/category/${id}`);
         return resp;
     } catch (error) {
         return error;
@@ -11,7 +11,7 @@ export const getProductCategory = async (id) => {
 
 export const deleteProduct = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/${id}`, {
             method: 'DELETE'
         });
         const body = await resp.json();
@@ -33,7 +33,7 @@ export const deleteProduct = async (id) => {
 
 export const getProduct = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/${id}`);
         return resp;
     } catch (error) {
         return error;
@@ -42,7 +42,7 @@ export const getProduct = async (id) => {
 
 export const getCategory = async () => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/category`);
         return resp;
     } catch (error) {
         return error;
@@ -51,7 +51,7 @@ export const getCategory = async () => {
 
 export const newProduct = async (data) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export const newProduct = async (data) => {
 
 export const editProduct = async (id, values) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

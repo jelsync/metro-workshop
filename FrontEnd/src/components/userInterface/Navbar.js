@@ -3,27 +3,12 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
 import { LogOutUser } from '../../auth/clientAuth';
 import { types } from '../../types/types';
-import { getClient } from '../adminClient/services';
 import { getCategories } from '../articles/services';
 
 export const Navbar = () => {
     const { dispatch } = useContext(AuthContext);
 
-    const id = JSON.parse(localStorage.getItem('uid'));
     const email = JSON.parse(localStorage.getItem('email'));
-
-    const getClientList = async () => {
-        const resp = await getClient(id);
-        const body = await resp.json();
-        let { client } = body;
-        setBody(client);
-    }
-
-    useEffect(() => {
-        getClientList();
-    }, []);
-
-    const [body, setBody] = useState({});
 
     const [category, setCategory] = useState([]);
 
@@ -45,7 +30,7 @@ export const Navbar = () => {
     }, []);
 
     return (
-        <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar mt-2">
+        <nav className="navbar navbar-expand-sm navbar-dark bg-primary navbar">
             <Link to="/" className="navbar-brand">
                 <img src={'/assets/img/1.png'} style={{ width: 70, marginTop: -7 }} alt="MetroShop" />
             </Link>
@@ -76,7 +61,7 @@ export const Navbar = () => {
                     <ul className="navbar-nav">
                         <li className="nav-item nav-link btn ml-4" onClick={() => handleLogout()}>
                             LogOut
-                            </li>
+                    </li>
                     </ul>
                 </div>
             </div>

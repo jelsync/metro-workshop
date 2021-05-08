@@ -1,26 +1,24 @@
-const uid = JSON.parse(localStorage.getItem('uid'));
-
 export const getProduct = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/${id}`);
         return resp;
     } catch (error) {
         return error;
     }
 }
 
-export const getProductClient = async () => {
+export const getProductClient = async (uid) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client/${uid}/products`);
         return resp;
     } catch (error) {
         return error;
     }
 }
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (uid, id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products/${id}`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client/${uid}/products/${id}`, {
             method: 'PUT'
         });
         return resp;
@@ -31,7 +29,7 @@ export const deleteProduct = async (id) => {
 
 export const updateProduct = async (product, id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/${id}`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -47,7 +45,7 @@ export const updateProduct = async (product, id) => {
 
 export const getCategories = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/category/${id}`)
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/category/${id}`)
         return resp;
     } catch (error) {
         return error;
@@ -56,7 +54,7 @@ export const getCategories = async (id) => {
 
 export const getProductCategory = async (id) => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product/category/${id}`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product/category/${id}`);
         return resp;
     } catch (error) {
         return error;

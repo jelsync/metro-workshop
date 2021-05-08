@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
+    HashRouter,
     Switch,
 } from "react-router-dom";
 
@@ -31,7 +32,7 @@ export const AppRouter = () => {
     }, []);
 
     const getClients = async () => {
-        const resp = await fetch(`http://localhost:4000/api/client`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client`);
         const body = await resp.json();
         const { clients } = body;
         setClient(clients);
@@ -59,7 +60,7 @@ export const AppRouter = () => {
     }, [dispatch])
 
     return (
-        <Router>
+        <HashRouter>
             <Switch>
                 <PublicRoute exact path="/login" component={LoginScreen} isAuthenticated={user.logged && !isAdmin} />
                 <PublicRoute exact path="/create-user" component={CreateUserScreen} isAuthenticated={user.logged && !isAdmin} />
@@ -69,6 +70,6 @@ export const AppRouter = () => {
 
                 <PrivateRoute path="/" component={DashboardRouter} isAuthenticated={user.logged && !isAdmin} />
             </Switch>
-        </Router>
+        </HashRouter>
     )
 }

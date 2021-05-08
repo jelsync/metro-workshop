@@ -5,6 +5,7 @@ import { getProduct } from './services';
 
 export const BuyScreen = () => {
     let { id } = useParams();
+    const uid = JSON.parse(localStorage.getItem('uid'));
 
     const getProductList = async () => {
         const resp = await getProduct(id);
@@ -19,20 +20,23 @@ export const BuyScreen = () => {
     let { _id, description, name, price, quantityInStock, spent, urlImg, category } = product;
 
     useEffect(() => {
+    }, [() => buyProduct()]);
+
+    useEffect(() => {
         getProductList();
-    }, [() => buy()]);
+    }, []);
 
     const buyProduct = async (product) => {
-        const resp = await buy(product);
+        const resp = await buy(uid, product);
         const data = await resp.json();
-        // getProductsList();
+        getProductList(id);
     }
 
     const getState = (state) => {
         if (state) {
             return (
                 <button className="btn btn-success btn-block" >
-                    Buy
+                    Add to cart
                 </button>
             )
         } else {

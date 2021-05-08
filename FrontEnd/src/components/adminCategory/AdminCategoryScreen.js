@@ -39,7 +39,7 @@ export const AdminCategoryScreen = () => {
     return (
         <div className="container">
             <div className="row">
-                <Link to={`/admin/createProduct`} className="btn btn-info btn-sm btn-block">Crear New Product</Link>
+                <Link to={`/admin/createProduct`} className="btn btn-info btn-sm btn-block">Create New Product</Link>
                 <div className="col-lg-12 col-md-12 mt-2">
                     <table className="table table-hover">
                         <thead>

@@ -1,9 +1,8 @@
 import Swal from 'sweetalert2';
-const uid = JSON.parse(localStorage.getItem('uid'));
 
 export const getCategories = async () => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/category`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/category`);
         return resp;
     } catch (error) {
         return error;
@@ -12,14 +11,14 @@ export const getCategories = async () => {
 
 export const getProducts = async () => {
     try {
-        const resp = await fetch(`http://localhost:4000/api/product`);
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/product`);
         return resp;
     } catch (error) {
         return error;
     }
 }
 
-export const buy = async (product) => {
+export const buy = async (uid, product) => {
     try {
         Swal.fire({
             position: 'center',
@@ -28,7 +27,7 @@ export const buy = async (product) => {
             showConfirmButton: false,
             timer: 1500
         });
-        const resp = await fetch(`http://localhost:4000/api/client/${uid}/products`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client/${uid}/products`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

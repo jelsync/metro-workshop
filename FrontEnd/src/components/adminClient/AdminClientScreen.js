@@ -7,7 +7,7 @@ export const AdminClientScreen = () => {
     useEffect(() => {
         getClientsList();
     }, []);
-
+   
     const getClientsList = async () => {
         const resp = await getClients();
         const body = await resp.json();

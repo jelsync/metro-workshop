@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, getProducts, buy } from './services';
+import "../../styles/carousel.css";
 
 export const HomeArticlesScreen = () => {
+    const uid = JSON.parse(localStorage.getItem('uid'));
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -24,15 +26,17 @@ export const HomeArticlesScreen = () => {
     }
 
     const buyProduct = async (product) => {
-        const resp = await buy(product);
-        const data = await resp.json();
+        const resp = await buy(uid, product);
         getProductsList();
     }
 
     useEffect(() => {
         getCategoriesList();
+    }, []);
+
+    useEffect(() => {
         getProductsList();
-    }, [])
+    }, []);
 
     const getState = (state) => {
         if (state) {
@@ -51,20 +55,17 @@ export const HomeArticlesScreen = () => {
     }
     return (
         <>
-            <div className="carousel slide" data-bs-ride="carousel">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src={'/assets/img/1.jpg'} className="d-block w-100 img-fluid" alt="..." />
+                        <img className="d-block w-100" src={'/assets/img/5.jpg'} alt="Second slide" />
                     </div>
                     <div className="carousel-item">
-                        <img src={'/assets/img/5.jpg'} className="d-block w-100 img-fluid" alt="..." />
-                    </div>
-                    <div className="carousel-item">
-                        <img src={'/assets/img/6.jpg'} className="d-block w-100 img-fluid" alt="..." />
+                        <img className="d-block w-100" src={'/assets/img/4.jpg'} alt="Third slide" />
                     </div>
                 </div>
             </div>
-            <Link to="/ProductScreen" className="btn btn-dark m-3" >My Product</Link>
+            <Link to="/ProductScreen" className="btn btn-dark m-3" >My shopping cart</Link>
             <div className="container-fluid">
                 <div className="row justify-content-md-center">
                     {

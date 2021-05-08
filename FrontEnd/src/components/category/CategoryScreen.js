@@ -5,6 +5,7 @@ import { getCategories, getProductCategory } from '../buy/services';
 
 export const CategoryScreen = () => {
     let { id } = useParams();
+    const uid = JSON.parse(localStorage.getItem('uid'));
 
     useEffect(() => {
         getCategoriesList();
@@ -29,7 +30,7 @@ export const CategoryScreen = () => {
     }, []);
 
     const buyProduct = async (product) => {
-        const resp = await buy(product);
+        const resp = await buy(uid, product);
         const data = await resp.json();
         getProductCategoryList();
     }
@@ -44,7 +45,7 @@ export const CategoryScreen = () => {
         if (state) {
             return (
                 <button className="btn btn-success btn-block">
-                    Buy
+                    Add to cart
                 </button>
             )
         } else {
@@ -61,6 +62,7 @@ export const CategoryScreen = () => {
                 {
                     <h1 className="display-4 text-blue text-center bg-dark">{categories && categories.name}</h1>
                 }
+                <Link to="/ProductScreen" className="btn btn-dark" >My shopping cart</Link>
                 <div className="row justify-content-md-center">
                     {
                         productsFront.map((item) => {

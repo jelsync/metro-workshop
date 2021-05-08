@@ -74,7 +74,7 @@ export const CreateUserScreen = () => {
     }
 
     const addClient = async () => {
-        const resp = await fetch(`http://localhost:4000/api/client`, {
+        const resp = await fetch(`https://metroworkshop.herokuapp.com/api/client`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

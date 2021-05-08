@@ -3,9 +3,10 @@ import Swal from 'sweetalert2';
 import { getProductClient, deleteProduct, updateProduct } from "../buy/services";
 
 export const ProductScreen = () => {
+    const uid = JSON.parse(localStorage.getItem('uid'));
 
     const getProductClientId = async () => {
-        const resp = await getProductClient();
+        const resp = await getProductClient(uid);
         const body = await resp.json();
         let { buy } = body;
         setProduct(buy);
@@ -29,8 +30,9 @@ export const ProductScreen = () => {
     }, []);
 
     const deleteProductId = async (id) => {
-        const resp = await deleteProduct(id);
+        const resp = await deleteProduct(uid, id);
         const body = await resp.json();
+        getProductClientId();
     }
 
     const updateProductId = async (product, id) => {
